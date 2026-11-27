@@ -110,7 +110,7 @@ flowchart LR
 
 - **Nguồn nội dung bản chạy CP3:** `data/lesson_product_ai20k.json` gồm 11 đoạn ngắn viết lại từ slide AI20K *Tư duy Product cho người làm công nghệ thời đại AI* (`VinUni_TuDuyProduct_DS_FDE_v3.pdf`), mã `SL-<trang PDF>`. Bản PDF gốc chỉ giữ cục bộ trong `data-btc/lesson-source/`, không commit. Đây là slide của một buổi học trong khoá, **không phải transcript của video pre-class**. Bản demo kiểm chứng theo trang slide; TV1 cần xác nhận cách trình bày giới hạn này để lời giới thiệu khớp lát cắt đã chọn.
 - **Phần còn giả/chưa kiểm:** `data/lesson_sample.json` là kho synthetic CP2 để lưu dấu giai đoạn đầu; bản chạy hiện không dùng kho này. Mặc định chưa có `.env` thì `codebase/ai.py` vẫn chạy model giả và gắn nhãn rõ.
-- **Model thật (CP3):** `nvidia/nemotron-3-ultra-550b-a55b:free` qua OpenRouter (dự phòng `google/gemma-4-31b-it:free`, bị giới hạn lượt 429 khi thử ngày 27/11). Ngày 27/11: `python run.py eval --try` chạy 3/3 câu, token lấy từ `usage` của API (khoảng 315–330 vào, 130–255 ra mỗi câu); `python run.py simulate --try` chạy 10/10 phiên, 0 lỗi. Chưa có lượt `eval` được tính trên bộ câu thử slide — chờ bộ 20–30 câu.
+- **Model thật (CP3):** `nvidia/nemotron-3-ultra-550b-a55b:free` qua OpenRouter (dự phòng `google/gemma-4-31b-it:free`, bị giới hạn lượt 429 khi thử ngày 27/11). Ngày 27/11: `python run.py eval --try` chạy 3/3 câu, token lấy từ `usage` của API (khoảng 315–330 vào, 130–255 ra mỗi câu); `python run.py simulate --try` chạy 10/10 phiên, 0 lỗi. Run 1 trên bộ 30 câu dùng `gemini-3.5-flash-lite` sau khi `gemini-3.8-flash` trả HTTP 503. Trung bình mỗi câu 296 token vào và 60 token ra; một câu lỗi HTTP 429.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -128,13 +128,16 @@ flowchart LR
 (1) nguồn sự thật · (2) mơ hồ / thiếu thông tin · (3) ngoài phạm vi / thẩm quyền · (4) đặc thù lĩnh vực (sai thì người dùng mất gì đắt nhất)
 
 ## §6. Bốn đường đi của trải nghiệm
-- Mọi thứ suôn sẻ: · Không chắc (lớp 2): · Không có căn cứ (lớp 1): · Người dùng sửa:
-- Bị đòi ngoài phạm vi (lớp 3): · Trường hợp đặc thù lĩnh vực (lớp 4):
+
+1. **Đủ căn cứ (B01):** học viên nhận giải thích về output và outcome kèm SL-16, rồi mở trang 16 để đối chiếu.
+2. **Thiếu ngữ cảnh (B05):** trợ giảng hỏi tên khái niệm. Học viên gửi câu hỏi mới có đủ ngữ cảnh vì mỗi lượt chạy độc lập.
+3. **Thiếu nguồn (B09, B12):** trợ giảng báo giới hạn của kho slide. Học viên kiểm tra lịch trên kênh lớp hoặc gửi lại mã trang đúng.
+4. **Yêu cầu làm hộ (B10):** trợ giảng từ chối và mời học viên hỏi về khái niệm để tự làm bài.
 
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
-- Data card: `data/DATA_CARD.md` · bộ câu thử CP2: `eval/benchmark.csv` — 12 câu (thuong 3 · kho 5 · tu_choi 4), hiện 0/12 câu từ người dùng hoặc dữ liệu thật · metric: `eval/metric_spec.yaml` (3 metric).
+- Data card: `data/DATA_CARD.md` · bộ câu thử CP3 đang chuẩn bị: `eval/benchmark.csv` — 30 câu (thuong 13 · kho 12 · tu_choi 5), gồm 10 câu biên soạn trực tiếp từ slide thật và 20 câu tự viết · metric: `eval/metric_spec.yaml` (3 metric).
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ít nhất 80% toàn bộ câu có pass = 1 và đạt ngưỡng của cả ba metric trong eval/metric_spec.yaml."
-- Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
+- Kết quả: Run 1 `run-1@20261127-212409` đạt 25/30 (83,3%). Chưa đạt chuẩn CP2 do trích đúng nguồn 19/22 và làm rõ 2/3. Chạy lại qua OpenRouter (`run-2@20261127-213001`) đạt 26/30 (86,7%), chưa đạt ngưỡng hỏi làm rõ (2/3). Xem `eval/report.md` và `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
@@ -156,11 +159,15 @@ flowchart LR
 
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
+| 27/11 ~20:05 | `data/lesson_product_ai20k.json`: SL-19 sửa ví dụ chỉ số tổ chức thành "khách trả tiền, biên lợi nhuận, thị phần hay giữ chân" và chỉ số khách hàng thành "nhanh hơn, rẻ hơn hoặc thao tác đơn giản hơn"; SL-30 đổi tiêu đề thành "Ba năng lực sinh viên kỹ thuật cần rèn sớm". Không đổi câu thử, metric, chuẩn "đạt" | Đối chiếu 11 đoạn với PDF slide: 2 chỗ câu chữ chưa sát trang 19 và 30 (slide không ghi "doanh thu", ghi "sinh viên kỹ thuật"). Chưa có lượt `eval` nào được tính nên không ảnh hưởng kết quả |
 | 28/11 (CP3, TV1) | Chốt nguồn kiến thức cho bản chạy thử: kho 11 đoạn viết lại từ slide AI20K (`SL-<trang>`) **thay cho** transcript video pre-class. Người dùng, pain, lát cắt giữ nguyên; demo nói rõ "đoạn nguồn = trang slide của bài", bản dùng thật thay bằng đoạn transcript có mốc giây (cùng định dạng `moc_trich_dan` trợ giảng đang có). | BTC không cấp transcript video; slide là tài liệu chính thức của khoá nên vẫn kiểm chứng được. Không đổi pain cho khớp bản đã code (bằng chứng ở §1 vẫn là data pre-class). Đề xuất TV3 ở §4. |
 | 28/11 (CP3, TV1) | §1–§2 chuyển sang số chính thức của TV2 (`evidence/count.py`); F dùng trung bình thay trung vị; A1.3 ghi "không đo được từ data" thay vì số lấy từ khung thảo luận. | Một nguồn số duy nhất; kế hoạch §5.2 định nghĩa F là số lần **trung bình**; M8 cho thấy `verdict` / `reply_kind` không đo việc từ chối. |
 | 28/11 (CP3, TV1) | Thêm kiểm chéo `evidence/citation_check.py`: hỏi tiếp / tua lùi tách theo có / không có mốc. | Kiểm vế hậu quả của giả thuyết; kết quả lệch (50,6% so với 55,2%) ghi ở §1 và `evidence/summary.md` §4. |
 | 28/11 (CP3, TV1) | Thêm nguồn **khảo sát** (`evidence/survey/`, 22 phiếu, 20 hợp lệ) vào §1 và `evidence/summary.md`. Pain, lát cắt và T = 3 phút giữ nguyên. | `hypothesis.md` ghi khảo sát là nguồn tuỳ chọn. Kết quả có chỗ ngược giả thuyết: chỉ 2/20 coi khó xác định đoạn căn cứ là khó khăn lớn nhất, 7/20 chọn "không giải quyết đúng câu hỏi". Ghi nguyên số, không đổi pain trước khi có phỏng vấn. |
 | 28/11 (CP3, TV1) | Thêm phỏng vấn P1–P3 vào §1; chốt giả thuyết **đúng** (3/3, quy tắc n = 3 viết trước phỏng vấn ở `evidence/interviews/kich-ban.md`). §2: T của A1.1 đổi từ 3 phút *(tự ước tính)* thành 10 phút (trung vị P1–P3), Impact 26,6 → 88,7 giờ / tháng, ghi là cận trên. Pain và lát cắt giữ nguyên, thêm điều chỉnh: pain gây tốn thời gian khi câu trả lời chung chung và không có đoạn căn cứ cùng lúc. | T thay theo quy tắc đã ghi ở §2 trước phỏng vấn. P2, P3 kể câu trả lời chung chung, không trả lời ý cụ thể (khớp khảo sát 7/20 "không giải quyết đúng câu hỏi"). 3 câu hỏi thật của P1–P3 chuyển TV4 làm câu thử `nguoi_dung`. |
+| CP3 · TV4 | Thêm B21–B30 dựa trực tiếp trên slide | Truy vết về trang đã đối chiếu trong data card |
+| 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
+| 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
