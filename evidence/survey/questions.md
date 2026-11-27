@@ -1,9 +1,9 @@
 # Khảo sát trải nghiệm trợ giảng dưới video pre-class AI20K
 
 - **Hình thức:** Google Form, ẩn danh. Form không thu tên, email, SĐT hay mã học viên.
-- **Kênh gửi:** [CẦN ĐIỀN: nhóm lớp nào]
-- **Phiếu nhận:** 22 phiếu, phiếu đầu 27/11/2026 14:35, phiếu cuối 21:15 (GMT+7). Giờ chốt form: [CẦN ĐIỀN]
-- **Người trả lời là người ngoài nhóm:** [CẦN XÁC NHẬN]
+- **Kênh gửi:** Discord AI20K
+- **Phiếu nhận:** 22 phiếu, phiếu đầu 27/11/2026 14:35, phiếu cuối 21:15 (GMT+7). Giờ chốt form: 22:34 (GMT+7)
+- **Người trả lời là người ngoài nhóm:** Đúng
 - **Kết quả:** `results.csv` là bản xuất nguyên từ form. Bản này chỉ có dấu thời gian và câu trả lời, không có cột nhận ra người trả lời.
 - **Đếm:** `python evidence/survey/tally.py`
 
