@@ -39,7 +39,7 @@ Video bị hỏi nhiều nhất: `d01-r1-v02` (124 lượt) · `d01-r1-v01` (93)
 | Hỏi lại khi mơ hồ (`kho`) | 8.8% lượt thiếu ngữ cảnh (M4); 16.2% câu ≤ 20 ký tự | ≥ 2 câu mơ hồ, trong đó ≥ 1 câu rất ngắn |
 | Từ chối khi không có trong bài (`tu_choi`) | 21.7% câu hỏi bị chấm "không bám bài" (M6, máy chấm) | ≥ 2 câu ngoài bài |
 | Câu nối tiếp / hỏi tiếp | 47.7% câu hỏi dưới video có câu hỏi tiếp trong 5 phút (M5) | ≥ 1 câu kiểu "giải thích thêm ý vừa rồi" (mơ hồ nếu đứng một mình) |
-| Câu cần kết hợp nhiều đoạn | câu trả lời có mốc thường dẫn 2–6 mốc, có khi ở **video khác** (ví dụ `C00872`) | ≥ 1 câu cần 2 đoạn |
+| Câu cần kết hợp nhiều đoạn | câu trả lời có mốc dẫn 1–6 mốc (13% chỉ 1 mốc *(đếm ở review, `count.py` chưa in)*), có khi ở **video khác** (ví dụ `C00394` dẫn cả `d06-r1-v02` lẫn `d06-r1-v04`) | ≥ 1 câu cần 2 đoạn |
 
 ## 4. Ghi `source` cho đúng
 
@@ -48,4 +48,4 @@ Video bị hỏi nhiều nhất: `d01-r1-v02` (124 lượt) · `d01-r1-v01` (93)
 
 ## 5. Mã dòng có thể trỏ tới trong `ghi_chu` / `spec.md` §5
 
-`C01187`, `C00882` (trả lời không mốc) · `C00872` (mốc ở video khác, học viên bấm link) · `C00394` (có mốc, học viên vẫn tua lùi) · `C00983` (câu 29 ký tự, thiếu ngữ cảnh, không bám bài) · `C01056` (câu 2 ký tự). Chi tiết: `evidence/data-mining.md` mục 4.
+`C01187`, `C00882` (trả lời không mốc) · `C00551` (có mốc, học viên bấm link tới đúng mốc) · `C00394` (có mốc, học viên vẫn tua lùi) · `C00983` (câu 29 ký tự, thiếu ngữ cảnh, không bám bài) · `C01056` (câu 2 ký tự). Chi tiết: `evidence/data-mining.md` mục 4.

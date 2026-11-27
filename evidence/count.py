@@ -171,9 +171,28 @@ def seeks_by_hv(events):
     return out
 
 
-def seek_after(seeks, hv, t0, minutes, pred):
+def first_seek_after(seeks, hv, t0, minutes, pred):
     end = t0 + timedelta(minutes=minutes)
-    return any(t0 < s["t"] <= end and pred(s) for s in seeks.get(hv, ()))
+    return next((s for s in seeks.get(hv, ()) if t0 < s["t"] <= end and pred(s)), None)
+
+
+def seek_after(seeks, hv, t0, minutes, pred):
+    return first_seek_after(seeks, hv, t0, minutes, pred) is not None
+
+
+def cited_videos(t):
+    """Video được trích trong moc_trich_dan: 'DayNN/dNN-...txt@giây' → video đó; '@giây' → video đang hỏi."""
+    out = set()
+    for m in (t["reply"] or {}).get("moc_trich_dan") or []:
+        path = m.split("@", 1)[0]
+        out.add(video_stem(path) if path else t["video"])
+    return out
+
+
+def is_citation_click(t):
+    """Tua bằng link VÀO một video có trong mốc trích dẫn của câu trả lời."""
+    vids = cited_videos(t)
+    return lambda s: s["by"] == "link" and s["video"] in vids
 
 
 def is_rewind(t):
@@ -195,11 +214,11 @@ def m3_rewind(turns, seeks, minutes=REWIND_MIN, start=None):
 def m2_link_use(turns, seeks, minutes=LINK_MIN, start=None):
     start = start or citation_start(turns)
     cited = [t for t in ta_turns(turns) if start and t["reply_at"] >= start and has_citation_key(t) and not no_citation(t)]
-    x = sum(seek_after(seeks, t["hv"], t["reply_at"], minutes, lambda s: s["by"] == "link") for t in cited)
+    x = sum(seek_after(seeks, t["hv"], t["reply_at"], minutes, is_citation_click(t)) for t in cited)
     res = rate(x, len(cited))
     links = [(hv, s) for hv, ss in seeks.items() for s in ss if s["by"] == "link"]
-    after = sum(any(t["hv"] == hv and t["reply_at"] < s["t"] <= t["reply_at"] + timedelta(minutes=minutes) for t in cited)
-                for hv, s in links)
+    after = sum(any(t["hv"] == hv and t["reply_at"] < s["t"] <= t["reply_at"] + timedelta(minutes=minutes)
+                    and is_citation_click(t)(s) for t in cited) for hv, s in links)
     res.update({"minutes": minutes, "link_seeks_total": len(links),
                 "link_seeks_after_cited_reply": rate_text(after, len(links))})
     return res
@@ -374,8 +393,10 @@ def examples(turns, seeks, answers, per_kind=2):
     kinds = [
         ("khong_trich_dan", [t for t in win if no_citation(t)], lambda t: {"moc": []}),
         ("co_trich_dan_bam_link",
-         [t for t in cited if seek_after(seeks, t["hv"], t["reply_at"], LINK_MIN, lambda s: s["by"] == "link")],
-         lambda t: {"moc": t["reply"]["moc_trich_dan"]}),
+         [t for t in cited if seek_after(seeks, t["hv"], t["reply_at"], LINK_MIN, is_citation_click(t))],
+         lambda t: {"moc": t["reply"]["moc_trich_dan"],
+                    "link_den": (lambda s: {"video": s["video"], "giay": s["to"]})(
+                        first_seek_after(seeks, t["hv"], t["reply_at"], LINK_MIN, is_citation_click(t)))}),
         ("co_trich_dan_tua_lui",
          [t for t in cited if t["id"] in video_q and seek_after(seeks, t["hv"], t["reply_at"], REWIND_MIN, is_rewind(t))],
          lambda t: {"moc": t["reply"]["moc_trich_dan"]}),

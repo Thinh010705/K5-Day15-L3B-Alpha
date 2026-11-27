@@ -113,6 +113,18 @@ class BehaviourAfterReplyTest(unittest.TestCase):
         m = count.m2_link_use(t, count.seeks_by_hv(ev), minutes=10)
         self.assertEqual((m["x"], m["n"]), (1, 1))
 
+    def test_link_seek_to_uncited_video_does_not_count_for_m2(self):
+        ev = [replied("C1", day=13, moc_trich_dan=["Day01/d01-r1-v04.txt@31"]),
+              seek(mm=8, by="link", video="d01-r1-v01", frm=0, to=122)]
+        t = count.build_turns(self.chats, ev)
+        self.assertEqual(count.m2_link_use(t, count.seeks_by_hv(ev), minutes=10)["x"], 0)
+
+    def test_link_seek_to_cited_other_video_counts_for_m2(self):
+        ev = [replied("C1", day=13, moc_trich_dan=["Day01/d01-r1-v04.txt@31"]),
+              seek(mm=8, by="link", video="d01-r1-v04", frm=0, to=31)]
+        t = count.build_turns(self.chats, ev)
+        self.assertEqual(count.m2_link_use(t, count.seeks_by_hv(ev), minutes=10)["x"], 1)
+
     def test_follow_up_question_same_video_within_5_minutes(self):
         chats = [chat("C1", mm=0), chat("C2", mm=3), chat("C3", mm=4, video="Day02/d02-r1-v01.txt")]
         ev = [replied(c, mm=m) for c, m in (("C1", 0), ("C2", 3), ("C3", 4))]
@@ -167,6 +179,7 @@ class ExamplesTest(unittest.TestCase):
         self.assertEqual(ex["thieu_ngu_canh"]["chat_id"], "C2")
         self.assertEqual(ex["co_trich_dan_bam_link"]["chat_id"], "C3")
         self.assertEqual(ex["co_trich_dan_bam_link"]["moc"], ["Day01/d01-r1-v01.txt@40"])
+        self.assertEqual(ex["co_trich_dan_bam_link"]["link_den"], {"video": "d01-r1-v01", "giay": 40})
         self.assertNotIn("hv", ex["khong_trich_dan"])  # không đưa mã học viên ra ví dụ
 
     def test_examples_limit_per_kind(self):
