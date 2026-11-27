@@ -251,19 +251,30 @@ def m7_latency(turns):
 
 
 # ---------- V1, V2: khối lượng ----------
-def volume(turns, gap_minutes=SESSION_GAP_MIN):
+def session_sizes(times, gap_minutes=SESSION_GAP_MIN):
+    """Số lượt của từng phiên hỏi: lượt cách lượt trước > gap_minutes thì mở phiên mới."""
+    times = sorted(times)
+    sizes = [1] if times else []
+    for a, b in zip(times, times[1:]):
+        if b - a > timedelta(minutes=gap_minutes):
+            sizes.append(1)
+        else:
+            sizes[-1] += 1
+    return sizes
+
+
+def ta_times_by_hv(turns):
     per = defaultdict(list)
     for t in ta_turns(turns):
         per[t["hv"]].append(t["asked_at"])
+    return per
+
+
+def volume(turns, gap_minutes=SESSION_GAP_MIN):
+    per = ta_times_by_hv(turns)
     sessions_per, turns_per_session = [], []
     for times in per.values():
-        times.sort()
-        sizes = [1]
-        for a, b in zip(times, times[1:]):
-            if b - a > timedelta(minutes=gap_minutes):
-                sizes.append(1)
-            else:
-                sizes[-1] += 1
+        sizes = session_sizes(times, gap_minutes)
         sessions_per.append(len(sizes))
         turns_per_session.extend(sizes)
     days = data_days(turns)
@@ -272,6 +283,35 @@ def volume(turns, gap_minutes=SESSION_GAP_MIN):
             "sessions_total": len(turns_per_session), "sessions_per_person": describe(sessions_per),
             "turns_per_session": describe(turns_per_session), "session_gap_minutes": gap_minutes,
             "days": days, "per_month_factor": round(30.0 / days, 3) if days else None}
+
+
+# ---------- V3: persona cho cost/personas.yaml ----------
+# Quy tắc (chốt trước khi chạy, ghi ở evidence/data-mining.md): chia người hỏi trợ giảng (P2) theo số phiên hỏi
+# trong cửa sổ data: 1 phiên = dung_it · 2–3 phiên = dung_vua · ≥4 phiên = dung_nhieu.
+PERSONA_RULES = (("dung_it", 1, 1), ("dung_vua", 2, 3), ("dung_nhieu", 4, None))
+
+
+def personas(turns, days=None, gap_minutes=SESSION_GAP_MIN):
+    days = days if days is not None else data_days(turns)
+    groups = {name: [] for name, _, _ in PERSONA_RULES}
+    for times in ta_times_by_hv(turns).values():
+        sizes = session_sizes(times, gap_minutes)
+        for name, lo, hi in PERSONA_RULES:
+            if len(sizes) >= lo and (hi is None or len(sizes) <= hi):
+                groups[name].append(sizes)
+    total = sum(len(g) for g in groups.values())
+    out = []
+    for name, lo, hi in PERSONA_RULES:
+        g = groups[name]
+        sessions = [len(s) for s in g]
+        turns_n = [sum(s) for s in g]
+        mean_s = sum(sessions) / len(g) if g else 0.0
+        tps = sum(turns_n) / sum(sessions) if g else 0.0
+        out.append({"name": name, "rule_sessions": "%d%s" % (lo, "+" if hi is None else ("" if hi == lo else "-%d" % hi)),
+                    "people": len(g), "share": round(len(g) / total, 3) if total else 0.0,
+                    "sessions_mean": round(mean_s, 2), "uses_per_month": round(mean_s * 30.0 / days, 1) if days else None,
+                    "turns_per_session_mean": round(tps, 2), "turns_per_session": int(tps + 0.5), "window_days": days})
+    return out
 
 
 # ---------- phân rã cho bộ câu thử (evidence/benchmark-inputs.md) ----------
@@ -389,6 +429,7 @@ def compute(folder):
         "M6_khong_bam_bai": m6_off_lesson(answers, turns),
         "M7_do_tre": m7_latency(turns),
         "V_khoi_luong": volume(turns),
+        "V3_persona": personas(turns),
         "phan_ra": breakdowns(turns),
         "vi_du": examples(turns, seeks, answers),
     }
