@@ -35,6 +35,8 @@
 | V1 | Khối lượng (cho Impact, persona) | số lượt trợ giảng / người: trung vị, p75, p90, lớn nhất | P2 | cả 21 ngày; đổi ra / tháng = × 30/21 *(ngoại suy tuyến tính)* |
 | V2 | Khối lượng | số **phiên hỏi** / người và số lượt / phiên; một phiên = chuỗi lượt trợ giảng của cùng học viên cách nhau ≤ 30 phút *(ngưỡng nhóm tự chọn)* | P2 | cả 21 ngày |
 
+| V3 | Persona chi phí (CP4) | chia P2 theo số phiên hỏi / 21 ngày: **1 phiên = `dung_it` · 2–3 = `dung_vua` · ≥4 = `dung_nhieu`**; mỗi nhóm: share, số phiên TB × 30/21 = phiên / tháng, lượt / phiên TB (làm tròn) | P2 | quy tắc chốt ở CP4 trước khi chạy V3 (viết trong test trước) |
+
 Với M1, M4, M6 còn đếm **số người** gặp (≥1 lần) và **số lần trung bình / người gặp** → dùng làm N và F cho bảng Impact (`spec.md` §2). T (phút mất mỗi lần) **không có trong data** — lấy từ phỏng vấn.
 
 ### Mẫu số — vì sao chọn như vậy
@@ -75,6 +77,14 @@ Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/20
 | V1 lượt trợ giảng / người (P2, 21 ngày) | TB 8.0 · trung vị 4 · p75 10 · p90 18 · max 72 | — | lệch mạnh: ít người hỏi rất nhiều |
 | V2 phiên hỏi / người (cách nhau ≤ 30 phút) | TB 2.2 · trung vị 1 · p90 4 | — | 321 phiên |
 | V2 lượt / phiên | TB 3.6 · trung vị 2 · p90 8 | — | |
+
+**V3 — persona cho `cost/personas.yaml` (CP4)**
+
+| Persona | Quy tắc | Người | Share | Phiên / tháng *(× 30/21)* | Lượt / phiên (TB) |
+|---|---|---|---|---|---|
+| `dung_it` | 1 phiên | 75/144 | 0.521 | 1.4 | 2.88 → 3 |
+| `dung_vua` | 2–3 phiên | 48/144 | 0.333 | 3.4 | 3.74 → 4 |
+| `dung_nhieu` | ≥4 phiên | 21/144 | 0.146 | 8.9 | 3.87 → 4 |
 
 **Pain theo từng hướng**
 

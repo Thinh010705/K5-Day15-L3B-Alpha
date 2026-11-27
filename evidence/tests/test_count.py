@@ -195,5 +195,19 @@ class BreakdownTest(unittest.TestCase):
         self.assertEqual(b["top_videos"][0], ("d01-r1-v01", 1))
 
 
+class PersonaTest(unittest.TestCase):
+    def test_personas_split_by_sessions(self):
+        chats = [chat("A1", hv="L1"),                                              # L1: 1 phiên, 1 lượt
+                 chat("B1", hv="L2"), chat("B2", hv="L2", hh=12), chat("B3", hv="L2", hh=12, mm=10),  # L2: 2 phiên
+                 chat("D1", hv="L3", hh=8), chat("D2", hv="L3", hh=10), chat("D3", hv="L3", hh=12), chat("D4", hv="L3", hh=14)]  # L3: 4 phiên
+        p = {x["name"]: x for x in count.personas(count.build_turns(chats, []), days=21)}
+        self.assertEqual([p[k]["people"] for k in ("dung_it", "dung_vua", "dung_nhieu")], [1, 1, 1])
+        self.assertAlmostEqual(p["dung_it"]["share"], 0.333, places=3)
+        self.assertEqual(p["dung_vua"]["sessions_mean"], 2.0)
+        self.assertEqual(p["dung_vua"]["uses_per_month"], 2.9)      # 2 × 30/21
+        self.assertEqual(p["dung_vua"]["turns_per_session"], 2)     # 3 lượt / 2 phiên = 1.5 → làm tròn lên 2
+        self.assertEqual(p["dung_nhieu"]["uses_per_month"], 5.7)
+
+
 if __name__ == "__main__":
     unittest.main()

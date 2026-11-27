@@ -249,6 +249,41 @@
     "days": 21,
     "per_month_factor": 1.429
   },
+  "V3_persona": [
+    {
+      "name": "dung_it",
+      "rule_sessions": "1",
+      "people": 75,
+      "share": 0.521,
+      "sessions_mean": 1.0,
+      "uses_per_month": 1.4,
+      "turns_per_session_mean": 2.88,
+      "turns_per_session": 3,
+      "window_days": 21
+    },
+    {
+      "name": "dung_vua",
+      "rule_sessions": "2-3",
+      "people": 48,
+      "share": 0.333,
+      "sessions_mean": 2.4,
+      "uses_per_month": 3.4,
+      "turns_per_session_mean": 3.74,
+      "turns_per_session": 4,
+      "window_days": 21
+    },
+    {
+      "name": "dung_nhieu",
+      "rule_sessions": "4+",
+      "people": 21,
+      "share": 0.146,
+      "sessions_mean": 6.24,
+      "uses_per_month": 8.9,
+      "turns_per_session_mean": 3.87,
+      "turns_per_session": 4,
+      "window_days": 21
+    }
+  ],
   "phan_ra": {
     "by_day": {
       "?": {

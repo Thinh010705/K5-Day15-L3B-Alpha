@@ -6,8 +6,8 @@
 
 ## 1. Đầu vào
 
-- **Persona** (`cost/personas.yaml`): ≥3 kiểu — tỉ lệ, số phiên / người / tháng, số lượt hỏi / phiên. Nguồn: __
-- **Số người dùng thật** 3 kịch bản: thấp __ · cơ sở __ · cao __. Nguồn: __
+- **Persona** (`cost/personas.yaml`): 3 kiểu từ data — `dung_it` 0.521 · 1.4 phiên / tháng · 3 lượt / phiên; `dung_vua` 0.333 · 3.4 · 4; `dung_nhieu` 0.146 · 8.9 · 4. Nguồn: data pre-class BTC, chia 144 người hỏi trợ giảng theo số phiên hỏi / 21 ngày (`evidence/data-mining.md` V3, `python evidence/count.py`); phiên / tháng ngoại suy × 30/21
+- **Số người dùng thật** 3 kịch bản: thấp 144 · cơ sở 436 · cao 721. Nguồn: data pre-class BTC — 144 người đã hỏi trợ giảng (P2), 436 người có hoạt động (P1), 721 tài khoản (P0). Cơ sở / cao giả định mọi người dùng hỏi với tần suất như người đang hỏi *(tự ước tính)*
 - **Giá** ≥2 mức model (từ `further-reading/model-prices.md` của repo đề, có link + ngày xem): __ · __
 - **Tỉ lệ đạt** dùng để tính: __/__ (__%) — lượt `run-__` (lượt 2)
 - Đo token trên model __, tính giá model __ và __
