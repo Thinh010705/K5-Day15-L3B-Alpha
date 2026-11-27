@@ -82,7 +82,8 @@ flowchart LR
   | Quyền của người học | Câu hỏi mơ hồ được hỏi rõ; câu trả lời thiếu căn cứ hướng người học hỏi trợ giảng |
 
 - **Nguồn nội dung bản chạy CP3:** `data/lesson_product_ai20k.json` gồm 11 đoạn ngắn viết lại từ slide AI20K *Tư duy Product cho người làm công nghệ thời đại AI* (`VinUni_TuDuyProduct_DS_FDE_v3.pdf`), mã `SL-<trang PDF>`. Bản PDF gốc chỉ giữ cục bộ trong `data-btc/lesson-source/`, không commit. Đây là slide của một buổi học trong khoá, **không phải transcript của video pre-class**. Bản demo kiểm chứng theo trang slide; TV1 cần xác nhận cách trình bày giới hạn này để lời giới thiệu khớp lát cắt đã chọn.
-- **Phần còn giả/chưa kiểm:** `data/lesson_sample.json` là kho synthetic CP2 để lưu dấu giai đoạn đầu; bản chạy hiện không dùng kho này. Mặc định chưa có `.env` thì `codebase/ai.py` vẫn chạy model giả và gắn nhãn rõ. Mới có nhánh kết nối API OpenAI/Gemini, chưa xác nhận gọi thật hoặc token thật khi chưa có cấu hình tài khoản. Chưa có kết quả benchmark trên nguồn slide.
+- **Phần còn giả/chưa kiểm:** `data/lesson_sample.json` là kho synthetic CP2 để lưu dấu giai đoạn đầu; bản chạy hiện không dùng kho này. Mặc định chưa có `.env` thì `codebase/ai.py` vẫn chạy model giả và gắn nhãn rõ.
+- **Model thật (CP3):** `nvidia/nemotron-3-ultra-550b-a55b:free` qua OpenRouter (dự phòng `google/gemma-4-31b-it:free`, bị giới hạn lượt 429 khi thử ngày 27/11). Ngày 27/11: `python run.py eval --try` chạy 3/3 câu, token lấy từ `usage` của API (khoảng 315–330 vào, 130–255 ra mỗi câu); `python run.py simulate --try` chạy 10/10 phiên, 0 lỗi. Chưa có lượt `eval` được tính trên bộ câu thử slide — chờ bộ 20–30 câu.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
