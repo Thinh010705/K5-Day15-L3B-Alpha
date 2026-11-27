@@ -35,3 +35,5 @@ evidence/**/raw-*
 # Nguyên file data BTC cấp (data/preclass, data/training-ops… của repo đề): để ở đây, không commit
 data-btc
 data-btc/
+# Bản tải về để nhầm thư mục (vd data1/): cũng không commit — chuyển vào data-btc/raw/ rồi chạy python evidence/prepare_data.py
+data1/
