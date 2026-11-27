@@ -17,7 +17,11 @@ Chế độ giả (mặc định khi .env chưa có MODEL_PROVIDER, hoặc MODEL
 Nối model thật: điền .env (chép từ .env.example), rồi viết nhánh gọi API ở dưới theo docs/connect-model.md
 (có ví dụ OpenAI, Claude, model chạy trên máy, và cách nối nhà cung cấp khác). Không dán API key vào file này.
 """
+import json
 import os
+import re
+import urllib.error
+import urllib.request
 
 from tracing import model_call
 
@@ -43,14 +47,72 @@ MODEL_NAME = (os.environ.get("MODEL_NAME") or "").strip()
 API_KEY = (os.environ.get("API_KEY") or "").strip()
 
 
+def post_json(url: str, headers: dict, body: dict) -> dict:
+    """Gửi một yêu cầu JSON; lỗi mạng/API được bộ chạy ghi vào cột error."""
+    request = urllib.request.Request(
+        url, data=json.dumps(body, ensure_ascii=False).encode("utf-8"), method="POST",
+        headers={"Content-Type": "application/json", **headers})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as error:
+        message = error.read().decode("utf-8", "replace")[:300]
+        raise RuntimeError("Model API HTTP %s: %s" % (error.code, message)) from error
+
+
+def _require_config() -> None:
+    if not MODEL_NAME or not API_KEY:
+        raise RuntimeError("Cần MODEL_NAME và API_KEY trong .env để gọi model thật")
+
+
+def _call_openai(system: str, user: str) -> dict:
+    _require_config()
+    messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": user}]
+    data = post_json(
+        "https://api.openai.com/v1/chat/completions",
+        {"Authorization": "Bearer " + API_KEY},
+        {"model": MODEL_NAME, "messages": messages})
+    usage = data["usage"]
+    content = data["choices"][0]["message"]["content"]
+    if not isinstance(content, str):
+        raise RuntimeError("Model không trả nội dung dạng chữ")
+    return {"text": content, "model": data.get("model") or MODEL_NAME,
+            "tokens_in": usage["prompt_tokens"], "tokens_out": usage["completion_tokens"]}
+
+
+def _call_gemini(system: str, user: str) -> dict:
+    _require_config()
+    if not re.fullmatch(r"[A-Za-z0-9._-]+", MODEL_NAME):
+        raise ValueError("MODEL_NAME Gemini không hợp lệ")
+    body = {"contents": [{"role": "user", "parts": [{"text": user}]}],
+            "generationConfig": {"responseMimeType": "application/json"}}
+    if system:
+        body["systemInstruction"] = {"parts": [{"text": system}]}
+    data = post_json(
+        "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent" % MODEL_NAME,
+        {"x-goog-api-key": API_KEY}, body)
+    candidate = data["candidates"][0]
+    content = "".join(part.get("text", "") for part in candidate["content"]["parts"])
+    if not content:
+        raise RuntimeError("Gemini không trả nội dung dạng chữ")
+    usage = data["usageMetadata"]
+    tokens_in = usage["promptTokenCount"]
+    tokens_out = (usage["totalTokenCount"] - tokens_in if "totalTokenCount" in usage
+                  else usage["candidatesTokenCount"] + usage.get("thoughtsTokenCount", 0))
+    return {"text": content, "model": data.get("modelVersion") or MODEL_NAME,
+            "tokens_in": tokens_in, "tokens_out": tokens_out}
+
+
 @model_call
 def call_model(system: str, user: str) -> dict:
     if MODEL_PROVIDER == "fake":
         last = (user.strip().splitlines() or [""])[-1]
         return {"text": "[câu trả lời giả — chưa nối model] " + last[:60], "model": "fake", "tokens_in": 0, "tokens_out": 0}
 
-    # NHÓM VIẾT: gọi model thật ở đây (theo MODEL_PROVIDER, MODEL_NAME, API_KEY) rồi trả đúng 4 khoá.
-    # Ví dụ chép được cho từng nhà cung cấp: docs/connect-model.md mục 2.
+    if MODEL_PROVIDER == "openai":
+        return _call_openai(system, user)
+    if MODEL_PROVIDER == "gemini":
+        return _call_gemini(system, user)
     raise NotImplementedError(
-        "chưa viết phần gọi model thật cho MODEL_PROVIDER=%s trong codebase/ai.py — xem docs/connect-model.md"
+        "MODEL_PROVIDER=%s chưa được hỗ trợ; dùng openai hoặc gemini — xem docs/connect-model.md"
         % MODEL_PROVIDER)

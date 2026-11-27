@@ -1,0 +1,19 @@
+{
+  "lesson_id": "ai20k-product-thinking",
+  "source_title": "Tư duy Product cho người làm công nghệ thời đại AI",
+  "source_file": "VinUni_TuDuyProduct_DS_FDE_v3.pdf",
+  "source_label": "slide bài giảng AI20K · VinUni; nội dung các đoạn được viết lại, không chép nguyên PDF",
+  "passages": [
+    {"code": "SL-06", "page": 6, "title": "Vai trò Forward Deployed Engineer", "keywords": ["FDE", "kỹ sư thực địa", "dữ liệu bẩn"], "text": "FDE làm việc trực tiếp trong môi trường của khách hàng để hiểu dữ liệu và khó khăn vận hành, dựng giải pháp thử nhanh trên dữ liệu chưa chuẩn hóa, rồi đưa bài học lặp lại về sản phẩm chung."},
+    {"code": "SL-10", "page": 10, "title": "Cơ hội sản phẩm", "keywords": ["cơ hội", "opportunity", "khách hàng", "nỗi đau", "sẵn sàng chi trả"], "text": "Một cơ hội sản phẩm gồm nhóm khách hàng cụ thể, vấn đề chưa được giải quyết tốt và mức sẵn sàng bỏ tiền, thời gian hoặc công sức để nhận giá trị."},
+    {"code": "SL-11", "page": 11, "title": "Who What How", "keywords": ["who", "what", "how", "problem first"], "text": "Khung Who–What–How bắt đầu bằng xác định ai gặp vấn đề, tiếp đến làm rõ việc họ đang khó hoàn thành, rồi mới thiết kế cách giải phù hợp."},
+    {"code": "SL-16", "page": 16, "title": "Outcome và Output", "keywords": ["outcome", "output", "tính năng", "tăng trưởng"], "text": "Output là phần đội ngũ làm ra, chẳng hạn số tính năng; outcome là thay đổi có giá trị đối với người dùng và mục tiêu tăng trưởng của tổ chức. Chọn tính năng theo tác động mong muốn thay vì chỉ theo số lượng bàn giao."},
+    {"code": "SL-17", "page": 17, "title": "Từ mục tiêu đến giải pháp", "keywords": ["business outcome", "opportunity", "solution", "hành vi"], "text": "Trình tự trên slide là chốt một chỉ số kinh doanh, chọn nhóm khách hàng và nỗi đau có liên quan, rồi thiết kế giải pháp thúc đẩy hành vi có thể đo được."},
+    {"code": "SL-18", "page": 18, "title": "Product Outcome", "keywords": ["product outcome", "desired outcome", "business outcome"], "text": "Desired Outcome là điều khách hàng muốn đạt; Business Outcome là kết quả tổ chức cần; Product Outcome là chỉ số hành vi trên sản phẩm nối mục tiêu của hai phía."},
+    {"code": "SL-19", "page": 19, "title": "Ví dụ các chỉ số Outcome", "keywords": ["chỉ số", "metric", "giữ chân", "tần suất"], "text": "Chỉ số của tổ chức có thể là doanh thu hay giữ chân; chỉ số mong muốn của khách hàng có thể là nhanh hơn hoặc ít thao tác hơn; chỉ số sản phẩm có thể là tỷ lệ hoàn thành bước hoặc tần suất sử dụng."},
+    {"code": "SL-22", "page": 22, "title": "Impact Mapping", "keywords": ["impact map", "goal", "actors", "impacts", "deliverables"], "text": "Impact Mapping đi từ mục tiêu tổ chức, đến nhóm người tác động mục tiêu, đến hành vi cần thay đổi, cuối cùng mới chọn tính năng hay công cụ hỗ trợ hành vi đó."},
+    {"code": "SL-23", "page": 23, "title": "Opportunity Solution Tree", "keywords": ["OST", "cây cơ hội", "thử nghiệm", "onboarding"], "text": "Cây cơ hội và giải pháp nối một kết quả cần đạt với các cơ hội của người dùng, các giải pháp khả dĩ và thử nghiệm dùng để kiểm tra giả định."},
+    {"code": "SL-27", "page": 27, "title": "FDE và Deployment Strategist", "keywords": ["FDE", "DS", "deployment strategist", "phân biệt"], "text": "FDE thiên về xử lý dữ liệu và xây hệ thống AI hoạt động tại khách hàng; Deployment Strategist thiên về hiểu quy trình, thống nhất các bên và giúp tổ chức dùng hệ thống đều đặn. Ở doanh nghiệp nhỏ hai vai có thể cùng một người đảm nhiệm."},
+    {"code": "SL-30", "page": 30, "title": "Ba năng lực của kỹ sư AI", "keywords": ["năng lực", "FDE", "đau kinh doanh"], "text": "Slide nêu ba năng lực cần rèn: nhận ra vấn đề kinh doanh, làm chủ công nghệ AI và theo đuổi kết quả đến khi người dùng thực sự dùng được giải pháp."}
+  ]
+}
