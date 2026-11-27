@@ -132,7 +132,7 @@ flowchart LR
 
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
-|  |  |  |
+| 27/11 ~20:05 | `data/lesson_product_ai20k.json`: SL-19 sửa ví dụ chỉ số tổ chức thành "khách trả tiền, biên lợi nhuận, thị phần hay giữ chân" và chỉ số khách hàng thành "nhanh hơn, rẻ hơn hoặc thao tác đơn giản hơn"; SL-30 đổi tiêu đề thành "Ba năng lực sinh viên kỹ thuật cần rèn sớm". Không đổi câu thử, metric, chuẩn "đạt" | Đối chiếu 11 đoạn với PDF slide: 2 chỗ câu chữ chưa sát trang 19 và 30 (slide không ghi "doanh thu", ghi "sinh viên kỹ thuật"). Chưa có lượt `eval` nào được tính nên không ảnh hưởng kết quả |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
