@@ -176,5 +176,24 @@ class ExamplesTest(unittest.TestCase):
         self.assertEqual([e["chat_id"] for e in ex if e["kind"] == "khong_trich_dan"], ["C1", "C2"])
 
 
+class BreakdownTest(unittest.TestCase):
+    def test_length_bucket_edges(self):
+        self.assertEqual([count.length_bucket(n) for n in (None, 1, 20, 21, 60, 61, 150, 151)],
+                         ["?", "1-20", "1-20", "21-60", "21-60", "61-150", "61-150", ">150"])
+
+    def test_breakdown_by_day_and_length(self):
+        chats = [chat("C1", video="Day01/d01-r1-v01.txt"), chat("C2", hh=11, video="Day01/d01-r1-v02.txt"),
+                 chat("C3", hh=12, video="Day04/d04-r1-v01.txt")]
+        for c, n in zip(chats, ("10", "30", "200")):
+            c["do_dai_cau_hoi"] = n
+        ev = [replied("C1", missing_context=True, moc_trich_dan=[]), replied("C2", hh=11, missing_context=False, moc_trich_dan=["@1"]),
+              replied("C3", hh=12, missing_context=False)]
+        b = count.breakdowns(count.build_turns(chats, ev))
+        self.assertEqual(b["by_day"]["Day01"]["n"], 2)
+        self.assertEqual(b["by_length"]["1-20"]["missing_context"]["text"], "1/1 (100.0%)")
+        self.assertEqual(b["by_length"]["1-20"]["no_citation"]["text"], "1/1 (100.0%)")
+        self.assertEqual(b["top_videos"][0], ("d01-r1-v01", 1))
+
+
 if __name__ == "__main__":
     unittest.main()
