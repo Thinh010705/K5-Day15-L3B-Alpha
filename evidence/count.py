@@ -71,8 +71,12 @@ def read_csv(path, keep=None):
         return [r for r in csv.DictReader(f) if keep is None or keep(r)]
 
 
+def utc_date(ts):
+    return ts.astimezone(timezone.utc).date()
+
+
 def day_span(start, end):
-    return (end.date() - start.date()).days + 1
+    return (utc_date(end) - utc_date(start)).days + 1
 
 
 # ---------- dựng lượt hỏi ----------
@@ -84,10 +88,11 @@ def build_turns(chats, events):
         e = replies.get(c["id"])
         reply = json.loads(e["data"]) if e and e.get("data") else None
         created = parse_ts(c.get("created_at"))
+        asked = parse_ts(c.get("asked_at")) or created  # thiếu giờ gửi thì lấy giờ ghi câu trả lời
         turns.append({
             "id": c["id"], "hv": c["hv"], "channel": c.get("channel", ""), "agent": c.get("agent_id", ""),
             "ta": c.get("agent_id") == TA, "video": video_stem(c.get("transcript", "")),
-            "asked_at": parse_ts(c.get("asked_at")), "created_at": created,
+            "asked_at": asked, "created_at": created,
             "reply_at": parse_ts(e["occurred_at"]) if e else created, "reply": reply,
             "cached": (reply or {}).get("cached", c.get("cached") == "True"),
             "q_len": int(c["do_dai_cau_hoi"]) if c.get("do_dai_cau_hoi") else None,
@@ -133,16 +138,19 @@ def no_citation(t):
     return has_citation_key(t) and t["reply"]["moc_trich_dan"] == []
 
 
-def m1_no_citation(turns, start=None):
+def m1_no_citation(turns, start=None, exclude_missing_context=False):
+    """exclude_missing_context=True: độ nhạy — bỏ lượt AI ghi thiếu ngữ cảnh (có thể là câu hỏi lại, không cần mốc)."""
     start = start or citation_start(turns)
     win = [t for t in ta_turns(turns) if start and t["reply_at"] >= start]
     n_rows = [t for t in win if has_citation_key(t)]
+    if exclude_missing_context:
+        n_rows = [t for t in n_rows if t["reply"].get("missing_context") is not True]
     x = sum(1 for t in n_rows if no_citation(t))
-    u = len(win) - len(n_rows)
+    u = sum(1 for t in win if not has_citation_key(t))
     end = max((t["reply_at"] for t in turns), default=start)
     res = rate(x, len(n_rows))
     res.update({
-        "window_start": start.date().isoformat() if start else None, "window_end": end.date().isoformat() if end else None,
+        "window_start": utc_date(start).isoformat() if start else None, "window_end": utc_date(end).isoformat() if end else None,
         "u": u, "bound_low": rate_text(x, len(n_rows) + u), "bound_high": rate_text(x + u, len(n_rows) + u),
         "hypothesis_threshold_pct": 100 * HYPOTHESIS_M1,
         "meets_hypothesis": (x / len(n_rows) >= HYPOTHESIS_M1) if n_rows else None,
@@ -222,6 +230,49 @@ def m2_link_use(turns, seeks, minutes=LINK_MIN, start=None):
     res.update({"minutes": minutes, "link_seeks_total": len(links),
                 "link_seeks_after_cited_reply": rate_text(after, len(links))})
     return res
+
+
+def cited_seconds(t):
+    """{video: [giây được trích]} từ moc_trich_dan; '@giây' thuộc video đang hỏi."""
+    out = defaultdict(list)
+    for m in (t["reply"] or {}).get("moc_trich_dan") or []:
+        path, _, sec = m.partition("@")
+        try:
+            out[video_stem(path) if path else t["video"]].append(float(sec))
+        except ValueError:
+            pass
+    return out
+
+
+def m2_citation_use(turns, seeks, minutes=LINK_MIN, tolerance_s=15, start=None):
+    """Phân tích thêm sau khi xem M2/M3 (không đăng ký trước): học viên có dùng mốc không, tính cả khi
+    tự tua (by = player) tới đúng giây được trích (± tolerance_s) chứ không chỉ bấm link."""
+    start = start or citation_start(turns)
+    cited = [t for t in ta_turns(turns) if start and t["reply_at"] >= start and has_citation_key(t) and not no_citation(t)]
+
+    def to_cited(t):
+        secs = cited_seconds(t)
+        return lambda s: s["by"] == "player" and any(abs(s["to"] - v) <= tolerance_s for v in secs.get(s["video"], ()))
+
+    link = {t["id"] for t in cited if seek_after(seeks, t["hv"], t["reply_at"], minutes, is_citation_click(t))}
+    player = {t["id"] for t in cited if seek_after(seeks, t["hv"], t["reply_at"], minutes, to_cited(t))}
+    return {"minutes": minutes, "tolerance_s": tolerance_s, "link": rate(len(link), len(cited)),
+            "player_to_cited_second": rate(len(player), len(cited)), "either": rate(len(link | player), len(cited))}
+
+
+def m8_verdict_reply_kind(turns, sent):
+    """verdict / reply_kind ghi ở lượt nào? (kế hoạch §5.1 định dùng cho A1.3) — chỉ mô tả, không làm mẫu số."""
+    out = {}
+    for key in ("verdict", "reply_kind"):
+        rows = [t for t in turns if t["reply"] and key in t["reply"]]
+        values, agents = defaultdict(int), defaultdict(int)
+        for t in rows:
+            values[t["reply"][key]] += 1
+            agents[t["agent"]] += 1
+        out[key] = {"n": len(rows), "values": dict(sorted(values.items())), "agents": dict(sorted(agents.items())),
+                    "tren_khung_thao_luan": rate_text(sum(t["channel"] == "video_discussion_reply" for t in rows), len(rows)),
+                    "tra_loi_lai_mot_loi_AI": rate_text(sum("reply_to" in sent.get(t["id"], {}) for t in rows), len(rows))}
+    return out
 
 
 def m5_follow_up(turns, minutes=FOLLOW_UP_MIN):
@@ -372,7 +423,7 @@ def breakdowns(turns):
 # ---------- ví dụ cụ thể (mục 4 của data-mining.md) ----------
 def _example(kind, t, **extra):
     """Chỉ mã lượt chat (đã ẩn danh), ngày, video, độ dài — KHÔNG đưa mã học viên."""
-    e = {"kind": kind, "chat_id": t["id"], "ngay_utc": t["asked_at"].date().isoformat(), "channel": t["channel"],
+    e = {"kind": kind, "chat_id": t["id"], "ngay_utc": utc_date(t["asked_at"]).isoformat(), "channel": t["channel"],
          "video": t["video"], "do_dai_cau_hoi": t["q_len"], "do_dai_tra_loi": t["a_len"]}
     e.update(extra)
     return e
@@ -420,7 +471,7 @@ def compute(folder):
     learners = read_csv(os.path.join(folder, "learners.csv"))
     chats = read_csv(os.path.join(folder, "chat.csv"))
     answers = read_csv(os.path.join(folder, "answers.csv"), keep=lambda r: r["nguon"] == "chat")
-    active, first, last, events = set(), None, None, []
+    active, first, last, events, sent = set(), None, None, [], {}
     with open(os.path.join(folder, "events.csv"), encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f):
             if r["actor"] == "learner":
@@ -429,6 +480,8 @@ def compute(folder):
             first, last = min(first or ts, ts), max(last or ts, ts)
             if r["type"] in EVENT_TYPES_KEPT:
                 events.append(r)
+            elif r["type"] == "chat_sent" and r["ref_id"]:
+                sent[r["ref_id"]] = json.loads(r["data"]) if r["data"] else {}
     turns = build_turns(chats, events)
     seeks = seeks_by_hv(events)
     ta = ta_turns(turns)
@@ -440,7 +493,9 @@ def compute(folder):
         "P2_hoi_duoi_video": rate(len({t["hv"] for t in ta if t["channel"] == VIDEO_Q}), len(active)),
         "luot_tro_giang": rate(len(ta), len(turns)),
         "M1_khong_moc_trich_dan": m1_no_citation(turns),
+        "M1_do_nhay_bo_thieu_ngu_canh": m1_no_citation(turns, exclude_missing_context=True),
         "M2_bam_link_sau_tra_loi": m2_link_use(turns, seeks),
+        "M2b_dung_moc_link_hoac_tua_toi_moc": m2_citation_use(turns, seeks),
         "M2_do_nhay_30_phut": m2_link_use(turns, seeks, minutes=30),
         "M3_tua_lui_sau_tra_loi": m3_rewind(turns, seeks),
         "M3_do_nhay": {"2_phut": m3_rewind(turns, seeks, minutes=2), "10_phut": m3_rewind(turns, seeks, minutes=10)},
@@ -449,6 +504,7 @@ def compute(folder):
         "M5_do_nhay": {"2_phut": m5_follow_up(turns, minutes=2), "10_phut": m5_follow_up(turns, minutes=10)},
         "M6_khong_bam_bai": m6_off_lesson(answers, turns),
         "M7_do_tre": m7_latency(turns),
+        "M8_verdict_reply_kind": m8_verdict_reply_kind(turns, sent),
         "V_khoi_luong": volume(turns),
         "V3_persona": personas(turns),
         "phan_ra": breakdowns(turns),

@@ -222,5 +222,45 @@ class PersonaTest(unittest.TestCase):
         self.assertEqual(p["dung_nhieu"]["uses_per_month"], 5.7)
 
 
+class AuditTest(unittest.TestCase):
+    def test_day_span_counts_utc_days_for_non_utc_offsets(self):
+        a = datetime.fromisoformat("2026-11-13T05:00:00+07:00")   # 12/11 22:00 UTC
+        b = datetime.fromisoformat("2026-11-13T08:00:00+07:00")   # 13/11 01:00 UTC
+        self.assertEqual(count.day_span(a, b), 2)
+
+    def test_missing_asked_at_falls_back_to_created_at(self):
+        c1 = chat("C1")
+        c1["asked_at"] = ""
+        t = count.build_turns([c1, chat("C2", hh=11)], [])
+        self.assertEqual(t[0]["asked_at"], t[0]["created_at"])
+
+    def test_m1_sensitivity_excludes_clarification_replies(self):
+        chats = [chat("C1"), chat("C2", hh=11), chat("C3", hh=12)]
+        ev = [replied("C1", moc_trich_dan=[], missing_context=True),
+              replied("C2", hh=11, moc_trich_dan=[], missing_context=False),
+              replied("C3", hh=12, moc_trich_dan=["@1"], missing_context=False)]
+        m = count.m1_no_citation(count.build_turns(chats, ev), exclude_missing_context=True)
+        self.assertEqual((m["x"], m["n"]), (1, 2))
+
+    def test_citation_use_counts_link_or_player_seek_to_cited_second(self):
+        chats = [chat("C1"), chat("C2", hh=11), chat("C3", hh=12)]
+        ev = [replied("C1", moc_trich_dan=["@40"]), replied("C2", hh=11, moc_trich_dan=["@40"]),
+              replied("C3", hh=12, moc_trich_dan=["Day01/d01-r1-v01.txt@40"]),
+              seek(hh=10, mm=2, by="player", frm=100, to=45),     # C1: tua tới gần giây 40 (±15) → có dùng
+              seek(hh=11, mm=2, by="player", frm=100, to=90),     # C2: tua tới giây 90 → không
+              seek(hh=12, mm=2, by="link", frm=0, to=40)]         # C3: bấm link vào mốc → có dùng
+        m = count.m2_citation_use(count.build_turns(chats, ev), count.seeks_by_hv(ev), minutes=10, tolerance_s=15)
+        self.assertEqual((m["link"]["x"], m["player_to_cited_second"]["x"], m["either"]["x"], m["either"]["n"]), (1, 1, 2, 3))
+
+    def test_verdict_and_reply_kind_context(self):
+        chats = [chat("C1", channel="video_discussion_reply"), chat("C2", hh=11)]
+        ev = [replied("C1", verdict="correct", reply_kind="answer"), replied("C2", hh=11, missing_context=False)]
+        sent = {"C1": {"reply_to": "x"}}
+        m = count.m8_verdict_reply_kind(count.build_turns(chats, ev), sent)
+        self.assertEqual(m["verdict"]["values"], {"correct": 1})
+        self.assertEqual(m["verdict"]["tren_khung_thao_luan"], "1/1 (100.0%)")
+        self.assertEqual(m["verdict"]["tra_loi_lai_mot_loi_AI"], "1/1 (100.0%)")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -3,7 +3,7 @@
 > Điền ở guide bước 1.2. Ôn lại: ngày 2, ngày 6 · lab ngày 2, lab ngày 6.
 > Script đếm: `evidence/count.py` (chỉ thư viện chuẩn). Người khác chạy lại phải ra cùng số.
 > Repo chỉ chứa số đã tổng hợp và vài mã dòng làm ví dụ — không chép lại nguyên file data.
-> Người phụ trách: Hoàng Minh Quyền (TV2 — Data & Research Lead). Mục 1 viết và commit **trước** khi chạy script đếm.
+> Người phụ trách: Hoàng Minh Quyền (TV2 — Data & Research Lead). Mục 1 (M1–M7, V1–V2) viết và commit **trước** khi chạy script đếm. Những gì thêm / sửa **sau** khi đã xem kết quả (M2 sửa sau review, V3, độ nhạy M1, M2b, M8) đều ghi rõ ở từng dòng.
 
 ## 1. Cách đếm — viết TRƯỚC khi chạy
 
@@ -32,6 +32,9 @@
 | M5 | A1.2 — hỏi tiếp | lượt hỏi dưới video mà cùng học viên hỏi trợ giảng tiếp về **cùng video** trong **5 phút** sau câu trả lời | lượt trợ giảng `channel = video_question` | cả 21 ngày |
 | **M6** | A1.3 — câu ngoài bài | câu nhắn trợ giảng được giám khảo AI chấm `rubric_bam_bai = 0` ("không liên quan bài") | dòng `answers.csv` `nguon = chat`, `trang_thai_cham = da_cham`, nối được tới lượt trợ giảng | cả 21 ngày |
 | M7 | Giả thuyết thay thế 4 — chờ lâu | trung vị, p90 của `latency_ms`; lượt chờ > 10 giây | lượt trợ giảng có `cached = false` | cả 21 ngày |
+| M1-độ nhạy | A1.1 | như M1 nhưng **bỏ** lượt AI ghi `missing_context = true` (có thể là câu hỏi lại, vốn không cần mốc) | như M1, bỏ các lượt đó | *thêm ở CP3 khi rà logic, sau khi xem kết quả* |
+| M2b | Giả thuyết thay thế 3 | lượt có mốc mà trong 10 phút học viên **bấm link vào video được trích** *hoặc* **tự tua (`by = player`) tới đúng giây được trích ± 15 giây** | lượt trợ giảng có `moc_trich_dan` không rỗng | *thêm ở CP3 sau khi thấy M3 "có mốc tua lùi nhiều hơn" — không đăng ký trước* |
+| M8 | A1.3 (kế hoạch §5.1 định đo bằng `verdict`, `reply_kind`) | `verdict`, `reply_kind` ghi ở lượt nào: kênh, AI nào, có phải trả lời lại một lời AI (`chat_sent.reply_to`) | mọi lượt có ghi khoá đó | chỉ mô tả; *thêm ở CP3 khi rà logic* |
 | V1 | Khối lượng (cho Impact, persona) | số lượt trợ giảng / người: trung vị, p75, p90, lớn nhất | P2 | cả 21 ngày; đổi ra / tháng = × 30/21 *(ngoại suy tuyến tính)* |
 | V2 | Khối lượng | số **phiên hỏi** / người và số lượt / phiên; một phiên = chuỗi lượt trợ giảng của cùng học viên cách nhau ≤ 30 phút *(ngưỡng nhóm tự chọn)* | P2 | cả 21 ngày |
 | V3 | Persona chi phí (CP4) | chia P2 theo số phiên hỏi / 21 ngày: **1 phiên = `dung_it` · 2–3 = `dung_vua` · ≥4 = `dung_nhieu`**; mỗi nhóm: share, số phiên TB × 30/21 = phiên / tháng, lượt / phiên TB (làm tròn) | P2 | quy tắc đặt ở CP4 **cùng commit với kết quả** (không đăng ký trước); ngưỡng 1 / 2–3 / ≥4 phiên do nhóm tự chọn |
@@ -91,20 +94,24 @@ Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/20
 |---|---|---|---|---|
 | **M1** | Lượt trợ giảng **không có mốc trích dẫn** (13/11 → 25/11) | **231/576** | **40.1%** | ≥ ngưỡng 20% của giả thuyết → **ủng hộ** (vế data). Khoảng chặn khi tính cả 7 lượt không ghi khoá: 39.6% … 40.8% |
 | M1 | … chỉ câu hỏi dưới video | 231/557 | 41.5% | khung thảo luận: 0/19 |
+| M1-độ nhạy | … bỏ 38 lượt AI ghi thiếu ngữ cảnh (có thể là câu hỏi lại; 37 trong số đó không có mốc) | 194/538 | 36.1% | vẫn ≥ 20%; người gặp 51/83 (61.4%) |
 | M1 | Người nhận ≥1 câu trả lời không có mốc / người nhận trả lời trong cửa sổ | 58/86 | 67.4% | TB 3.98 lần / người gặp trong 13 ngày ≈ **9.2 lần / tháng** *(ngoại suy × 30/13)* |
 | M2 | Câu trả lời có mốc → học viên bấm link **vào video được trích** trong 10 phút | 18/345 | 5.2% | 30 phút: 19/345 (5.5%). 21/40 lần `by = link` là bấm vào video được trích ngay sau câu trả lời có mốc; 39/40 lần bấm link từ 13/11 trở đi *(đếm bằng đoạn kiểm chéo, `count.py` chưa in)*. Bản đầu (đếm mọi link) ra 25/345 — sửa ở CP3 vì 7 lần link không trỏ vào video được trích |
+| M2b | Câu trả lời có mốc → học viên **dùng mốc** trong 10 phút (bấm link vào video được trích *hoặc* tự tua tới đúng giây được trích ± 15 s) | 46/345 | 13.3% | bấm link 18/345 (5.2%) · tự tua tới mốc 31/345 (9.0%) · *phân tích thêm, không đăng ký trước* |
 | M3 | Câu hỏi dưới video → tua lùi cùng video trong 5 phút | 91/1.091 | 8.3% | |
 | M3 | … sau câu trả lời **có** mốc | 39/326 | 12.0% | **ngược** chiều cơ chế giả thuyết: tua lùi nhiều hơn khi *có* mốc |
 | M3 | … sau câu trả lời **không có** mốc | 10/231 | 4.3% | |
 | **M4** | Lượt trợ giảng ghi `missing_context = true` | 100/1.138 | 8.8% | người gặp: 50/142 (35.2%), TB 2.0 lần / 21 ngày ≈ 2.9 lần / tháng |
 | M5 | Câu hỏi dưới video → hỏi tiếp cùng video trong 5 phút | 520/1.091 | 47.7% | gần một nửa câu hỏi có câu hỏi nối tiếp |
 | **M6** | Câu hỏi trợ giảng bị giám khảo AI chấm `rubric_bam_bai = 0` | 243/1.122 | 21.7% | người gặp: 104/143 (72.7%), TB 2.3 lần / 21 ngày ≈ 3.3 lần / tháng. Nhãn do máy chấm |
+| M8 | `verdict` (46 dòng) / `reply_kind` (169 dòng) ghi ở đâu | verdict: 46/46 ở khung thảo luận, 44/46 (95.7%) là học viên trả lời lại một lời AI · reply_kind: 151/169 (89.3%) ở khung thảo luận, 107/169 do bạn học AI | — | hai trường này **chấm tin nhắn của học viên** (đúng / một phần / sai, kiểu tin nhắn), **không** cho biết trợ giảng có từ chối khi thiếu căn cứ → **không đo được A1.3** như kế hoạch §5.1 dự kiến |
 | M7 | Độ trễ trợ giảng (không cache): trung vị / p90 | 2,4 s / 4,6 s | — | chờ > 10 s: 1/1.138 (0.1%) → giả thuyết thay thế 4 (chờ lâu) **không** được ủng hộ |
 
 **Đọc kết quả (chưa phải kết luận — còn chờ phỏng vấn)**
 
 - Vế data của giả thuyết đạt: 40.1% câu trả lời trợ giảng không có mốc trích dẫn, và 2/3 người nhận trả lời đã gặp ít nhất một lần.
-- Nhưng khi **có** mốc, học viên hiếm khi bấm (5.2%), và họ tua lùi **nhiều hơn** chứ không ít hơn (12.0% so với 4.3%). Có hai cách đọc cần phỏng vấn để phân biệt: (a) mốc trích dẫn khiến học viên quay lại video để kiểm chứng — tức nhu cầu kiểm chứng có thật; (b) học viên chưa biết / chưa tin cách dùng mốc (giả thuyết thay thế 3).
+- Kết luận vẫn giữ khi bỏ các lượt có thể là câu hỏi lại: 36.1% (194/538).
+- Khi **có** mốc, học viên tua lùi **nhiều hơn** (12.0% so với 4.3%), và một phần là **tự tua tới đúng giây được trích**: tính cả bấm link, 13.3% (46/345) câu trả lời có mốc được học viên dùng. Điều này nghiêng về cách đọc (a) — có nhu cầu kiểm chứng thật, mốc được dùng khi có. Nhưng 86.7% câu trả lời có mốc vẫn **không** thấy dấu hiệu dùng → cách đọc (b) (chưa biết / chưa tin cách dùng mốc, giả thuyết thay thế 3) chưa loại được. Cả hai phải hỏi lại trong phỏng vấn.
 - Thời gian chờ không phải vấn đề (trung vị 2,4 s).
 
 ## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
@@ -128,11 +135,12 @@ Chọn tất định bằng `evidence/count.py` (lượt **sớm nhất** của 
 | Số dòng 7 file + 38 loại việc so với README / `event_types.csv` (`prepare_data.py`) | khớp hết ✓ |
 | M1, M4 đếm lại bằng đoạn code độc lập (không dùng `count.py`) | 231/576, u = 7 · 100/1.138 — khớp ✓ |
 | M1 có lệch vì 7 lượt không ghi khoá không? | khoảng chặn 39.6% … 40.8% — kết luận không đổi |
+| M1 có do lượt "hỏi lại" (AI ghi thiếu ngữ cảnh) kéo lên không? | bỏ 38 lượt đó (37 không có mốc): 194/538 (36.1%) — vẫn ≥ 20% |
 | M1 có do lượt dùng lại (cache) kéo lên không? | không cache 226/561 (40.3%) · cache 5/15 (33.3%) |
 | Độ nhạy M2 (cửa sổ 10 → 30 phút) | 5.2% → 5.5% |
 | Độ nhạy M3 (2 · 5 · 10 phút), có mốc vs không mốc | 7.4% vs 2.6% · 12.0% vs 4.3% · 15.3% vs 5.2% — chiều chênh lệch giữ nguyên |
 | Độ nhạy M5 (2 · 5 · 10 phút) | 40.7% · 47.7% · 51.0% |
-| Test tự động cho cách đếm | `python -m unittest discover -s evidence/tests` → 35/35 OK |
+| Test tự động cho cách đếm | `python -m unittest discover -s evidence/tests` → 40/40 OK |
 
 ## 5. Giới hạn của data
 
@@ -141,6 +149,7 @@ Data cho biết người ta **làm gì**, không cho biết **vì sao**. Thiếu
 - `moc_trich_dan` chỉ ghi từ 13/11 (13 ngày); 39/40 lần bấm link cũng từ 13/11 → có thể tính năng mốc trích dẫn chỉ có từ ngày này, nên M1 không nói gì về giai đoạn trước.
 - M2, M3, M5 là dấu vết hành vi trong cửa sổ 5–10 phút do nhóm tự chọn; tua lùi / hỏi tiếp có thể vì lý do khác (xem lại đoạn khó, hỏi câu mới).
 - M6 dùng nhãn `rubric_bam_bai` do **giám khảo AI** chấm, không có người kiểm lại.
+- `verdict` và `reply_kind` (kế hoạch §5.1 định dùng cho A1.3) thực ra chấm **tin nhắn của học viên** trong khung thảo luận (M8) → data **không** đo được việc trợ giảng từ chối khi thiếu căn cứ. A1.3 chỉ còn proxy M6 + bộ câu thử + phỏng vấn.
 - Lệch: chỉ 144/436 người có hoạt động từng hỏi trợ giảng, và vài người hỏi rất nhiều (max 72 lượt) → số theo lượt nghiêng về người hỏi nhiều; vì vậy luôn báo kèm số theo người.
 - `occurred_at` theo đồng hồ máy học viên, giờ UTC; chỉ là một khoá, một nhóm lớp.
 
@@ -156,4 +165,15 @@ Data cho biết người ta **làm gì**, không cho biết **vì sao**. Thiếu
 
 - N là số người **trong cửa sổ quan sát**, không phải mỗi tháng; chỉ là học viên khoá này trên trang pre-class (không phải mọi học viên AI20K).
 - Persona (§8): xem V1–V2 — trung vị 4 lượt / người / 21 ngày, trung vị 2 lượt / phiên.
+**Data gợi ý chọn hướng nào** (chưa nhân T — T lấy từ phỏng vấn):
+
+| Hướng | N × F ≈ số lần gặp / tháng | Ghi chú |
+|---|---|---|
+| A1.1 | 58 × 9.18 ≈ **532** | cửa sổ chỉ 13 ngày → N còn thấp hơn thực tế |
+| A1.3 | 104 × 3.34 ≈ 347 | nhãn máy chấm, không đo được hành vi từ chối (M8) |
+| A1.2 | 50 × 2.86 ≈ 143 | |
+
+→ Data **ủng hộ chọn A1.1** làm lát cắt chính (khớp ưu tiên ở kế hoạch §5.1), giữ A1.2 (hỏi lại) và A1.3 (từ chối) làm tình huống trong MVP. Hệ quả cho thiết kế: vì chỉ 13.3% câu trả lời có mốc được học viên dùng, MVP phải cho **mở đoạn nguồn bằng một bấm** (`get_passage`) ngay trong câu trả lời, không chỉ ghi mã.
+
+- Dòng `evidence/summary.md` §2 "Đào data" có thể ghi: *"231/576 (40.1%) câu trả lời trợ giảng 13–25/11 không có mốc trích dẫn (36.1% nếu bỏ các lượt hỏi lại); 58/86 người nhận trả lời gặp ≥1 lần; chỉ 46/345 (13.3%) câu có mốc được học viên dùng"*.
 - Dòng canvas "Bằng chứng đầu" có thể ghi: *"40.1% (231/576) câu trả lời trợ giảng 13–25/11 không có mốc trích dẫn; 58/86 người nhận trả lời gặp ≥1 lần (data pre-class BTC, `evidence/data-mining.md`)"*.
