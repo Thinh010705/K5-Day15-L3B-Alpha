@@ -12,8 +12,8 @@
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
 | 1 | Nguyễn Năng Thịnh | 2A202604028 | Đội trưởng | Product Lead |
-| 2 | Cao Minh Quang | 2A202603906 | Thành viên | Data & Research Lead |
-| 3 | Hoàng Minh Quyền | 2A202603961 | Thành viên | AI Engineer / Backend Lead |
+| 2 | Hoàng Minh Quyền | 2A202603961 | Thành viên | Data & Research Lead |
+| 3 | Cao Minh Quang | 2A202603906 | Thành viên | AI Engineer / Backend Lead |
 | 4 | Nguyễn Quang Dũng | 2A202604031 | Thành viên | Evaluation & QA Lead |
 
 **Quy tắc điền**
