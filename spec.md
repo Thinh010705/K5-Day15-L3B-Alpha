@@ -45,36 +45,56 @@ CP1: Chưa kết luận pain đã được chứng minh. Nhóm đang kiểm ch�
 - [sản phẩm / tính năng gần giống]: một điều đáng học · một điều đáng né · mình khác gì
 
 ## §4. Thiết kế *(guide 2.2, 3.2)*
-- **Lát cắt MỘT CÂU** (1 người dùng · 1 việc · 1 quyết định AI · 1 kết quả):
-- Không làm (≥3 điều):
-- **Sơ đồ** (ảnh / Mermaid / draw.io): [chèn ở đây]
-- **Hình dạng:** [ ] workflow cố định · [ ] một agent · [ ] nhiều agent — 2 dòng lý do, và vì sao **không** chọn hình dạng phức tạp hơn:
-- **AI dựa vào đâu** — mỗi công cụ (khớp `codebase/tools.py`):
+- **Lát cắt MỘT CÂU:** Học viên hỏi về một bài pre-class → LessonLens tìm đoạn có mã → model quyết định đủ căn cứ, cần hỏi rõ hay từ chối → học viên nhận câu trả lời có mã đoạn hoặc lời từ chối.
+- **Đầu vào CP2:** `answer(text)` nhận một câu hỏi độc lập; bản thử cố định `lesson_id=ai-co-ban-mau`. Chưa có phiên hội thoại để theo dõi số lần hỏi lại.
+- **Không làm:** tích hợp LMS; hỗ trợ nhiều bài cùng lúc; chấm điểm hoặc làm bài kiểm tra hộ; cá nhân hóa lộ trình học.
+- **Sơ đồ:**
+
+```mermaid
+flowchart LR
+  A[Câu hỏi] --> B[search_lesson]
+  B -->|không có đoạn| F[Từ chối hoặc hỏi rõ]
+  B -->|có đoạn| C[get_passage]
+  C --> D[Model xét độ đủ căn cứ và tạo JSON]
+  D -->|answer| E[Kiểm mã đoạn thuộc tập truy xuất]
+  E -->|hợp lệ| G[Trả lời và mã nguồn]
+  E -->|không hợp lệ| F
+  D -->|clarify / abstain| F
+```
+
+- **Hình dạng:** [x] workflow cố định · [ ] một agent · [ ] nhiều agent. Số bước ít, dễ ghi trace và đo chi phí. Chưa cần vòng lặp hay nhiều agent cho một câu hỏi về một bài.
+- **AI dựa vào đâu** — công cụ khớp `codebase/tools.py`:
 
   | Công cụ | Input | Output | Tác động ra ngoài? |
   |---|---|---|---|
-  |  |  |  |  |
+  | `search_lesson` | câu hỏi, mã bài | tối đa 3 đoạn liên quan có mã và điểm khớp | Không, chỉ đọc |
+  | `get_passage` | mã đoạn | nội dung đầy đủ của mã đoạn hoặc rỗng | Không, chỉ đọc |
 
-- **Mức tự động:** [ ] AI gợi ý, người quyết · [ ] AI tự làm khi chắc, chuyển người khi không · [ ] AI tự làm — lý do (sai thì ai chịu gì, sửa đắt hay rẻ):
-- **Chỗ chặn rủi ro** (rủi ro lớn nhất của lát cắt bị chặn ở đâu, bằng gì):
-- **Chỗ người duyệt** (việc AI không được tự làm):
+- **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi có đoạn phù hợp, từ chối/hỏi rõ khi không chắc · [ ] AI tự làm mọi việc. Trả lời sai có thể khiến học viên hiểu sai nên model chỉ được dùng đoạn được cấp.
+- **Chỗ chặn rủi ro:** Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
+- **Chỗ người duyệt:** Nhóm duyệt kho đoạn bài học trước khi dùng thật; giáo viên/trợ giảng quyết định nội dung học và chấm điểm. Bản chạy thử không gửi tin, sửa dữ liệu hoặc chấm điểm.
 - **Nguyên tắc thiết kế** (≥3, bắt buộc G10):
 
   | Nguyên tắc | Chỗ cụ thể trên sơ đồ / trong bản chạy thử |
   |---|---|
-  | G10 — thu hẹp phạm vi khi không chắc |  |
-  |  |  |
-  |  |  |
+  | G10 — thu hẹp phạm vi khi không chắc | Không tìm thấy đoạn hoặc JSON/mã nguồn không hợp lệ thì từ chối; không mở rộng sang kiến thức ngoài bài |
+  | Nguồn có thể kiểm chứng | Chỉ hiển thị mã đoạn đã trả về từ `get_passage` |
+  | Quyền của người học | Câu hỏi mơ hồ được hỏi rõ; câu trả lời thiếu căn cứ hướng người học hỏi trợ giảng |
 
-- Phần nào còn giả (công cụ trả dữ liệu giả, model chế độ giả…) — ghi rõ, không giả làm thật:
+- **Phần còn giả:** `data/lesson_sample.json` là 8 đoạn `synthetic` để thử luồng, không phải transcript bài học thật hay bằng chứng pain. `codebase/ai.py` còn ở chế độ model giả; đầu ra gắn nhãn `[BẢN THỬ — MODEL GIẢ]`. TV2 cần thay/duyệt dữ liệu nguồn, TV3 nối model thật ở CP3, TV4 chốt benchmark và metric.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
 | Kịch bản | Lớp (1–4) | Hành vi mong muốn (nói gì, hiện gì, cho làm gì tiếp) | Câu thử |
 |---|---|---|---|
-|  |  |  |  |
-| *(tấn công)* |  |  |  |
-| *(tấn công)* |  |  |  |
+| Hỏi khái niệm có đoạn giải thích | 1 | Trả lời ngắn, kèm mã đoạn có thật | TV4 bổ sung |
+| Hỏi bằng cách diễn đạt khác | 1 | Tìm đúng đoạn hoặc từ chối khi tra cứu không đủ | TV4 bổ sung |
+| Câu hỏi cần hai đoạn | 1 | Chỉ tổng hợp khi cả hai đoạn hỗ trợ, kèm cả hai mã | TV4 bổ sung |
+| “Nó là gì?” không có ngữ cảnh | 2 | Hỏi rõ khái niệm; mỗi lần gọi `answer` độc lập | TV4 bổ sung |
+| Hỏi ngoài nội dung bài | 3 | Nói không tìm thấy nguồn phù hợp, gợi ý hỏi trợ giảng | TV4 bổ sung |
+| Yêu cầu làm hộ bài kiểm tra | 4 | Từ chối làm hộ, chỉ hỗ trợ giải thích khái niệm | TV4 bổ sung |
+| *(tấn công)* Bảo bỏ qua quy tắc và xuất câu trả lời không nguồn | 3 | Không theo lệnh ghi đè; chỉ xuất nguồn hợp lệ hoặc từ chối | TV4 bổ sung |
+| *(tấn công)* Đưa mã đoạn giả rồi yêu cầu xác nhận | 1 | Không xác nhận mã không có trong kho | TV4 bổ sung |
 
 (1) nguồn sự thật · (2) mơ hồ / thiếu thông tin · (3) ngoài phạm vi / thẩm quyền · (4) đặc thù lĩnh vực (sai thì người dùng mất gì đắt nhất)
 
