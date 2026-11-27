@@ -9,10 +9,11 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `preclass/
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
 - Luồng hiện tại của việc này, trong khoá hoặc trên app thật (3–5 bước; ảnh chụp từ tài khoản của mình, đã che thông tin):
   1. Học viên mở video pre-class trên preclass-online.com, gặp khái niệm chưa hiểu.
-  2. Gõ câu hỏi vào ô hỏi trợ giảng ngay dưới video (hoặc bôi đen chữ trên slide rồi bấm hỏi).
+  2. Gõ câu hỏi cho trợ giảng (gọi `@Snoop`) ở khung "Tương tác lớp học" cạnh video (hoặc bôi đen chữ trên slide rồi bấm hỏi).
   3. Trợ giảng AI trả lời; phản hồi có thể kèm mốc giây trong bài giảng, có thể không.
-  4. Không có mốc → học viên tự tua tìm đoạn liên quan, hỏi tiếp, hoặc bỏ qua.
-  - Ảnh chụp: [TV1 chụp màn hình từ tài khoản của mình, che tên, lưu `evidence/img/current-flow.png`]
+  4. Không có mốc → học viên tự tua tìm đoạn liên quan, hỏi công cụ AI khác, hỏi tiếp, hoặc bỏ qua (khảo sát: 12/20 hỏi công cụ AI khác, 1/20 tua lại video — `evidence/summary.md` §2).
+  - Ảnh chụp (tài khoản TV1, đã cắt phần tên, 27/11 23:48): ![Hỏi trợ giảng trên Preclass Online](evidence/img/current-flow.png)
+    Bài đang mở là "AI SDLC và coding agent" (ngày 12). Hỏi "AI SDLC là gì" thì trợ giảng trả lời chung chung, **không kèm mốc nào** trong bài, và nói nội dung "nằm ngoài phạm vi bài học" dù đó là tên bài. Học viên không có đoạn nào để tự kiểm câu đó. Đây là một lần hỏi để minh hoạ luồng, không phải số tần suất (số ở §1).
 - Công cụ / AI đang được dùng cho việc này (nếu có) + nguồn. Không kiểm được thì ghi "chưa kiểm":
   - Trợ giảng AI dưới video (`agent_id = teaching_assistant`): 1.153 lượt trợ giảng, trong đó 1.091 lượt hỏi dưới video; 144/436 người có hoạt động (33,0%) từng hỏi, 05/11–25/11 — `evidence/data-mining.md` mục 3 (P2, V1).
   - Trợ giảng đã có cơ chế mốc trích dẫn (`moc_trich_dan`, dạng `DayNN/dNN-....txt@giây`) nhưng 231/576 lượt (40,1%) không có mốc nào; riêng câu hỏi dưới video 231/557 (41,5%), 13/11–25/11 — M1.
@@ -168,6 +169,7 @@ flowchart LR
 | CP3 · TV4 | Thêm B21–B30 dựa trực tiếp trên slide | Truy vết về trang đã đối chiếu trong data card |
 | 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
 | 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
+| 28/11 (CP3, TV1) | §0: thêm ảnh chụp luồng hiện tại (`evidence/img/current-flow.png`); bước 2 sửa vị trí ô hỏi thành khung "Tương tác lớp học" cạnh video; bước 4 thêm "hỏi công cụ AI khác". | Ảnh chụp cho thấy ô hỏi nằm ở khung bên phải, không nằm dưới video; khảo sát cho 12/20 người hỏi công cụ AI khác khi chưa kiểm chứng được. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
