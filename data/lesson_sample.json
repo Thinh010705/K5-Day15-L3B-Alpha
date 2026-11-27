@@ -1,0 +1,14 @@
+{
+  "lesson_id": "ai-co-ban-mau",
+  "label": "synthetic — nội dung dựng để thử workflow, không phải transcript khóa học",
+  "passages": [
+    {"code": "MAU-01", "title": "Học có giám sát", "keywords": ["supervised learning", "nhãn"], "text": "Học có giám sát sử dụng ví dụ đầu vào kèm nhãn đúng để huấn luyện mô hình dự đoán nhãn cho dữ liệu mới."},
+    {"code": "MAU-02", "title": "Học không giám sát", "keywords": ["unsupervised learning", "phân cụm"], "text": "Học không giám sát tìm cấu trúc trong dữ liệu chưa có nhãn; phân cụm là một ví dụ."},
+    {"code": "MAU-03", "title": "Tập huấn luyện", "keywords": ["train", "training"], "text": "Tập huấn luyện là các ví dụ dùng để điều chỉnh tham số của mô hình trong quá trình học."},
+    {"code": "MAU-04", "title": "Tập kiểm tra", "keywords": ["test set", "đánh giá"], "text": "Tập kiểm tra gồm dữ liệu tách khỏi tập huấn luyện để đánh giá khả năng dự đoán trên ví dụ chưa dùng khi học."},
+    {"code": "MAU-05", "title": "Quá khớp", "keywords": ["overfitting"], "text": "Quá khớp xảy ra khi mô hình phù hợp quá sát dữ liệu huấn luyện nhưng hoạt động kém trên dữ liệu mới."},
+    {"code": "MAU-06", "title": "Đặc trưng", "keywords": ["feature", "biến đầu vào"], "text": "Đặc trưng là thông tin đầu vào mà mô hình dùng để tạo dự đoán, ví dụ diện tích khi dự đoán giá nhà."},
+    {"code": "MAU-07", "title": "Nhãn", "keywords": ["label", "mục tiêu"], "text": "Nhãn là giá trị mục tiêu cần dự đoán trong bài toán học có giám sát."},
+    {"code": "MAU-08", "title": "Phân loại", "keywords": ["classification", "lớp"], "text": "Phân loại dự đoán một lớp rời rạc, chẳng hạn thư điện tử thuộc lớp spam hoặc không spam."}
+  ]
+}
