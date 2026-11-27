@@ -100,7 +100,30 @@ Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/20
 
 ## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
 
-*(bổ sung ở CP3 — nhánh `feat/data_mining_examples_cp3`)*
+Chọn tất định bằng `evidence/count.py` (lượt **sớm nhất** của mỗi kiểu — khoá `vi_du` trong `evidence/data-mining-output.json`). Chỉ ghi mã lượt chat (`chat.id`, BTC đã thay mã), không ghi mã học viên. Data không có câu chữ nên ví dụ là **metadata**, không phải trích dẫn lời học viên.
+
+1. **`C01187`** — 13/11, hỏi trợ giảng dưới video `d06-r1-v01`: câu hỏi 92 ký tự → câu trả lời 600 ký tự, `moc_trich_dan = []`. Trả lời dài nhưng không có mốc nào để học viên tự kiểm. *(M1)*
+2. **`C00882`** — 13/11, dưới video `d05-r2-v06`: câu hỏi 18 ký tự → trả lời 220 ký tự, `moc_trich_dan = []`. *(M1)*
+3. **`C00872`** — 13/11, hỏi khi đang ở video `d01-r1-v01`; câu trả lời dẫn 6 mốc đều ở **video khác** (`Day01/d01-r1-v04.txt@31` … `@45`); trong 10 phút sau, học viên có `video_seeked` `by = link`. Mốc trích dẫn được dùng thật. *(M2)*
+4. **`C00394`** — 13/11, dưới video `d06-r1-v04`: trả lời có 4 mốc (`d06-r1-v02@18`, `@29`, `d06-r1-v04@4`, `@12`); trong 5 phút sau, học viên tự tua **lùi** trong cùng video bằng thanh video. *(M3 — tua lùi sau câu trả lời có mốc)*
+5. **`C00983`** — 05/11, dưới video `d01-r1-v05`: câu hỏi 29 ký tự, trợ giảng ghi `missing_context = true`, giám khảo AI chấm câu hỏi `rubric_bam_bai = 0`. Câu hỏi ngắn, thiếu ngữ cảnh. *(M4, M6)*
+6. **`C00581`** → **`C00499`** — 05/11, cùng video `d01-r1-v02`: hỏi (82 ký tự), nhận trả lời, rồi hỏi tiếp về cùng video trong vòng 5 phút (183 ký tự). *(M5)*
+7. **`C01056`** — 05/11, dưới video `d01-r1-v01`: câu hỏi chỉ **2 ký tự**, bị chấm `rubric_bam_bai = 0`. *(M6 — câu không bám bài)*
+
+### Kiểm mẫu số và cách tính (CP3)
+
+| Kiểm gì | Kết quả |
+|---|---|
+| P1 tự đếm so với README BTC (436 người có hoạt động) | 436 = 436 ✓ |
+| Lượt trợ giảng tự đếm so với `chat.agent_id` | 1.153 = 1.153 ✓ |
+| Số dòng 7 file + 38 loại việc so với README / `event_types.csv` (`prepare_data.py`) | khớp hết ✓ |
+| M1, M4 đếm lại bằng đoạn code độc lập (không dùng `count.py`) | 231/576, u = 7 · 100/1.138 — khớp ✓ |
+| M1 có lệch vì 7 lượt không ghi khoá không? | khoảng chặn 39.6% … 40.8% — kết luận không đổi |
+| M1 có do lượt dùng lại (cache) kéo lên không? | không cache 226/561 (40.3%) · cache 5/15 (33.3%) |
+| Độ nhạy M2 (cửa sổ 10 → 30 phút) | 7.2% → 7.5% |
+| Độ nhạy M3 (2 · 5 · 10 phút), có mốc vs không mốc | 7.4% vs 2.6% · 12.0% vs 4.3% · 15.3% vs 5.2% — chiều chênh lệch giữ nguyên |
+| Độ nhạy M5 (2 · 5 · 10 phút) | 40.7% · 47.7% · 51.0% |
+| Test tự động cho cách đếm | `python -m unittest discover -s evidence/tests` → 30/30 OK |
 
 ## 5. Giới hạn của data
 

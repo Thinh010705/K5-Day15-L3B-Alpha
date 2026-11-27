@@ -151,5 +151,30 @@ class OtherMetricsTest(unittest.TestCase):
         self.assertEqual(v["turns_per_person"]["max"], 3)
 
 
+class ExamplesTest(unittest.TestCase):
+    def test_examples_pick_earliest_row_of_each_kind(self):
+        chats = [chat("C9", day=13, hh=9), chat("C2", day=13, hh=10), chat("C3", day=13, hh=11), chat("C4", day=12)]
+        ev = [replied("C9", day=13, hh=9, moc_trich_dan=[], missing_context=False),
+              replied("C2", day=13, hh=10, moc_trich_dan=[], missing_context=True),
+              replied("C3", day=13, hh=11, moc_trich_dan=["Day01/d01-r1-v01.txt@40"], missing_context=False),
+              replied("C4", day=12, missing_context=False),
+              seek(day=13, hh=11, mm=2, by="link", frm=0, to=40)]
+        t = count.build_turns(chats, ev)
+        ex = {}
+        for e in count.examples(t, count.seeks_by_hv(ev), []):
+            ex.setdefault(e["kind"], e)  # ví dụ sớm nhất của mỗi kiểu
+        self.assertEqual(ex["khong_trich_dan"]["chat_id"], "C9")
+        self.assertEqual(ex["thieu_ngu_canh"]["chat_id"], "C2")
+        self.assertEqual(ex["co_trich_dan_bam_link"]["chat_id"], "C3")
+        self.assertEqual(ex["co_trich_dan_bam_link"]["moc"], ["Day01/d01-r1-v01.txt@40"])
+        self.assertNotIn("hv", ex["khong_trich_dan"])  # không đưa mã học viên ra ví dụ
+
+    def test_examples_limit_per_kind(self):
+        chats = [chat("C%d" % i, day=13, hh=i) for i in range(1, 6)]
+        ev = [replied("C%d" % i, day=13, hh=i, moc_trich_dan=[]) for i in range(1, 6)]
+        ex = count.examples(count.build_turns(chats, ev), {}, [], per_kind=2)
+        self.assertEqual([e["chat_id"] for e in ex if e["kind"] == "khong_trich_dan"], ["C1", "C2"])
+
+
 if __name__ == "__main__":
     unittest.main()
