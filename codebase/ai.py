@@ -65,13 +65,15 @@ def _require_config() -> None:
         raise RuntimeError("Cần MODEL_NAME và API_KEY trong .env để gọi model thật")
 
 
-def _call_openai(system: str, user: str) -> dict:
+def _call_openai(system: str, user: str, url: str = "https://api.openai.com/v1/chat/completions",
+                 extra: dict = None) -> dict:
+    """Gọi API dạng OpenAI chat completions (OpenAI, OpenRouter)."""
     _require_config()
     messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": user}]
-    data = post_json(
-        "https://api.openai.com/v1/chat/completions",
-        {"Authorization": "Bearer " + API_KEY},
-        {"model": MODEL_NAME, "messages": messages})
+    data = post_json(url, {"Authorization": "Bearer " + API_KEY},
+                     {"model": MODEL_NAME, "messages": messages, **(extra or {})})
+    if "error" in data:
+        raise RuntimeError("Model API lỗi: %s" % str(data["error"])[:300])
     usage = data["usage"]
     content = data["choices"][0]["message"]["content"]
     if not isinstance(content, str):
@@ -111,8 +113,12 @@ def call_model(system: str, user: str) -> dict:
 
     if MODEL_PROVIDER == "openai":
         return _call_openai(system, user)
+    if MODEL_PROVIDER == "openrouter":
+        # OpenRouter dùng chung định dạng OpenAI; ép JSON vì agent.py đọc JSON decision/answer/citations.
+        return _call_openai(system, user, "https://openrouter.ai/api/v1/chat/completions",
+                            {"response_format": {"type": "json_object"}})
     if MODEL_PROVIDER == "gemini":
         return _call_gemini(system, user)
     raise NotImplementedError(
-        "MODEL_PROVIDER=%s chưa được hỗ trợ; dùng openai hoặc gemini — xem docs/connect-model.md"
+        "MODEL_PROVIDER=%s chưa được hỗ trợ; dùng openrouter, openai hoặc gemini — xem docs/connect-model.md"
         % MODEL_PROVIDER)
