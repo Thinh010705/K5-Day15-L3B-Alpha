@@ -3,7 +3,7 @@
 > Điền ở guide bước 1.2. Ôn lại: ngày 2, ngày 6 · lab ngày 2, lab ngày 6.
 > Script đếm: `evidence/count.py` (chỉ thư viện chuẩn). Người khác chạy lại phải ra cùng số.
 > Repo chỉ chứa số đã tổng hợp và vài mã dòng làm ví dụ — không chép lại nguyên file data.
-> Người phụ trách: TV2 (Data & Research Lead). Mục 1 viết và commit **trước** khi chạy script đếm.
+> Người phụ trách: Hoàng Minh Quyền (TV2 — Data & Research Lead). Mục 1 viết và commit **trước** khi chạy script đếm.
 
 ## 1. Cách đếm — viết TRƯỚC khi chạy
 
@@ -63,21 +63,65 @@ Với M1, M4, M6 còn đếm **số người** gặp (≥1 lần) và **số l�
 
 ## 3. Kết quả
 
-*(điền sau khi chạy `python evidence/count.py` — commit riêng)*
+Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/2026 (UTC). Số đầy đủ: `evidence/data-mining-output.json`. Đã kiểm chéo M1 và M4 bằng một cách đếm độc lập — khớp.
+
+**Quy mô (tập người, khối lượng)**
 
 | Đếm gì | x / N | % | Ghi chú |
 |---|---|---|---|
-| | | | |
+| P1 người có hoạt động / tài khoản | 436/721 | 60.5% | khớp README BTC |
+| P2 người hỏi trợ giảng / người có hoạt động | 144/436 | 33.0% | 2/3 người có hoạt động chưa từng hỏi trợ giảng |
+| Lượt trợ giảng / mọi lượt chat | 1.153/1.260 | 91.5% | còn lại là bạn học AI |
+| V1 lượt trợ giảng / người (P2, 21 ngày) | TB 8.0 · trung vị 4 · p75 10 · p90 18 · max 72 | — | lệch mạnh: ít người hỏi rất nhiều |
+| V2 phiên hỏi / người (cách nhau ≤ 30 phút) | TB 2.2 · trung vị 1 · p90 4 | — | 321 phiên |
+| V2 lượt / phiên | TB 3.6 · trung vị 2 · p90 8 | — | |
+
+**Pain theo từng hướng**
+
+| Mã | Đếm gì | x / N | % | Ghi chú |
+|---|---|---|---|---|
+| **M1** | Lượt trợ giảng **không có mốc trích dẫn** (13/11 → 25/11) | **231/576** | **40.1%** | ≥ ngưỡng 20% của giả thuyết → **ủng hộ** (vế data). Khoảng chặn khi tính cả 7 lượt không ghi khoá: 39.6% … 40.8% |
+| M1 | … chỉ câu hỏi dưới video | 231/557 | 41.5% | khung thảo luận: 0/19 |
+| M1 | Người nhận ≥1 câu trả lời không có mốc / người nhận trả lời trong cửa sổ | 58/86 | 67.4% | TB 3.98 lần / người gặp trong 13 ngày ≈ **9.2 lần / tháng** *(ngoại suy × 30/13)* |
+| M2 | Câu trả lời có mốc → học viên bấm link trong 10 phút | 25/345 | 7.2% | 30 phút: 26/345 (7.5%). 22/40 lần `by = link` xảy ra ngay sau câu trả lời có mốc; 39/40 lần từ 13/11 trở đi |
+| M3 | Câu hỏi dưới video → tua lùi cùng video trong 5 phút | 91/1.091 | 8.3% | |
+| M3 | … sau câu trả lời **có** mốc | 39/326 | 12.0% | **ngược** chiều cơ chế giả thuyết: tua lùi nhiều hơn khi *có* mốc |
+| M3 | … sau câu trả lời **không có** mốc | 10/231 | 4.3% | |
+| **M4** | Lượt trợ giảng ghi `missing_context = true` | 100/1.138 | 8.8% | người gặp: 50/142 (35.2%), TB 2.0 lần / 21 ngày ≈ 2.9 lần / tháng |
+| M5 | Câu hỏi dưới video → hỏi tiếp cùng video trong 5 phút | 520/1.091 | 47.7% | gần một nửa câu hỏi có câu hỏi nối tiếp |
+| **M6** | Câu hỏi trợ giảng bị giám khảo AI chấm `rubric_bam_bai = 0` | 243/1.122 | 21.7% | người gặp: 104/143 (72.7%), TB 2.3 lần / 21 ngày ≈ 3.3 lần / tháng. Nhãn do máy chấm |
+| M7 | Độ trễ trợ giảng (không cache): trung vị / p90 | 2,4 s / 4,6 s | — | chờ > 10 s: 1/1.138 (0.1%) → giả thuyết thay thế 4 (chờ lâu) **không** được ủng hộ |
+
+**Đọc kết quả (chưa phải kết luận — còn chờ phỏng vấn)**
+
+- Vế data của giả thuyết đạt: 40.1% câu trả lời trợ giảng không có mốc trích dẫn, và 2/3 người nhận trả lời đã gặp ít nhất một lần.
+- Nhưng khi **có** mốc, học viên hiếm khi bấm (7.2%), và họ tua lùi **nhiều hơn** chứ không ít hơn (12.0% so với 4.3%). Có hai cách đọc cần phỏng vấn để phân biệt: (a) mốc trích dẫn khiến học viên quay lại video để kiểm chứng — tức nhu cầu kiểm chứng có thật; (b) học viên chưa biết / chưa tin cách dùng mốc (giả thuyết thay thế 3).
+- Thời gian chờ không phải vấn đề (trung vị 2,4 s).
+
+## 6. Số đưa sang `spec.md` §2 và `canvas.md` (cho TV1)
+
+| Hướng | N — người gặp (cửa sổ quan sát) | F — lần / người gặp / tháng | T — phút / lần | Nguồn |
+|---|---|---|---|---|
+| A1.1 Source traceability | 58 (trong 86 người nhận trả lời, 13/11–25/11) | ≈ 9.2 *(ngoại suy từ 3.98 lần / 13 ngày)* | **chưa có** — lấy từ phỏng vấn P1–P4 | M1 |
+| A1.2 Ambiguity | 50 (trong 142 người, 05/11–25/11) | ≈ 2.9 *(ngoại suy từ 2.0 lần / 21 ngày)* | **chưa có** | M4 |
+| A1.3 Safe abstention | 104 (trong 143 người, 05/11–25/11) | ≈ 3.3 *(ngoại suy từ 2.34 lần / 21 ngày; nhãn máy chấm)* | **chưa có** | M6 |
+
+- N là số người **trong cửa sổ quan sát**, không phải mỗi tháng; chỉ là học viên khoá này trên trang pre-class (không phải mọi học viên AI20K).
+- Persona (§8): xem V1–V2 — trung vị 4 lượt / người / 21 ngày, trung vị 2 lượt / phiên.
+- Dòng canvas "Bằng chứng đầu" có thể ghi: *"40.1% (231/576) câu trả lời trợ giảng 13–25/11 không có mốc trích dẫn; 58/86 người nhận trả lời gặp ≥1 lần (data pre-class BTC, `evidence/data-mining.md`)"*.
 
 ## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
 
-1.
-2.
-3.
-4.
-5.
+*(bổ sung ở CP3 — nhánh `feat/data_mining_examples_cp3`)*
 
 ## 5. Giới hạn của data
 
-Data cho biết người ta **làm gì**, không cho biết **vì sao**. Thiếu gì, lệch về phía nào: __
-→ Kiểm lại bằng phỏng vấn / khảo sát nào: __
+Data cho biết người ta **làm gì**, không cho biết **vì sao**. Thiếu gì, lệch về phía nào:
+- **Không có câu chữ** câu hỏi / câu trả lời → không biết câu trả lời không có mốc là sai, đúng hay chỉ thiếu căn cứ; không kết luận trợ giảng "bịa".
+- `moc_trich_dan` chỉ ghi từ 13/11 (13 ngày); 39/40 lần bấm link cũng từ 13/11 → có thể tính năng mốc trích dẫn chỉ có từ ngày này, nên M1 không nói gì về giai đoạn trước.
+- M2, M3, M5 là dấu vết hành vi trong cửa sổ 5–10 phút do nhóm tự chọn; tua lùi / hỏi tiếp có thể vì lý do khác (xem lại đoạn khó, hỏi câu mới).
+- M6 dùng nhãn `rubric_bam_bai` do **giám khảo AI** chấm, không có người kiểm lại.
+- Lệch: chỉ 144/436 người có hoạt động từng hỏi trợ giảng, và vài người hỏi rất nhiều (max 72 lượt) → số theo lượt nghiêng về người hỏi nhiều; vì vậy luôn báo kèm số theo người.
+- `occurred_at` theo đồng hồ máy học viên, giờ UTC; chỉ là một khoá, một nhóm lớp.
+
+→ Kiểm lại bằng phỏng vấn P1–P4 (`PROJECT_EXECUTION_PLAN` §4.3): câu 2 (làm gì để kiểm tra câu trả lời — có bấm mốc không, vì sao), câu 3–4 (lần gần nhất phải tua lại / hỏi lại, mất bao nhiêu phút → **T** cho Impact), câu 5 (mong trợ giảng xử lý thế nào khi không có trong bài).

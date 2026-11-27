@@ -1,0 +1,192 @@
+{
+  "data": {
+    "folder": "data-btc/preclass",
+    "first_event_utc": "2026-11-05T04:11:55.250907+00:00",
+    "last_event_utc": "2026-11-25T09:58:46.598000+00:00"
+  },
+  "P0_tai_khoan": 721,
+  "P1_co_hoat_dong": {
+    "x": 436,
+    "n": 721,
+    "pct": 60.5,
+    "text": "436/721 (60.5%)"
+  },
+  "P2_hoi_tro_giang": {
+    "x": 144,
+    "n": 436,
+    "pct": 33.0,
+    "text": "144/436 (33.0%)"
+  },
+  "P2_hoi_duoi_video": {
+    "x": 144,
+    "n": 436,
+    "pct": 33.0,
+    "text": "144/436 (33.0%)"
+  },
+  "luot_tro_giang": {
+    "x": 1153,
+    "n": 1260,
+    "pct": 91.5,
+    "text": "1153/1260 (91.5%)"
+  },
+  "M1_khong_moc_trich_dan": {
+    "x": 231,
+    "n": 576,
+    "pct": 40.1,
+    "text": "231/576 (40.1%)",
+    "window_start": "2026-11-13",
+    "window_end": "2026-11-25",
+    "u": 7,
+    "bound_low": "231/583 (39.6%)",
+    "bound_high": "238/583 (40.8%)",
+    "hypothesis_threshold_pct": 20.0,
+    "meets_hypothesis": true,
+    "by_channel": {
+      "video_discussion_reply": {
+        "x": 0,
+        "n": 19,
+        "pct": 0.0,
+        "text": "0/19 (0.0%)"
+      },
+      "video_question": {
+        "x": 231,
+        "n": 557,
+        "pct": 41.5,
+        "text": "231/557 (41.5%)"
+      }
+    },
+    "by_cached": {
+      "False": {
+        "x": 226,
+        "n": 561,
+        "pct": 40.3,
+        "text": "226/561 (40.3%)"
+      },
+      "True": {
+        "x": 5,
+        "n": 15,
+        "pct": 33.3,
+        "text": "5/15 (33.3%)"
+      }
+    },
+    "people_x": 58,
+    "people_n": 86,
+    "people": "58/86 (67.4%)",
+    "mean_per_affected": 3.98,
+    "per_month_per_affected": 9.18,
+    "window_days": 13
+  },
+  "M2_bam_link_sau_tra_loi": {
+    "x": 25,
+    "n": 345,
+    "pct": 7.2,
+    "text": "25/345 (7.2%)",
+    "minutes": 10,
+    "link_seeks_total": 40,
+    "link_seeks_after_cited_reply": "22/40 (55.0%)"
+  },
+  "M2_do_nhay_30_phut": {
+    "x": 26,
+    "n": 345,
+    "pct": 7.5,
+    "text": "26/345 (7.5%)",
+    "minutes": 30,
+    "link_seeks_total": 40,
+    "link_seeks_after_cited_reply": "23/40 (57.5%)"
+  },
+  "M3_tua_lui_sau_tra_loi": {
+    "minutes": 5,
+    "all": {
+      "x": 91,
+      "n": 1091,
+      "pct": 8.3,
+      "text": "91/1091 (8.3%)"
+    },
+    "co_trich_dan": {
+      "x": 39,
+      "n": 326,
+      "pct": 12.0,
+      "text": "39/326 (12.0%)"
+    },
+    "khong_trich_dan": {
+      "x": 10,
+      "n": 231,
+      "pct": 4.3,
+      "text": "10/231 (4.3%)"
+    }
+  },
+  "M4_thieu_ngu_canh": {
+    "x": 100,
+    "n": 1138,
+    "pct": 8.8,
+    "text": "100/1138 (8.8%)",
+    "people_x": 50,
+    "people_n": 142,
+    "people": "50/142 (35.2%)",
+    "mean_per_affected": 2.0,
+    "per_month_per_affected": 2.86,
+    "window_days": 21
+  },
+  "M5_hoi_tiep_5_phut": {
+    "x": 520,
+    "n": 1091,
+    "pct": 47.7,
+    "text": "520/1091 (47.7%)",
+    "minutes": 5
+  },
+  "M6_khong_bam_bai": {
+    "x": 243,
+    "n": 1122,
+    "pct": 21.7,
+    "text": "243/1122 (21.7%)",
+    "people_x": 104,
+    "people_n": 143,
+    "people": "104/143 (72.7%)",
+    "mean_per_affected": 2.34,
+    "per_month_per_affected": 3.34,
+    "window_days": 21
+  },
+  "M7_do_tre": {
+    "n": 1138,
+    "median_ms": 2392,
+    "p90_ms": 4589,
+    "over_10s": {
+      "x": 1,
+      "n": 1138,
+      "pct": 0.1,
+      "text": "1/1138 (0.1%)"
+    }
+  },
+  "V_khoi_luong": {
+    "people": 144,
+    "turns_total": 1153,
+    "turns_per_person": {
+      "n": 144,
+      "mean": 8.01,
+      "median": 4,
+      "p75": 10,
+      "p90": 18,
+      "max": 72
+    },
+    "sessions_total": 321,
+    "sessions_per_person": {
+      "n": 144,
+      "mean": 2.23,
+      "median": 1,
+      "p75": 3,
+      "p90": 4,
+      "max": 15
+    },
+    "turns_per_session": {
+      "n": 321,
+      "mean": 3.59,
+      "median": 2,
+      "p75": 5,
+      "p90": 8,
+      "max": 27
+    },
+    "session_gap_minutes": 30,
+    "days": 21,
+    "per_month_factor": 1.429
+  }
+}
