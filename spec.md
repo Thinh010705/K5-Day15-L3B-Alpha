@@ -164,6 +164,7 @@ flowchart LR
 | 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
 | 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
 | 27/11 ~21:50 · TV3 (cải tiến lượt 2, nhóm chốt hướng B18) | `codebase/agent.py`: bước chặn trước tra cứu thêm luật câu nhắc lượt trước ("vừa rồi", "ở trên", "giải thích tiếp", "đoạn đó"…) mà ngoài từ nhắc lại không nêu nội dung gì → hỏi lại tên khái niệm hoặc mã đoạn, không gọi model. Không đổi câu thử, metric, chuẩn "đạt" | Nhóm lỗi "tự thu hẹp câu thiếu ngữ cảnh" (B18 trượt ở cả `run-1` và `run-2`): mỗi câu chạy độc lập nên trợ giảng không biết "đoạn vừa rồi" là gì, model tự đoán FDE / Who–What–How. Kiểm không gọi model trên 30 câu: chỉ B18 đổi hướng xử lý; 10 câu ngoài bộ thử: câu có nêu khái niệm vẫn đi tra cứu |
+| 27/11 ~22:22 · TV3 | Chạy lượt cải tiến `run-3@20261127-222235` trên bộ 30 câu sau PR #24, cùng model Nemotron qua OpenRouter và `--wait 4` như `run-2`; 30/30 câu, 0 lỗi. Cột `pass` để TV4 chấm | Đo cải tiến nhắm nhóm lỗi B18; `run-2` là lượt chạy lại vì lỗi kỹ thuật nên lượt cải tiến mang số 3 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
