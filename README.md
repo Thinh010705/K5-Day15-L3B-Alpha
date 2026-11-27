@@ -94,7 +94,7 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | Nhánh OpenRouter (cùng định dạng OpenAI) và Gemini đã viết; cần `.env` có key và chạy `eval --try` để xác nhận thật | Model: `google/gemma-4-31b-it:free` qua OpenRouter (dự phòng `nvidia/nemotron-3-ultra-550b-a55b:free`); chưa xác nhận gọi thật |
+| Lời gọi AI ở quyết định trung tâm | Nhánh OpenRouter (cùng định dạng OpenAI) và Gemini đã viết; **Thật** — đã chạy `eval --try` | Model: `nvidia/nemotron-3-ultra-550b-a55b:free` qua OpenRouter (dự phòng `google/gemma-4-31b-it:free`); `eval --try` 27/11 đã gọi thật, token > 0 |
 | Nguồn nội dung bản chạy | 11 đoạn viết lại từ slide AI20K *Tư duy Product cho người làm công nghệ thời đại AI* | Mã `SL-<trang PDF>` trong `data/lesson_product_ai20k.json`; PDF gốc giữ cục bộ, không commit |
 
 ## Dùng AI vào việc gì
