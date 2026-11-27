@@ -10,9 +10,9 @@
 |---|---|---|
 | Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | ☑ — M1 231/576 (40,1%), cách đếm ghi trước, script + 29 test, 6 ví dụ | `evidence/data-mining.md` · `evidence/count.py` · `evidence/citation_check.py` |
 | Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☐ — [CHỜ P1–P4] | `evidence/interviews/P1.md`… |
-| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | — không làm | — |
+| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ◐ — 22 phiếu, **20/22** dùng trợ giảng dưới video trong 30 ngày qua (vừa đủ 20). Đạt khi xác nhận cả 20 người là người ngoài nhóm: [CẦN XÁC NHẬN] | `evidence/survey/questions.md` · `results.csv` · `tally.py` |
 
-Nguồn chính: **đào data**. Nguồn kiểm lại: **phỏng vấn P1–P4** (vì sao, mất bao lâu).
+Nguồn chính: **đào data**. Nguồn kiểm lại: **khảo sát** (gặp bao nhiêu, mất bao lâu, xoay xở bằng gì) và **phỏng vấn P1–P4** (vì sao, kể một lần cụ thể).
 
 ## 2. Số chính
 
@@ -34,7 +34,24 @@ Ba dòng TV1 chỉ tính câu hỏi dưới video (557 lượt có ghi khoá m�
 
 **Phỏng vấn:** [CHỜ P1–P4] __/4 người gặp *(n nhỏ không ghi %)* · số lần / tháng: P1 __, P2 __, P3 __, P4 __ · mỗi lần mất __–__ phút
 
-**Khảo sát:** không làm.
+**Khảo sát** (27/11, Google Form ẩn danh, 22 phiếu). Số dưới đây chỉ tính 20 phiếu trả lời "Có" ở câu 1. Chạy lại: `python evidence/survey/tally.py`.
+
+| Câu | Đếm gì | x / n | % |
+|---|---|---|---|
+| 3 | Gặp khó khi xác định đoạn bài giảng làm căn cứ — thường xuyên hoặc thỉnh thoảng | 15/20 | 75% |
+| 3 | … chỉ "thường xuyên" | 4/20 | 20% |
+| 4 | Mỗi lần mất thêm 2–10 phút | 10/20 | 50% |
+| 4 | … mất thêm ≥10 phút | 7/20 | 35% |
+| 5 | Khi chưa kiểm chứng được thì dùng **công cụ AI khác** | 12/20 | 60% |
+| 5 | … tua lại video | 1/20 | 5% |
+| 6 | Lần gần nhất chỉ hiểu một phần, không giúp ích hoặc khó hiểu hơn | 12/20 | 60% |
+| 7 | Khó khăn lớn nhất: **câu trả lời không giải quyết đúng câu hỏi** | 7/20 | 35% |
+| 7 | … không gặp khó khăn đáng kể | 6/20 | 30% |
+| 7 | … câu trả lời khó hiểu hoặc chưa đủ chi tiết | 3/20 | 15% |
+| 7 | … **khó xác định đoạn bài giảng làm căn cứ** | 2/20 | 10% |
+| 7 | … trợ giảng chưa hiểu ngữ cảnh / phản hồi lâu | 1/20 · 1/20 | 5% · 5% |
+
+Giới hạn: form chưa có logic bỏ câu, câu 3 dễ được trả lời "Thỉnh thoảng", câu 5 và 7 chỉ cho chọn một (chi tiết ở `evidence/survey/questions.md`). Trung vị câu 4 rơi vào nhóm 2–10 phút, nên T = 3 phút ở `spec.md` §2 vẫn là ước tính thận trọng; chưa đổi T.
 
 | | Vai | Gặp pain? | Số lần / 1 tháng qua | Lần gần nhất mất | Đang xoay xở bằng |
 |---|---|---|---|---|---|
@@ -56,6 +73,12 @@ Data không có câu chữ học viên viết (chỉ có độ dài), nên ví d
 5. `C00581` — 05/11, dưới video `d01-r1-v02`: hỏi 82 ký tự; trong 5 phút sau câu trả lời hỏi tiếp cùng video. *(M5)*
 6. `C00499` — 05/11, cùng video `d01-r1-v02`: hỏi 183 ký tự; lại hỏi tiếp trong 5 phút. *(M5)*
 
+Trả lời nguyên văn khảo sát (số phiếu theo thứ tự thời gian trong `evidence/survey/results.csv`):
+
+- "độ chính xác và nguồn rõ ràng của câu trả lời" — phiếu 12, câu 9 (điều muốn cải thiện nhất)
+- "giải thích giúp tôi khái niệm này." — phiếu 21, câu 8 (câu từng hỏi trợ giảng)
+- "Không cần cải thiện gì thêm" — phiếu 21, câu 9
+
 Trích nguyên văn phỏng vấn (1–2 câu / người):
 
 7. "…" — [CHỜ P1]
@@ -67,9 +90,11 @@ Trích nguyên văn phỏng vấn (1–2 câu / người):
 
 **Data nói:** 40,1% câu trả lời của trợ giảng không kèm mốc nào trong bài giảng, rơi vào 67,4% người nhận trả lời; nhưng sau câu trả lời không có mốc, học viên **không** hỏi tiếp hay tua lùi nhiều hơn (50,6% so với 55,2%; tua lùi còn thấp hơn: 5,2% so với 14,1%). Câu trả lời không có mốc đi kèm câu hỏi thiếu ngữ cảnh nhiều hơn hẳn (16,0% so với 0,3%). Độ trễ thấp (trung vị 2,4 s) nên giả thuyết thay thế 4 (vấn đề là thời gian phản hồi) không được ủng hộ.
 
-**Người dùng nói:** [CHỜ P1–P4 — kiểm lại 3 điều: (a) họ có cần biết đoạn nào trong bài làm căn cứ không; (b) khi không có, họ làm gì và mất bao nhiêu phút; (c) tua lùi ít hơn có phải vì họ **bỏ qua, không kiểm** chứ không phải vì đã hiểu.]
+**Người dùng nói (khảo sát, n = 20):** khó xác định đoạn căn cứ là chuyện **hay gặp** (15/20 thường xuyên hoặc thỉnh thoảng), mỗi lần thường mất thêm 2–10 phút. Nhưng đó **hiếm khi là khó khăn lớn nhất** (2/20). Khó khăn lớn nhất hay được chọn là câu trả lời **không giải quyết đúng câu hỏi** (7/20). Khi chưa kiểm chứng được, 12/20 người chuyển sang công cụ AI khác, chỉ 1/20 tua lại video. Điều này khớp với data: sau câu trả lời không có mốc, tua lùi chỉ 5,2%. Học viên không quay lại bài giảng để kiểm mà rời trợ giảng đi hỏi chỗ khác.
 
-**Khớp / lệch, vì sao:** Data chỉ cho biết phản hồi không có mốc là phổ biến; data **không** cho thấy học viên mất thêm công vì thiếu mốc. Hai cách đọc: (1) học viên không cần mốc → pain yếu; (2) không có mốc thì học viên không có chỗ để tua tới nên bỏ qua, không kiểm → hiểu sai mà không biết. Phỏng vấn phải phân xử hai cách đọc này.
+**Người dùng nói (phỏng vấn):** [CHỜ P1–P4 — kiểm lại 3 điều: (a) họ có cần biết đoạn nào trong bài làm căn cứ không; (b) khi không có, họ làm gì và mất bao nhiêu phút; (c) tua lùi ít hơn có phải vì họ **bỏ qua, không kiểm** chứ không phải vì đã hiểu.]
+
+**Khớp / lệch, vì sao:** Data chỉ cho biết phản hồi không có mốc là phổ biến; data **không** cho thấy học viên mất thêm công vì thiếu mốc. Hai cách đọc: (1) học viên không cần mốc → pain yếu; (2) không có mốc thì học viên không có chỗ để tua tới nên bỏ qua, không kiểm → hiểu sai mà không biết. Khảo sát nghiêng về cách đọc (2), nhưng ở dạng khác: học viên không bỏ qua mà **ra ngoài kiểm** (12/20 dùng AI khác). Khảo sát cũng cho thấy một vấn đề lớn hơn thiếu mốc, là câu trả lời **lệch câu hỏi** (7/20). Mốc trích dẫn không tự sửa được lỗi lệch câu hỏi, nhưng giúp học viên thấy ngay câu trả lời dựa trên đoạn nào để biết nó có lệch không. Phỏng vấn vẫn phải phân xử hai cách đọc trên, và hỏi thêm: "không giải quyết đúng câu hỏi" là trả lời sai, trả lời chung chung, hay trả lời đoạn khác của bài.
 
 ## 5. Kết luận
 
@@ -78,6 +103,8 @@ Giả thuyết ở `evidence/hypothesis.md`: **đúng một phần, chờ phỏn
 - Tiêu chí data (≥20% phản hồi không có `moc_trich_dan`): **đạt** — 231/576 (40,1%); độ nhạy 194/538 (36,1%).
 - Tiêu chí phỏng vấn (≥2/3 người kể được tình huống cụ thể trong tháng qua): [CHỜ P1–P4].
 - Phần hậu quả ("phải tua lại, hỏi tiếp") **chưa được data ủng hộ**: tỉ lệ hỏi tiếp / tua lùi không cao hơn khi thiếu mốc.
+- Khảo sát (n = 20, chờ xác nhận người ngoài nhóm): pain **có thật nhưng không lớn nhất**. 15/20 gặp khó xác định đoạn căn cứ, mỗi lần thường mất 2–10 phút, nhưng chỉ 2/20 coi đó là khó khăn lớn nhất. Vế "tìm nguồn khác" của giả thuyết được ủng hộ: 12/20 dùng công cụ AI khác. Vế "tua lại" thì không: 1/20.
+- Khó khăn lớn nhất theo khảo sát là câu trả lời **không giải quyết đúng câu hỏi** (7/20). Đây không phải pain đang chọn. Nhóm **không đổi pain** theo khảo sát khi chưa phỏng vấn; ghi lại để phỏng vấn hỏi tiếp và để TV1 quyết ở CP4.
 - Giả thuyết thay thế 4 (thời gian phản hồi): **không được ủng hộ** — M7 trung vị 2,4 s.
 - Giả thuyết thay thế 2 (câu hỏi thiếu ngữ cảnh) có tín hiệu: thiếu mốc trùng với thiếu ngữ cảnh. MVP vẫn giữ bước hỏi lại khi mơ hồ.
 

@@ -36,8 +36,9 @@ Học viên AI20K K5 đang cố hiểu một khái niệm trong video pre-class 
 - Bằng chứng — số chính + kết luận:
 Đào data pre-class BTC (`evidence/data-mining.md`, chạy lại bằng `python evidence/count.py`): **231/576 lượt (40.1%)** trợ giảng trả lời không có mốc trích dẫn (13/11 → 25/11), vượt ngưỡng 20% đặt trước trong `evidence/hypothesis.md`; bỏ 38 lượt có thể là câu hỏi lại vẫn còn 194/538 (36.1%). **58/86 người (67.4%)** nhận ít nhất 1 lần, TB ≈ 9.2 lần / tháng *(ngoại suy × 30/13)*. Sau câu hỏi dưới video, 520/1.091 lượt (47.7%) hỏi tiếp cùng video trong 5 phút — chỉ là dấu vết hành vi, chưa kết luận nguyên nhân. Data không có câu chữ nên không kết luận trợ giảng trả lời sai.
   - **Lệch** (kiểm chéo TV1, `python evidence/citation_check.py`, cùng định nghĩa hỏi tiếp với M5): trong 5 phút sau câu trả lời dưới video, học viên hỏi tiếp hoặc tua lùi cùng video ở 117/231 (50,6%) lượt **không có mốc**, so với 180/326 (55,2%) lượt **có mốc** → data chưa cho thấy thiếu mốc làm học viên mất thêm công.
+  - **Khảo sát** (`evidence/survey/`, 20/22 phiếu dùng trợ giảng trong 30 ngày qua, chờ xác nhận người ngoài nhóm): 15/20 gặp khó xác định đoạn căn cứ (thường xuyên hoặc thỉnh thoảng), mỗi lần thường mất 2–10 phút (10/20). Nhưng chỉ 2/20 coi đó là khó khăn lớn nhất; khó khăn được chọn nhiều nhất là câu trả lời không giải quyết đúng câu hỏi (7/20). Khi chưa kiểm chứng được, 12/20 dùng công cụ AI khác, chỉ 1/20 tua lại video.
   - **Phỏng vấn:** [CHỜ P1–P4] __/4 người kể được lần cụ thể.
-  - **Kết luận:** giả thuyết **đúng một phần**: vế data đạt (thiếu mốc là phổ biến), còn hậu quả thì chưa chứng minh được; vế phỏng vấn (≥ 2/3 người kể được tình huống cụ thể) chưa có số. Quy tắc chốt ở `evidence/summary.md` §5.
+  - **Kết luận:** giả thuyết **đúng một phần**: vế data đạt (thiếu mốc là phổ biến), khảo sát cho thấy pain có thật nhưng không phải khó khăn lớn nhất, còn hậu quả "tua lại" thì không được ủng hộ (học viên tìm nguồn khác); vế phỏng vấn (≥ 2/3 người kể được tình huống cụ thể) chưa có số. Quy tắc chốt ở `evidence/summary.md` §5.
 
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
@@ -156,6 +157,7 @@ flowchart LR
 | 28/11 (CP3, TV1) | Chốt nguồn kiến thức cho bản chạy thử: kho 11 đoạn viết lại từ slide AI20K (`SL-<trang>`) **thay cho** transcript video pre-class. Người dùng, pain, lát cắt giữ nguyên; demo nói rõ "đoạn nguồn = trang slide của bài", bản dùng thật thay bằng đoạn transcript có mốc giây (cùng định dạng `moc_trich_dan` trợ giảng đang có). | BTC không cấp transcript video; slide là tài liệu chính thức của khoá nên vẫn kiểm chứng được. Không đổi pain cho khớp bản đã code (bằng chứng ở §1 vẫn là data pre-class). Đề xuất TV3 ở §4. |
 | 28/11 (CP3, TV1) | §1–§2 chuyển sang số chính thức của TV2 (`evidence/count.py`); F dùng trung bình thay trung vị; A1.3 ghi "không đo được từ data" thay vì số lấy từ khung thảo luận. | Một nguồn số duy nhất; kế hoạch §5.2 định nghĩa F là số lần **trung bình**; M8 cho thấy `verdict` / `reply_kind` không đo việc từ chối. |
 | 28/11 (CP3, TV1) | Thêm kiểm chéo `evidence/citation_check.py`: hỏi tiếp / tua lùi tách theo có / không có mốc. | Kiểm vế hậu quả của giả thuyết; kết quả lệch (50,6% so với 55,2%) ghi ở §1 và `evidence/summary.md` §4. |
+| 28/11 (CP3, TV1) | Thêm nguồn **khảo sát** (`evidence/survey/`, 22 phiếu, 20 hợp lệ) vào §1 và `evidence/summary.md`. Pain, lát cắt và T = 3 phút giữ nguyên. | `hypothesis.md` ghi khảo sát là nguồn tuỳ chọn. Kết quả có chỗ ngược giả thuyết: chỉ 2/20 coi khó xác định đoạn căn cứ là khó khăn lớn nhất, 7/20 chọn "không giải quyết đúng câu hỏi". Ghi nguyên số, không đổi pain trước khi có phỏng vấn. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
