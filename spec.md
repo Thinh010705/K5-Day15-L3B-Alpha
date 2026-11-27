@@ -161,7 +161,6 @@ flowchart LR
 | 28/11 (CP3, TV1) | §1–§2 chuyển sang số chính thức của TV2 (`evidence/count.py`); F dùng trung bình thay trung vị; A1.3 ghi "không đo được từ data" thay vì số lấy từ khung thảo luận. | Một nguồn số duy nhất; kế hoạch §5.2 định nghĩa F là số lần **trung bình**; M8 cho thấy `verdict` / `reply_kind` không đo việc từ chối. |
 | 28/11 (CP3, TV1) | Thêm kiểm chéo `evidence/citation_check.py`: hỏi tiếp / tua lùi tách theo có / không có mốc. | Kiểm vế hậu quả của giả thuyết; kết quả lệch (50,6% so với 55,2%) ghi ở §1 và `evidence/summary.md` §4. |
 | CP3 · TV4 | Thêm B21–B30 dựa trực tiếp trên slide | Truy vết về trang đã đối chiếu trong data card |
-
 | 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
 | 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
 
