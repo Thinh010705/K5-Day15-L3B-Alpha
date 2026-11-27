@@ -8,7 +8,15 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `preclass/
 
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
 - Luồng hiện tại của việc này, trong khoá hoặc trên app thật (3–5 bước; ảnh chụp từ tài khoản của mình, đã che thông tin):
+  1. Học viên mở video pre-class trên preclass-online.com, gặp khái niệm chưa hiểu.
+  2. Gõ câu hỏi vào ô hỏi trợ giảng ngay dưới video (hoặc bôi đen chữ trên slide rồi bấm hỏi).
+  3. Trợ giảng AI trả lời; phản hồi có thể kèm mốc giây trong bài giảng, có thể không.
+  4. Không có mốc → học viên tự tua tìm đoạn liên quan, hỏi tiếp, hoặc bỏ qua.
+  - Ảnh chụp: [TV1 chụp màn hình từ tài khoản của mình, che tên, lưu `evidence/img/current-flow.png`]
 - Công cụ / AI đang được dùng cho việc này (nếu có) + nguồn. Không kiểm được thì ghi "chưa kiểm":
+  - Trợ giảng AI dưới video (`agent_id = teaching_assistant`): 1.153 lượt trợ giảng, trong đó 1.091 lượt hỏi dưới video; 144/436 người có hoạt động (33,0%) từng hỏi, 05/11–25/11 — `evidence/data-mining.md` mục 3 (P2, V1).
+  - Trợ giảng đã có cơ chế mốc trích dẫn (`moc_trich_dan`, dạng `DayNN/dNN-....txt@giây`) nhưng 231/576 lượt (40,1%) không có mốc nào; riêng câu hỏi dưới video 231/557 (41,5%), 13/11–25/11 — M1.
+  - Độ trễ trợ giảng: trung vị 2,4 s, p90 4,6 s — M7. Model ghi chung là `model_chinh` / `fallback`; prompt cụ thể: chưa kiểm.
 
 
 ## §1. Người dùng & bằng chứng (guide 1.1, 1.2)
@@ -20,29 +28,42 @@ Học viên AI20K K5 đang xem video bài giảng pre-class trên trang học tr
 Hiểu một khái niệm trong video pre-class và xác định được phần bài giảng giải thích khái niệm đó để tiếp tục học.
 
 - Hôm nay họ giải bằng gì, hỏng ở đâu, vì sao chưa bỏ:
-Các cách có thể gồm tua lại video, tìm nội dung trong tài liệu, hỏi bạn học, hỏi TA hoặc sử dụng trợ giảng hiện có. Giả thuyết cần kiểm chứng là học viên có thể phải tìm lại nội dung thủ công hoặc chưa xác định được đoạn nguồn hỗ trợ câu trả lời. Chưa kết luận cách nào phổ biến nhất trước khi phỏng vấn và phân tích dữ liệu.
+Họ hỏi trợ giảng AI dưới video (144 học viên, 1.091 lượt hỏi dưới video trong 21 ngày), tua lại video, hỏi bạn học hoặc TA. Chỗ hỏng thấy trong data: 40,1% câu trả lời của trợ giảng không chỉ ra đoạn nào trong bài làm căn cứ, nên học viên không có chỗ để mở ra kiểm. Họ chưa bỏ trợ giảng vì nó ở ngay dưới video, trả lời nhanh, không phải rời bài. Vì sao họ không tua lại nhiều hơn khi thiếu mốc: [CHỜ phỏng vấn P1–P4].
 
 - Pain (KHÔNG chữ AI):
 Học viên AI20K K5 đang cố hiểu một khái niệm trong video pre-class nhưng có thể gặp khó khăn khi xác định đoạn bài giảng giải thích nội dung đó, khiến họ phải tua lại, hỏi tiếp hoặc tìm nguồn khác và mất thêm thời gian học.
 
 - Bằng chứng — số chính + kết luận:
-Đào data pre-class BTC (`evidence/data-mining.md`, chạy lại bằng `python evidence/count.py`): **231/576 lượt (40.1%)** trợ giảng trả lời không có mốc trích dẫn (13/11 → 25/11), vượt ngưỡng 20% đặt trước trong `evidence/hypothesis.md`; bỏ 38 lượt có thể là câu hỏi lại vẫn còn 194/538 (36.1%). **58/86 người (67.4%)** nhận ít nhất 1 lần, TB ≈ 9.2 lần / tháng *(ngoại suy × 30/13)*. Sau câu hỏi dưới video, 520/1.091 lượt (47.7%) hỏi tiếp cùng video trong 5 phút — chỉ là dấu vết hành vi, chưa kết luận nguyên nhân. Kết luận: vế data của giả thuyết đạt; vế phỏng vấn (≥ 2/3 người kể được tình huống cụ thể) chưa có số. Data không có câu chữ nên không kết luận trợ giảng trả lời sai.
+Đào data pre-class BTC (`evidence/data-mining.md`, chạy lại bằng `python evidence/count.py`): **231/576 lượt (40.1%)** trợ giảng trả lời không có mốc trích dẫn (13/11 → 25/11), vượt ngưỡng 20% đặt trước trong `evidence/hypothesis.md`; bỏ 38 lượt có thể là câu hỏi lại vẫn còn 194/538 (36.1%). **58/86 người (67.4%)** nhận ít nhất 1 lần, TB ≈ 9.2 lần / tháng *(ngoại suy × 30/13)*. Sau câu hỏi dưới video, 520/1.091 lượt (47.7%) hỏi tiếp cùng video trong 5 phút — chỉ là dấu vết hành vi, chưa kết luận nguyên nhân. Data không có câu chữ nên không kết luận trợ giảng trả lời sai.
+  - **Lệch** (kiểm chéo TV1, `python evidence/citation_check.py`, cùng định nghĩa hỏi tiếp với M5): trong 5 phút sau câu trả lời dưới video, học viên hỏi tiếp hoặc tua lùi cùng video ở 117/231 (50,6%) lượt **không có mốc**, so với 180/326 (55,2%) lượt **có mốc** → data chưa cho thấy thiếu mốc làm học viên mất thêm công.
+  - **Phỏng vấn:** [CHỜ P1–P4] __/4 người kể được lần cụ thể.
+  - **Kết luận:** giả thuyết **đúng một phần**: vế data đạt (thiếu mốc là phổ biến), còn hậu quả thì chưa chứng minh được; vế phỏng vấn (≥ 2/3 người kể được tình huống cụ thể) chưa có số. Quy tắc chốt ở `evidence/summary.md` §5.
 
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
 
+Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/count.py`). N = số học viên duy nhất gặp ≥1 lần **trong cửa sổ quan sát**; F = số lần **trung bình** / người gặp, đổi ra tháng *(ngoại suy tuyến tính × 30 / số ngày cửa sổ)*. Vì F là trung bình nên N × F = tổng số lần / tháng. Số ở quy mô **tập data** (học viên khoá này trên trang pre-class), không phóng lên cả khoá.
+
 | Hướng | Bao nhiêu người gặp | Bao nhiêu lần / tháng | Mỗi lần tốn gì | Impact / tháng | Làm kịp không | Chọn? |
 |---|---|---|---|---|---|---|
-|  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |
+| A1.1 Câu trả lời không chỉ ra đoạn nguồn để tự kiểm | 58 người (58/86 người nhận trả lời, 13/11–25/11) — M1 | 9,18 / người gặp *(ngoại suy từ 3,98 lần / 13 ngày)* — M1 | 3 phút tự tìm lại / kiểm *(tự ước tính — thay bằng trung vị P1–P4)* | 58 × 9,18 × 3 ≈ **1.597 phút ≈ 26,6 giờ** | Kịp: 1 bài, 11 đoạn có mã, tra cứu + 1 lời gọi model (đã chạy, §4) | **Chọn** |
+| A1.2 Câu hỏi thiếu ngữ cảnh chưa được hỏi lại | 50 người (50/142, 05/11–25/11) — M4 | 2,86 / người gặp *(ngoại suy từ 2,0 lần / 21 ngày)* — M4 | 3 phút *(tự ước tính)* | 50 × 2,86 × 3 ≈ **429 phút ≈ 7,2 giờ** | Kịp, là một nhánh của luồng A1.1 | Gộp vào MVP như một nhánh (hỏi lại một lần) |
+| A1.3 Trả lời khi không có căn cứ (cần từ chối) | **không đo được từ data** — `verdict` / `reply_kind` chấm tin nhắn của học viên trong khung thảo luận, không đo việc trợ giảng từ chối (M8) | không đo được | sai thì học viên tin điều không có trong bài *(chưa đo)* | **chưa tính được** — chờ phỏng vấn câu 5 + benchmark | Kịp, là một nhánh của luồng A1.1 | Gộp vào MVP như một nhánh an toàn |
 
-- **Impact / tháng** của hướng chọn = __ người × __ lần × __ phút = __ — nguồn từng thừa số: __ (không có nguồn thì ghi rõ *(tự ước tính)*)
+- **Impact / tháng** của hướng chọn (A1.1) = 58 người × 9,18 lần × 3 phút ≈ 1.597 phút ≈ **26,6 giờ học viên / tháng** (≈ 27,5 phút / người gặp / tháng) — nguồn: N, F từ M1 (`evidence/data-mining.md` mục 3, 6); T = 3 phút *(tự ước tính)*, sẽ thay bằng trung vị số phút P1–P4 kể (`evidence/summary.md` §2). Nếu dùng trung vị thay trung bình (ít bị người hỏi nhiều kéo lên), F ≈ 4,6 và impact ≈ 13,3 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ)*.
 - Hướng ĐÃ LOẠI + vì sao (giữ lại, đừng xoá):
-- Số lần / tháng của từng kiểu người dùng (dùng cho persona ở §8):
+  - A1.2 không chọn làm hướng chính: tổng số lần / tháng nhỏ hơn A1.1 khoảng 3,7 lần (143 so với 532). Nhưng 37/231 (16,0%) câu trả lời không có mốc đi kèm câu hỏi AI ghi thiếu ngữ cảnh, so với 1/326 (0,3%) khi có mốc (`evidence/citation_check.py`) → giữ bước "hỏi lại một lần" trong MVP.
+  - A1.3 không chọn làm hướng chính: data không đo được (M8), chưa có số người gặp. Giữ nhánh từ chối vì sai ở đây là đắt nhất (học viên tin điều không có trong bài); đo bằng câu `tu_choi` trong benchmark và câu 5 của phỏng vấn.
+  - Nếu phỏng vấn cho ≤1/4 người gặp A1.1: chuyển trọng tâm sang A1.2, ghi ở §10 (quy tắc ở `evidence/summary.md` §5).
+- Số lần / tháng của từng kiểu người dùng (dùng cho persona ở §8) — V3 ở `evidence/data-mining.md` mục 3, 144 người hỏi trợ giảng, chia theo số phiên hỏi trong 21 ngày (một phiên = các lượt cách nhau ≤ 30 phút):
+  - `dung_it` (1 phiên): 75/144 (52,1%) · 1,4 phiên / tháng · 3 lượt / phiên.
+  - `dung_vua` (2–3 phiên): 48/144 (33,3%) · 3,4 phiên / tháng · 4 lượt / phiên.
+  - `dung_nhieu` (≥ 4 phiên): 21/144 (14,6%) · 8,9 phiên / tháng · 4 lượt / phiên.
 
 ## §3. Giải pháp tương tự *(guide 2.1)*
-- [sản phẩm / tính năng gần giống]: một điều đáng học · một điều đáng né · mình khác gì
+- **Trợ giảng AI hiện có dưới video pre-class** (preclass-online.com; số từ `evidence/data-mining.md`): đáng học: đã có định dạng mốc `DayNN/dNN-....txt@giây` trỏ thẳng vào lời giảng, độ trễ trung vị 2,4 s · đáng né: 231/576 (40,1%) câu trả lời không có mốc nào mà vẫn được đưa ra như câu trả lời bình thường · mình khác: không có đoạn nguồn hợp lệ thì **không** trả lời như một khẳng định; LessonLens hỏi lại một lần hoặc từ chối, và mã đoạn phải thuộc các đoạn vừa truy xuất (§4).
+- **Google NotebookLM** (trả lời dựa trên tài liệu người dùng tải lên, kèm số trích dẫn mở được đoạn nguồn): đáng học: trích dẫn đặt ngay cạnh câu, bấm là thấy đoạn · đáng né: người học phải tự gom và tải tài liệu, không gắn với chỗ đang xem trong bài · mình khác: kho đoạn của bài có sẵn, có bước xét đủ căn cứ trước khi trả lời. *(mô tả theo hiểu biết chung về sản phẩm, chưa kiểm lại bằng tài khoản — TV1 kiểm trước CP4)*
+- **Khanmigo của Khan Academy** (trợ giảng AI định hướng gợi mở, không đưa đáp án làm hộ): đáng học: ranh giới "không làm hộ bài" rõ ràng → câu thử B10 · đáng né: hội thoại dài, khó đo chi phí và khó kiểm từng khẳng định · mình khác: một câu hỏi, một quyết định (trả lời / hỏi lại / từ chối), đo được bằng benchmark. *(mô tả theo hiểu biết chung, chưa kiểm lại bằng tài khoản)*
 
 ## §4. Thiết kế *(guide 2.2, 3.2)*
 - **Lát cắt MỘT CÂU:** Học viên hỏi về một bài pre-class → LessonLens tìm đoạn có mã → model quyết định đủ căn cứ, cần hỏi rõ hay từ chối → học viên nhận câu trả lời có mã đoạn hoặc lời từ chối.
@@ -132,7 +153,9 @@ flowchart LR
 
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
-|  |  |  |
+| 28/11 (CP3, TV1) | Chốt nguồn kiến thức cho bản chạy thử: kho 11 đoạn viết lại từ slide AI20K (`SL-<trang>`) **thay cho** transcript video pre-class. Người dùng, pain, lát cắt giữ nguyên; demo nói rõ "đoạn nguồn = trang slide của bài", bản dùng thật thay bằng đoạn transcript có mốc giây (cùng định dạng `moc_trich_dan` trợ giảng đang có). | BTC không cấp transcript video; slide là tài liệu chính thức của khoá nên vẫn kiểm chứng được. Không đổi pain cho khớp bản đã code (bằng chứng ở §1 vẫn là data pre-class). Đề xuất TV3 ở §4. |
+| 28/11 (CP3, TV1) | §1–§2 chuyển sang số chính thức của TV2 (`evidence/count.py`); F dùng trung bình thay trung vị; A1.3 ghi "không đo được từ data" thay vì số lấy từ khung thảo luận. | Một nguồn số duy nhất; kế hoạch §5.2 định nghĩa F là số lần **trung bình**; M8 cho thấy `verdict` / `reply_kind` không đo việc từ chối. |
+| 28/11 (CP3, TV1) | Thêm kiểm chéo `evidence/citation_check.py`: hỏi tiếp / tua lùi tách theo có / không có mốc. | Kiểm vế hậu quả của giả thuyết; kết quả lệch (50,6% so với 55,2%) ghi ở §1 và `evidence/summary.md` §4. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
