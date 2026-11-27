@@ -5,7 +5,7 @@ Chạy (chỉ thư viện chuẩn, cần chạy evidence/prepare_data.py trướ
   python evidence/count.py --data <thư mục> --out <file.json>
 
 Chỉ in / ghi số đã tổng hợp (x/N, %, trung vị…). Không chép dòng data nào ra ngoài.
-Mã số liệu (P0–P2, M1–M7, V1–V2) khớp bảng trong evidence/data-mining.md.
+Mã số liệu (P0–P2, M1, M4, M5, M7, M8, V1–V3) khớp bảng trong evidence/data-mining.md.
 """
 import argparse
 import csv
@@ -21,12 +21,10 @@ DEFAULT_DATA = os.path.join(ROOT, "data-btc", "preclass")
 DEFAULT_OUT = os.path.join(ROOT, "evidence", "data-mining-output.json")
 TA = "teaching_assistant"
 VIDEO_Q = "video_question"
-EVENT_TYPES_KEPT = ("agent_replied", "video_seeked")
+EVENT_TYPES_KEPT = ("agent_replied",)
 
 # Ngưỡng do nhóm tự chọn — ghi ở evidence/data-mining.md mục 1.
-REWIND_MIN = 5        # M3: tua lùi trong 5 phút sau câu trả lời
 FOLLOW_UP_MIN = 5     # M5: hỏi tiếp trong 5 phút
-LINK_MIN = 10         # M2: bấm link trong 10 phút (độ nhạy: 30)
 SESSION_GAP_MIN = 30  # V2: hai lượt cách nhau ≤ 30 phút là cùng một phiên hỏi
 SLOW_MS = 10000       # M7: chờ > 10 giây
 HYPOTHESIS_M1 = 0.20  # evidence/hypothesis.md: ≥ 20% phản hồi trợ giảng không có mốc trích dẫn
@@ -166,98 +164,6 @@ def m1_no_citation(turns, start=None, exclude_missing_context=False):
 
 
 # ---------- hành vi sau câu trả lời ----------
-def seeks_by_hv(events):
-    out = defaultdict(list)
-    for e in events:
-        if e.get("type") != "video_seeked":
-            continue
-        d = json.loads(e["data"]) if e.get("data") else {}
-        out[e["hv"]].append({"t": parse_ts(e["occurred_at"]), "video": e.get("video", ""), "by": d.get("by"),
-                             "from": d.get("from") or 0, "to": d.get("to") or 0})
-    for v in out.values():
-        v.sort(key=lambda s: s["t"])
-    return out
-
-
-def first_seek_after(seeks, hv, t0, minutes, pred):
-    end = t0 + timedelta(minutes=minutes)
-    return next((s for s in seeks.get(hv, ()) if t0 < s["t"] <= end and pred(s)), None)
-
-
-def seek_after(seeks, hv, t0, minutes, pred):
-    return first_seek_after(seeks, hv, t0, minutes, pred) is not None
-
-
-def cited_videos(t):
-    """Video được trích trong moc_trich_dan: 'DayNN/dNN-...txt@giây' → video đó; '@giây' → video đang hỏi."""
-    out = set()
-    for m in (t["reply"] or {}).get("moc_trich_dan") or []:
-        path = m.split("@", 1)[0]
-        out.add(video_stem(path) if path else t["video"])
-    return out
-
-
-def is_citation_click(t):
-    """Tua bằng link VÀO một video có trong mốc trích dẫn của câu trả lời."""
-    vids = cited_videos(t)
-    return lambda s: s["by"] == "link" and s["video"] in vids
-
-
-def is_rewind(t):
-    return lambda s: s["by"] == "player" and s["to"] < s["from"] and s["video"] == t["video"]
-
-
-def m3_rewind(turns, seeks, minutes=REWIND_MIN, start=None):
-    base = [t for t in ta_turns(turns) if t["channel"] == VIDEO_Q and t["video"]]
-    hit = {t["id"] for t in base if seek_after(seeks, t["hv"], t["reply_at"], minutes, is_rewind(t))}
-    start = start or citation_start(turns)
-    win = [t for t in base if start and t["reply_at"] >= start and has_citation_key(t)]
-    cited = [t for t in win if not no_citation(t)]
-    uncited = [t for t in win if no_citation(t)]
-    return {"minutes": minutes, "all": rate(len(hit), len(base)),
-            "co_trich_dan": rate(sum(t["id"] in hit for t in cited), len(cited)),
-            "khong_trich_dan": rate(sum(t["id"] in hit for t in uncited), len(uncited))}
-
-
-def m2_link_use(turns, seeks, minutes=LINK_MIN, start=None):
-    start = start or citation_start(turns)
-    cited = [t for t in ta_turns(turns) if start and t["reply_at"] >= start and has_citation_key(t) and not no_citation(t)]
-    x = sum(seek_after(seeks, t["hv"], t["reply_at"], minutes, is_citation_click(t)) for t in cited)
-    res = rate(x, len(cited))
-    links = [(hv, s) for hv, ss in seeks.items() for s in ss if s["by"] == "link"]
-    after = sum(any(t["hv"] == hv and t["reply_at"] < s["t"] <= t["reply_at"] + timedelta(minutes=minutes)
-                    and is_citation_click(t)(s) for t in cited) for hv, s in links)
-    res.update({"minutes": minutes, "link_seeks_total": len(links),
-                "link_seeks_after_cited_reply": rate_text(after, len(links))})
-    return res
-
-
-def cited_seconds(t):
-    """{video: [giây được trích]} từ moc_trich_dan; '@giây' thuộc video đang hỏi."""
-    out = defaultdict(list)
-    for m in (t["reply"] or {}).get("moc_trich_dan") or []:
-        path, _, sec = m.partition("@")
-        try:
-            out[video_stem(path) if path else t["video"]].append(float(sec))
-        except ValueError:
-            pass
-    return out
-
-
-def m2_citation_use(turns, seeks, minutes=LINK_MIN, tolerance_s=15, start=None):
-    """Phân tích thêm sau khi xem M2/M3 (không đăng ký trước): học viên có dùng mốc không, tính cả khi
-    tự tua (by = player) tới đúng giây được trích (± tolerance_s) chứ không chỉ bấm link."""
-    start = start or citation_start(turns)
-    cited = [t for t in ta_turns(turns) if start and t["reply_at"] >= start and has_citation_key(t) and not no_citation(t)]
-
-    def to_cited(t):
-        secs = cited_seconds(t)
-        return lambda s: s["by"] == "player" and any(abs(s["to"] - v) <= tolerance_s for v in secs.get(s["video"], ()))
-
-    link = {t["id"] for t in cited if seek_after(seeks, t["hv"], t["reply_at"], minutes, is_citation_click(t))}
-    player = {t["id"] for t in cited if seek_after(seeks, t["hv"], t["reply_at"], minutes, to_cited(t))}
-    return {"minutes": minutes, "tolerance_s": tolerance_s, "link": rate(len(link), len(cited)),
-            "player_to_cited_second": rate(len(player), len(cited)), "either": rate(len(link | player), len(cited))}
 
 
 def m8_verdict_reply_kind(turns, sent):
@@ -289,7 +195,7 @@ def m5_follow_up(turns, minutes=FOLLOW_UP_MIN):
     return res
 
 
-# ---------- M4, M6, M7 ----------
+# ---------- M4, M7, M8 ----------
 def data_days(turns):
     times = [t["asked_at"] for t in turns if t["asked_at"]]
     return day_span(min(times), max(times)) if times else 0
@@ -300,16 +206,6 @@ def m4_missing_context(turns, days=None):
     is_x = lambda t: t["reply"]["missing_context"] is True  # noqa: E731
     res = rate(sum(1 for t in rows if is_x(t)), len(rows))
     res.update(people_stats(rows, is_x, days if days is not None else data_days(turns)))
-    return res
-
-
-def m6_off_lesson(answers, turns, days=None):
-    ta = {t["id"]: t for t in ta_turns(turns)}
-    rows = [a for a in answers if a.get("nguon") == "chat" and a.get("trang_thai_cham") == "da_cham" and a.get("ref") in ta]
-    off = {a["ref"] for a in rows if a.get("rubric_bam_bai") == "0"}
-    res = rate(sum(1 for a in rows if a.get("rubric_bam_bai") == "0"), len(rows))
-    res.update(people_stats([ta[a["ref"]] for a in rows], lambda t: t["id"] in off,
-                            days if days is not None else data_days(turns)))
     return res
 
 
@@ -384,7 +280,7 @@ def personas(turns, days=None, gap_minutes=SESSION_GAP_MIN):
     return out
 
 
-# ---------- phân rã cho bộ câu thử (evidence/benchmark-inputs.md) ----------
+# ---------- dữ liệu cho bộ câu thử (evidence/data-mining.md mục 7) ----------
 LENGTH_BUCKETS = ((20, "1-20"), (60, "21-60"), (150, "61-150"))
 
 
@@ -398,15 +294,10 @@ def length_bucket(n):
 
 
 def breakdowns(turns):
-    """Lượt trợ giảng theo ngày học, video hỏi nhiều nhất, và theo độ dài câu hỏi (kèm tỉ lệ M4, M1)."""
-    ta = ta_turns(turns)
-    by_day, by_len, videos = defaultdict(list), defaultdict(list), defaultdict(int)
-    for t in ta:
-        day = "Day" + t["video"][1:3] if t["video"][:1] == "d" else "?"
-        by_day[day].append(t)
+    """Lượt trợ giảng theo độ dài câu hỏi, kèm tỉ lệ M4 (thiếu ngữ cảnh) và M1 (không có mốc) — dữ liệu cho bộ câu thử."""
+    by_len = defaultdict(list)
+    for t in ta_turns(turns):
         by_len[length_bucket(t["q_len"])].append(t)
-        if t["video"]:
-            videos[t["video"]] += 1
 
     def stats(rows):
         mc = [t for t in rows if t["reply"] and "missing_context" in t["reply"]]
@@ -415,9 +306,7 @@ def breakdowns(turns):
                 "no_citation": rate(sum(no_citation(t) for t in cit), len(cit))}
 
     order = [name for _, name in LENGTH_BUCKETS] + [">150", "?"]
-    return {"by_day": {d: stats(r) for d, r in sorted(by_day.items())},
-            "by_length": {b: stats(by_len[b]) for b in order if by_len.get(b)},
-            "top_videos": sorted(videos.items(), key=lambda kv: (-kv[1], kv[0]))[:5]}
+    return {"by_length": {b: stats(by_len[b]) for b in order if by_len.get(b)}}
 
 
 # ---------- ví dụ cụ thể (mục 4 của data-mining.md) ----------
@@ -429,35 +318,23 @@ def _example(kind, t, **extra):
     return e
 
 
-def examples(turns, seeks, answers, per_kind=2):
-    """Lấy per_kind lượt sớm nhất cho mỗi kiểu — tất định, ai chạy lại cũng ra cùng mã."""
+def examples(turns, per_kind=2):
+    """Lấy per_kind lượt sớm nhất cho mỗi kiểu (M1, M4, M5) — tất định, ai chạy lại cũng ra cùng mã."""
     start = citation_start(turns)
     ta = ta_turns(turns)
     win = [t for t in ta if start and t["reply_at"] >= start and has_citation_key(t)]
-    cited = [t for t in win if not no_citation(t)]
     video_q = {t["id"] for t in ta if t["channel"] == VIDEO_Q and t["video"]}
     by_key = defaultdict(list)
     for t in ta:
         by_key[(t["hv"], t["video"])].append(t["asked_at"])
-    off = {a["ref"] for a in answers if a.get("nguon") == "chat" and a.get("trang_thai_cham") == "da_cham"
-           and a.get("rubric_bam_bai") == "0"}
     kinds = [
         ("khong_trich_dan", [t for t in win if no_citation(t)], lambda t: {"moc": []}),
-        ("co_trich_dan_bam_link",
-         [t for t in cited if seek_after(seeks, t["hv"], t["reply_at"], LINK_MIN, is_citation_click(t))],
-         lambda t: {"moc": t["reply"]["moc_trich_dan"],
-                    "link_den": (lambda s: {"video": s["video"], "giay": s["to"]})(
-                        first_seek_after(seeks, t["hv"], t["reply_at"], LINK_MIN, is_citation_click(t)))}),
-        ("co_trich_dan_tua_lui",
-         [t for t in cited if t["id"] in video_q and seek_after(seeks, t["hv"], t["reply_at"], REWIND_MIN, is_rewind(t))],
-         lambda t: {"moc": t["reply"]["moc_trich_dan"]}),
         ("thieu_ngu_canh", [t for t in ta if t["reply"] and t["reply"].get("missing_context") is True],
          lambda t: {"missing_context": True}),
         ("hoi_tiep_5_phut",
          [t for t in ta if t["id"] in video_q and any(
              t["created_at"] < a <= t["created_at"] + timedelta(minutes=FOLLOW_UP_MIN) for a in by_key[(t["hv"], t["video"])])],
          lambda t: {}),
-        ("khong_bam_bai", [t for t in ta if t["id"] in off], lambda t: {"rubric_bam_bai": 0}),
     ]
     out = []
     for kind, rows, extra in kinds:
@@ -470,7 +347,6 @@ def examples(turns, seeks, answers, per_kind=2):
 def compute(folder):
     learners = read_csv(os.path.join(folder, "learners.csv"))
     chats = read_csv(os.path.join(folder, "chat.csv"))
-    answers = read_csv(os.path.join(folder, "answers.csv"), keep=lambda r: r["nguon"] == "chat")
     active, first, last, events, sent = set(), None, None, [], {}
     with open(os.path.join(folder, "events.csv"), encoding="utf-8-sig", newline="") as f:
         for r in csv.DictReader(f):
@@ -483,7 +359,6 @@ def compute(folder):
             elif r["type"] == "chat_sent" and r["ref_id"]:
                 sent[r["ref_id"]] = json.loads(r["data"]) if r["data"] else {}
     turns = build_turns(chats, events)
-    seeks = seeks_by_hv(events)
     ta = ta_turns(turns)
     return {
         "data": {"folder": os.path.relpath(folder, ROOT), "first_event_utc": first, "last_event_utc": last},
@@ -494,21 +369,15 @@ def compute(folder):
         "luot_tro_giang": rate(len(ta), len(turns)),
         "M1_khong_moc_trich_dan": m1_no_citation(turns),
         "M1_do_nhay_bo_thieu_ngu_canh": m1_no_citation(turns, exclude_missing_context=True),
-        "M2_bam_link_sau_tra_loi": m2_link_use(turns, seeks),
-        "M2b_dung_moc_link_hoac_tua_toi_moc": m2_citation_use(turns, seeks),
-        "M2_do_nhay_30_phut": m2_link_use(turns, seeks, minutes=30),
-        "M3_tua_lui_sau_tra_loi": m3_rewind(turns, seeks),
-        "M3_do_nhay": {"2_phut": m3_rewind(turns, seeks, minutes=2), "10_phut": m3_rewind(turns, seeks, minutes=10)},
         "M4_thieu_ngu_canh": m4_missing_context(turns),
         "M5_hoi_tiep_5_phut": m5_follow_up(turns),
         "M5_do_nhay": {"2_phut": m5_follow_up(turns, minutes=2), "10_phut": m5_follow_up(turns, minutes=10)},
-        "M6_khong_bam_bai": m6_off_lesson(answers, turns),
         "M7_do_tre": m7_latency(turns),
         "M8_verdict_reply_kind": m8_verdict_reply_kind(turns, sent),
         "V_khoi_luong": volume(turns),
         "V3_persona": personas(turns),
         "phan_ra": breakdowns(turns),
-        "vi_du": examples(turns, seeks, answers),
+        "vi_du": examples(turns),
     }
 
 
@@ -521,14 +390,9 @@ def print_report(r):
         ("M1 lượt trợ giảng không có mốc trích dẫn (%s → %s)" % (m1["window_start"], m1["window_end"]), m1["text"]),
         ("M1 khoảng chặn nếu tính cả %d lượt không ghi khoá" % m1["u"], "%s … %s" % (m1["bound_low"], m1["bound_high"])),
         ("M1 người gặp ≥1 lần", m1["people"]),
-        ("M2 lượt có mốc → bấm link trong %d phút" % r["M2_bam_link_sau_tra_loi"]["minutes"], r["M2_bam_link_sau_tra_loi"]["text"]),
-        ("M3 lượt hỏi dưới video → tua lùi trong 5 phút", r["M3_tua_lui_sau_tra_loi"]["all"]["text"]),
-        ("M3   … khi có mốc trích dẫn", r["M3_tua_lui_sau_tra_loi"]["co_trich_dan"]["text"]),
-        ("M3   … khi không có mốc trích dẫn", r["M3_tua_lui_sau_tra_loi"]["khong_trich_dan"]["text"]),
         ("M4 lượt trợ giảng thiếu ngữ cảnh", r["M4_thieu_ngu_canh"]["text"]),
         ("M4 người gặp ≥1 lần", r["M4_thieu_ngu_canh"]["people"]),
         ("M5 lượt hỏi dưới video → hỏi tiếp trong 5 phút", r["M5_hoi_tiep_5_phut"]["text"]),
-        ("M6 câu hỏi trợ giảng chấm 'không bám bài'", r["M6_khong_bam_bai"]["text"]),
         ("M7 độ trễ trung vị / p90 (ms)", "%s / %s" % (r["M7_do_tre"]["median_ms"], r["M7_do_tre"]["p90_ms"])),
         ("M7 lượt chờ > 10 giây", r["M7_do_tre"]["over_10s"]["text"]),
     ]

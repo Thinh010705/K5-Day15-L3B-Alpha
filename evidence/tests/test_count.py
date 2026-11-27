@@ -23,11 +23,6 @@ def replied(cid, hv="L1", day=13, hh=10, mm=0, **data):
             "data": json.dumps(data), "occurred_at": ts(day, hh, mm, 5)}
 
 
-def seek(hv="L1", day=13, hh=10, mm=1, video="d01-r1-v01", by="player", frm=100, to=50):
-    return {"hv": hv, "actor": "learner", "type": "video_seeked", "video": video, "ref_id": "",
-            "data": json.dumps({"by": by, "from": frm, "to": to, "crossed_stop": False}), "occurred_at": ts(day, hh, mm, 30)}
-
-
 class HelpersTest(unittest.TestCase):
     def test_video_stem_from_transcript_path(self):
         self.assertEqual(count.video_stem("Day01/d01-r1-v05.txt"), "d01-r1-v05")
@@ -80,50 +75,6 @@ class CitationTest(unittest.TestCase):
 
 
 class BehaviourAfterReplyTest(unittest.TestCase):
-    def setUp(self):
-        self.chats = [chat("C1", day=13, hh=10, mm=0)]
-
-    def m3(self, *seeks, cite=None):
-        ev = [replied("C1", day=13, moc_trich_dan=cite if cite is not None else [])] + list(seeks)
-        t = count.build_turns(self.chats, ev)
-        return count.m3_rewind(t, count.seeks_by_hv(ev))
-
-    def test_backward_seek_same_video_within_5_minutes_counts(self):
-        self.assertEqual(self.m3(seek(mm=3))["all"]["x"], 1)
-
-    def test_forward_seek_does_not_count(self):
-        self.assertEqual(self.m3(seek(mm=3, frm=10, to=90))["all"]["x"], 0)
-
-    def test_seek_in_other_video_does_not_count(self):
-        self.assertEqual(self.m3(seek(mm=3, video="d02-r1-v01"))["all"]["x"], 0)
-
-    def test_seek_after_window_does_not_count(self):
-        self.assertEqual(self.m3(seek(mm=6))["all"]["x"], 0)
-
-    def test_link_seek_is_not_a_rewind(self):
-        self.assertEqual(self.m3(seek(mm=3, by="link"))["all"]["x"], 0)
-
-    def test_rewind_split_by_citation(self):
-        m = self.m3(seek(mm=3), cite=["@5"])
-        self.assertEqual((m["co_trich_dan"]["x"], m["khong_trich_dan"]["n"]), (1, 0))
-
-    def test_link_seek_after_cited_reply_counts_for_m2(self):
-        ev = [replied("C1", day=13, moc_trich_dan=["@5"]), seek(mm=8, by="link", frm=0, to=5)]
-        t = count.build_turns(self.chats, ev)
-        m = count.m2_link_use(t, count.seeks_by_hv(ev), minutes=10)
-        self.assertEqual((m["x"], m["n"]), (1, 1))
-
-    def test_link_seek_to_uncited_video_does_not_count_for_m2(self):
-        ev = [replied("C1", day=13, moc_trich_dan=["Day01/d01-r1-v04.txt@31"]),
-              seek(mm=8, by="link", video="d01-r1-v01", frm=0, to=122)]
-        t = count.build_turns(self.chats, ev)
-        self.assertEqual(count.m2_link_use(t, count.seeks_by_hv(ev), minutes=10)["x"], 0)
-
-    def test_link_seek_to_cited_other_video_counts_for_m2(self):
-        ev = [replied("C1", day=13, moc_trich_dan=["Day01/d01-r1-v04.txt@31"]),
-              seek(mm=8, by="link", video="d01-r1-v04", frm=0, to=31)]
-        t = count.build_turns(self.chats, ev)
-        self.assertEqual(count.m2_link_use(t, count.seeks_by_hv(ev), minutes=10)["x"], 1)
 
     def test_follow_up_question_same_video_within_5_minutes(self):
         chats = [chat("C1", mm=0), chat("C2", mm=3), chat("C3", mm=4, video="Day02/d02-r1-v01.txt")]
@@ -137,15 +88,6 @@ class OtherMetricsTest(unittest.TestCase):
         chats = [chat("C1"), chat("C2", hh=11), chat("C3", hh=12)]
         ev = [replied("C1", missing_context=True), replied("C2", hh=11, missing_context=False), replied("C3", hh=12)]
         m = count.m4_missing_context(count.build_turns(chats, ev))
-        self.assertEqual((m["x"], m["n"]), (1, 2))
-
-    def test_off_lesson_rubric_zero_among_graded_ta_questions(self):
-        t = count.build_turns([chat("C1"), chat("C2", hh=11), chat("C3", hh=12, agent="classmate_clown")], [])
-        answers = [{"nguon": "chat", "ref": "C1", "trang_thai_cham": "da_cham", "rubric_bam_bai": "0"},
-                   {"nguon": "chat", "ref": "C2", "trang_thai_cham": "da_cham", "rubric_bam_bai": "2"},
-                   {"nguon": "chat", "ref": "C3", "trang_thai_cham": "da_cham", "rubric_bam_bai": "0"},
-                   {"nguon": "chat", "ref": "C1", "trang_thai_cham": "bo_qua", "rubric_bam_bai": ""}]
-        m = count.m6_off_lesson(answers, t)
         self.assertEqual((m["x"], m["n"]), (1, 2))
 
     def test_latency_ignores_cached(self):
@@ -165,27 +107,24 @@ class OtherMetricsTest(unittest.TestCase):
 
 class ExamplesTest(unittest.TestCase):
     def test_examples_pick_earliest_row_of_each_kind(self):
-        chats = [chat("C9", day=13, hh=9), chat("C2", day=13, hh=10), chat("C3", day=13, hh=11), chat("C4", day=12)]
+        chats = [chat("C9", day=13, hh=9), chat("C2", day=13, hh=10), chat("C3", day=13, hh=10, mm=3), chat("C4", day=12)]
         ev = [replied("C9", day=13, hh=9, moc_trich_dan=[], missing_context=False),
               replied("C2", day=13, hh=10, moc_trich_dan=[], missing_context=True),
-              replied("C3", day=13, hh=11, moc_trich_dan=["Day01/d01-r1-v01.txt@40"], missing_context=False),
-              replied("C4", day=12, missing_context=False),
-              seek(day=13, hh=11, mm=2, by="link", frm=0, to=40)]
-        t = count.build_turns(chats, ev)
+              replied("C3", day=13, hh=10, mm=3, moc_trich_dan=["@40"], missing_context=False),
+              replied("C4", day=12, missing_context=False)]
         ex = {}
-        for e in count.examples(t, count.seeks_by_hv(ev), []):
+        for e in count.examples(count.build_turns(chats, ev)):
             ex.setdefault(e["kind"], e)  # ví dụ sớm nhất của mỗi kiểu
         self.assertEqual(ex["khong_trich_dan"]["chat_id"], "C9")
         self.assertEqual(ex["thieu_ngu_canh"]["chat_id"], "C2")
-        self.assertEqual(ex["co_trich_dan_bam_link"]["chat_id"], "C3")
-        self.assertEqual(ex["co_trich_dan_bam_link"]["moc"], ["Day01/d01-r1-v01.txt@40"])
-        self.assertEqual(ex["co_trich_dan_bam_link"]["link_den"], {"video": "d01-r1-v01", "giay": 40})
+        self.assertEqual(ex["hoi_tiep_5_phut"]["chat_id"], "C2")   # C3 hỏi tiếp cùng video sau 3 phút
+        self.assertEqual(set(ex), {"khong_trich_dan", "thieu_ngu_canh", "hoi_tiep_5_phut"})
         self.assertNotIn("hv", ex["khong_trich_dan"])  # không đưa mã học viên ra ví dụ
 
     def test_examples_limit_per_kind(self):
         chats = [chat("C%d" % i, day=13, hh=i) for i in range(1, 6)]
         ev = [replied("C%d" % i, day=13, hh=i, moc_trich_dan=[]) for i in range(1, 6)]
-        ex = count.examples(count.build_turns(chats, ev), {}, [], per_kind=2)
+        ex = count.examples(count.build_turns(chats, ev), per_kind=2)
         self.assertEqual([e["chat_id"] for e in ex if e["kind"] == "khong_trich_dan"], ["C1", "C2"])
 
 
@@ -194,7 +133,7 @@ class BreakdownTest(unittest.TestCase):
         self.assertEqual([count.length_bucket(n) for n in (None, 1, 20, 21, 60, 61, 150, 151)],
                          ["?", "1-20", "1-20", "21-60", "21-60", "61-150", "61-150", ">150"])
 
-    def test_breakdown_by_day_and_length(self):
+    def test_breakdown_by_length(self):
         chats = [chat("C1", video="Day01/d01-r1-v01.txt"), chat("C2", hh=11, video="Day01/d01-r1-v02.txt"),
                  chat("C3", hh=12, video="Day04/d04-r1-v01.txt")]
         for c, n in zip(chats, ("10", "30", "200")):
@@ -202,10 +141,11 @@ class BreakdownTest(unittest.TestCase):
         ev = [replied("C1", missing_context=True, moc_trich_dan=[]), replied("C2", hh=11, missing_context=False, moc_trich_dan=["@1"]),
               replied("C3", hh=12, missing_context=False)]
         b = count.breakdowns(count.build_turns(chats, ev))
-        self.assertEqual(b["by_day"]["Day01"]["n"], 2)
+        self.assertEqual(set(b), {"by_length"})
         self.assertEqual(b["by_length"]["1-20"]["missing_context"]["text"], "1/1 (100.0%)")
         self.assertEqual(b["by_length"]["1-20"]["no_citation"]["text"], "1/1 (100.0%)")
-        self.assertEqual(b["top_videos"][0], ("d01-r1-v01", 1))
+        self.assertEqual(b["by_length"][">150"]["n"], 1)
+
 
 
 class PersonaTest(unittest.TestCase):
@@ -241,16 +181,6 @@ class AuditTest(unittest.TestCase):
               replied("C3", hh=12, moc_trich_dan=["@1"], missing_context=False)]
         m = count.m1_no_citation(count.build_turns(chats, ev), exclude_missing_context=True)
         self.assertEqual((m["x"], m["n"]), (1, 2))
-
-    def test_citation_use_counts_link_or_player_seek_to_cited_second(self):
-        chats = [chat("C1"), chat("C2", hh=11), chat("C3", hh=12)]
-        ev = [replied("C1", moc_trich_dan=["@40"]), replied("C2", hh=11, moc_trich_dan=["@40"]),
-              replied("C3", hh=12, moc_trich_dan=["Day01/d01-r1-v01.txt@40"]),
-              seek(hh=10, mm=2, by="player", frm=100, to=45),     # C1: tua tới gần giây 40 (±15) → có dùng
-              seek(hh=11, mm=2, by="player", frm=100, to=90),     # C2: tua tới giây 90 → không
-              seek(hh=12, mm=2, by="link", frm=0, to=40)]         # C3: bấm link vào mốc → có dùng
-        m = count.m2_citation_use(count.build_turns(chats, ev), count.seeks_by_hv(ev), minutes=10, tolerance_s=15)
-        self.assertEqual((m["link"]["x"], m["player_to_cited_second"]["x"], m["either"]["x"], m["either"]["n"]), (1, 1, 2, 3))
 
     def test_verdict_and_reply_kind_context(self):
         chats = [chat("C1", channel="video_discussion_reply"), chat("C2", hh=11)]

@@ -13,11 +13,12 @@ users:              # số người dùng thật nếu đưa vào dùng — 3 k�
   low: 144
   base: 436
   high: 721
-  source: "data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2): thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1); cao = 721 tài khoản (P0). Giả định cơ sở / cao: mọi người dùng hỏi với tần suất như người đang hỏi (tự ước tính)"
+  source: "data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2): thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1); cao = 721 tài khoản (P0). Kế hoạch CP4: TV1 chốt quy mô người dùng"
 
 personas:           # ≥3 kiểu người dùng; share cộng lại = 1
   # Chia 144 người hỏi trợ giảng theo số phiên hỏi / 21 ngày (một phiên = các lượt cách nhau ≤ 30 phút).
   # Số từ python evidence/count.py → khoá V3_persona; uses_per_month = số phiên TB × 30/21 (ngoại suy).
+  # Kế hoạch CP4: TV1 xác định ba persona, TV2 xác định tần suất sử dụng — tên persona giữ theo khung, số là tần suất từ data.
   - name: dung_it
     share: 0.521             # 75/144 người — 1 phiên trong 21 ngày
     uses_per_month: 1.4      # 1 phiên / 21 ngày × 30/21
