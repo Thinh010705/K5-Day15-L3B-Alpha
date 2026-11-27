@@ -12,9 +12,9 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 | Chọn model | Claude Code (Claude Opus 5.5) | Lấy danh sách model free từ API công khai OpenRouter, đề xuất model hỗ trợ JSON; đổi sang `nvidia/nemotron-3-ultra-550b-a55b:free` khi `google/gemma-4-31b-it:free` bị giới hạn lượt (429) | TV3 tạo key, nạp tiền, quyết định dùng OpenRouter | Cao Minh Quang (TV3) |
 | Đào data (viết script đếm, gợi ý nhãn) | Claude Code (Claude Opus 5.5) | Soạn cách đếm ở `evidence/data-mining.md` §1 theo giả thuyết nhóm đã chốt; viết `evidence/prepare_data.py`, `evidence/count.py` và test (`evidence/tests/`); chạy đếm, kiểm chéo M1, M4 bằng một cách đếm độc lập (khớp 2/2) | TV2 đọc lại cách đếm + script trước khi dùng số; kiểm tay __ dòng, khớp __ *(TV2 điền sau khi kiểm)* | Hoàng Minh Quyền (TV2) |
 | Rà câu hỏi phỏng vấn / khảo sát | | Chỉ rà câu dẫn dắt | | |
-| Viết câu thử (benchmark) | | | Mỗi câu thử có `source`; câu thử AI viết được ghi rõ | |
+| Viết câu thử (benchmark) | Codex (OpenAI) | Soạn B21–B30 từ kho đoạn đã đối chiếu với slide, ghi trang PDF trong `source`, kiểm tra đủ mã nguồn sau tra cứu | Cần TV4 đọc lại câu, đáp án và tiêu chí trước khi chấm Run 1 | TV4 |
 | Sinh data `synthetic` (nếu có) | | | Seed __ · kiểm tay __ dòng | |
-| Chấm cột `pass` bằng LLM (nếu có) | | | Kiểm tra thủ công __ câu thử, khớp __/__ | |
+| Chấm cột `pass` bằng LLM | Codex (OpenAI) | Đọc 30 đầu ra Run 1 theo tiêu chí CP2, ghi `pass` và `ghi_chu`, dùng lệnh `score` để tổng hợp | Đang chờ người chấm thứ hai đối chiếu | TV4 |
 | Slide, văn bản | | | | |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).
