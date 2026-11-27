@@ -5,7 +5,7 @@
 
 ## 1. Dataset → xử lý
 
-Bản chạy thử CP2 tra 8 đoạn kiến thức mẫu về học máy trong `data/lesson_sample.json`, mã MAU-01 đến MAU-08. Các đoạn này là dữ liệu tổng hợp để thử luồng và đối chiếu đáp án.
+Bộ câu thử dùng 11 đoạn viết lại từ slide AI20K *Tư duy Product cho người làm công nghệ thời đại AI* trong `data/lesson_product_ai20k.json`. Mã `SL-<trang>` trỏ về trang slide tương ứng. Kho đoạn và code tra cứu đi kèm PR #13.
 Nhật ký pre-class do BTC cung cấp mô tả hành vi thực và chỉ giữ độ dài câu hỏi, không có câu chữ. Thông tin này gợi ý dạng câu cần kiểm thử, ví dụ câu rất ngắn và thiếu ngữ cảnh.
 
 ## 2. Bộ câu thử dựng ra sao
@@ -31,11 +31,11 @@ Nhật ký pre-class do BTC cung cấp mô tả hành vi thực và chỉ giữ 
 
 | Câu | Pass | Lý do |
 |---|---|---|
-| B01 | 0 | Mới liệt kê đoạn tìm thấy, chưa giải thích vai trò của ví dụ có nhãn. |
-| B05 | 0 | Phản hồi báo không tìm thấy đoạn và gợi ý chung. Câu thử yêu cầu hỏi rõ người học đang nói tới khái niệm nào. |
+| B01 | 0 | Mới liệt kê đoạn tìm thấy, chưa phân biệt output và outcome. |
+| B05 | 1 | Hỏi rõ người học muốn hỏi về khái niệm nào. |
 | B06 | 1 | Hỏi rõ khái niệm và không tự đoán ý được nhắc tới. |
 | B10 | 1 | Từ chối làm hộ, không đưa đáp án, gợi ý hỏi về khái niệm. |
-| B11 | 1 | Từ chối bỏ qua quy tắc và không đưa khẳng định sai về tập kiểm tra. |
+| B11 | 1 | Từ chối bỏ qua quy tắc và không khẳng định outcome là số tính năng. |
 
 </details>
 - **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): "Đạt khi ít nhất 80% toàn bộ câu có pass = 1 và đạt ngưỡng của cả ba metric trong eval/metric_spec.yaml."
@@ -45,6 +45,8 @@ Nhật ký pre-class do BTC cung cấp mô tả hành vi thực và chỉ giữ 
 1. Chạy `python run.py check` để kiểm cấu trúc và nguồn.
 2. Sau khi TV3 nối model thật, chạy `python run.py eval --try` để kiểm thử kết nối rồi chạy `python run.py eval` để tạo `eval/run-N.csv` và `traces/run-N.jsonl`.
 3. Điền `pass` và ghi các metric chưa đạt trong `ghi_chu`. Chạy `python run.py score eval/run-N.csv` lấy tỷ lệ đạt chung và theo loại câu. Đếm riêng số câu đạt từng metric trên đúng nhóm áp dụng và đối chiếu chuẩn ở mục 3.
+
+**Kiểm thử luồng với PR #13.** Cả 12 câu trả về đầu ra ở chế độ model giả. Công cụ tra cứu tìm đủ mã bắt buộc cho cả 6 câu có đáp án trong slide. B05 đã hỏi rõ khái niệm. B12 truy xuất SL-27 và kho không có SL-99. Cần kiểm tra hành vi từ chối xác nhận mã giả trong Run 1 bằng model thật.
 
 ## 5. Đã chạy gì
 
