@@ -32,7 +32,7 @@
 |---|---|
 | Dùng để làm gì | nguồn cho công cụ `search_lesson` / `get_passage` của bản chạy thử; mã đoạn dùng để chấm metric trích dẫn đúng |
 | Từ đâu | Slide AI20K · VinUni *Tư duy Product cho người làm công nghệ thời đại AI*, PDF `VinUni_TuDuyProduct_DS_FDE_v3.pdf` do thành viên nhóm cung cấp, giữ cục bộ tại `data-btc/lesson-source/` (Git bỏ qua) |
-| Xử lý những bước gì | TV3 đọc các trang 6, 10–11, 16–19, 22–23, 27, 30; viết lại từng ý ngắn bằng tiếng Việt; lưu `data/lesson_product_ai20k.json` với mã `SL-<số trang PDF>`, tiêu đề, từ khóa và trang để đối chiếu. Cần người trong nhóm kiểm lại từng đoạn với PDF trước khi nộp |
+| Xử lý những bước gì | TV3 đọc các trang 6, 10–11, 16–19, 22–23, 27, 30; viết lại từng ý ngắn bằng tiếng Việt; lưu `data/lesson_product_ai20k.json` với mã `SL-<số trang PDF>`, tiêu đề, từ khóa và trang để đối chiếu. **Kiểm 27/11:** so từng đoạn với chữ trích từ trang PDF tương ứng — 11/11 khớp ý chính; sửa câu chữ SL-19 và tiêu đề SL-30 cho sát slide (`spec.md` §10) |
 | Số dòng / số đoạn | 11 đoạn từ 11 trang trong PDF 32 trang |
 | Phiên bản / ngày lấy | file nhóm cung cấp ngày 27/11/2026; bản đoạn CP3 ngày 27/11/2026 |
 | Nhãn | nội dung viết lại từ slide thật của khóa; không phải dữ liệu synthetic hay transcript video |
