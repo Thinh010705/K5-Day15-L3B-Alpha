@@ -10,7 +10,7 @@
 |---|---|---|
 | Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | ☑ — M1 231/576 (40,1%), cách đếm ghi trước, script + 29 test, 6 ví dụ | `evidence/data-mining.md` · `evidence/count.py` · `evidence/citation_check.py` |
 | Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ◐ — 3 người (P1–P3), mỗi người 1 file, cả 3 đã dùng trợ giảng dưới video trong tháng qua. Đạt khi đầu mỗi file ghi vai, ngày giờ, người hỏi và xác nhận người ngoài nhóm: [CẦN ĐIỀN] | `evidence/interviews/P1.md` · `P2.md` · `P3.md` |
-| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ◐ — 22 phiếu, **20/22** dùng trợ giảng dưới video trong 30 ngày qua (vừa đủ 20). Đạt khi xác nhận cả 20 người là người ngoài nhóm: [CẦN XÁC NHẬN] | `evidence/survey/questions.md` · `results.csv` · `tally.py` |
+| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ☑ — 22 phiếu, **20/22** dùng trợ giảng dưới video trong 30 ngày qua (vừa đủ 20), tất cả là người ngoài nhóm. Gửi qua Discord AI20K, chốt 22:34 ngày 27/11 | `evidence/survey/questions.md` · `results.csv` · `tally.py` |
 
 Nguồn chính: **đào data**. Nguồn kiểm lại: **khảo sát** (gặp bao nhiêu, mất bao lâu, xoay xở bằng gì) và **phỏng vấn P1–P3** (vì sao, kể một lần cụ thể).
 
@@ -111,7 +111,7 @@ Giả thuyết ở `evidence/hypothesis.md`: **đúng** theo cả hai tiêu chí
 - Tiêu chí data (≥20% phản hồi không có `moc_trich_dan`): **đạt** — 231/576 (40,1%); độ nhạy 194/538 (36,1%).
 - Tiêu chí phỏng vấn (≥2/3 người kể được tình huống cụ thể trong tháng qua): **đạt — 3/3**. P1 chỉ được tính nhờ vế "đi kiểm ở chỗ khác" của quy tắc; không tính P1 thì vẫn 2/3.
 - Phần hậu quả ("phải tua lại, hỏi tiếp hoặc tìm nguồn khác"): data **không** thấy (tỉ lệ hỏi tiếp / tua lùi trong 5 phút không cao hơn khi thiếu mốc), nhưng phỏng vấn cho thấy hậu quả nằm ngoài tầm data: hỏi công cụ khác (P1), bỏ qua rồi quay lại muộn (P3). Chỉ P2 tua lại ngay.
-- Khảo sát (n = 20, chờ xác nhận người ngoài nhóm): pain **có thật nhưng không lớn nhất**. 15/20 gặp khó xác định đoạn căn cứ, mỗi lần thường mất 2–10 phút, nhưng chỉ 2/20 coi đó là khó khăn lớn nhất. Vế "tìm nguồn khác" của giả thuyết được ủng hộ: 12/20 dùng công cụ AI khác. Vế "tua lại" thì không: 1/20.
+- Khảo sát (n = 20, người ngoài nhóm): pain **có thật nhưng không lớn nhất**. 15/20 gặp khó xác định đoạn căn cứ, mỗi lần thường mất 2–10 phút, nhưng chỉ 2/20 coi đó là khó khăn lớn nhất. Vế "tìm nguồn khác" của giả thuyết được ủng hộ: 12/20 dùng công cụ AI khác. Vế "tua lại" thì không: 1/20.
 - Khó khăn lớn nhất theo khảo sát là câu trả lời **không giải quyết đúng câu hỏi** (7/20). Đây không phải pain đang chọn. Phỏng vấn cho thấy ý này chủ yếu là trả lời **chung chung**, không phải trả lời sai.
 - Giả thuyết thay thế 4 (thời gian phản hồi): **không được ủng hộ** — M7 trung vị 2,4 s.
 - Giả thuyết thay thế 2 (câu hỏi thiếu ngữ cảnh) có tín hiệu: thiếu mốc trùng với thiếu ngữ cảnh. MVP vẫn giữ bước hỏi lại khi mơ hồ.
