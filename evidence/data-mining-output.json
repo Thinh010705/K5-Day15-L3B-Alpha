@@ -76,6 +76,53 @@
     "per_month_per_affected": 9.18,
     "window_days": 13
   },
+  "M1_do_nhay_bo_thieu_ngu_canh": {
+    "x": 194,
+    "n": 538,
+    "pct": 36.1,
+    "text": "194/538 (36.1%)",
+    "window_start": "2026-11-13",
+    "window_end": "2026-11-25",
+    "u": 7,
+    "bound_low": "194/545 (35.6%)",
+    "bound_high": "201/545 (36.9%)",
+    "hypothesis_threshold_pct": 20.0,
+    "meets_hypothesis": true,
+    "by_channel": {
+      "video_discussion_reply": {
+        "x": 0,
+        "n": 19,
+        "pct": 0.0,
+        "text": "0/19 (0.0%)"
+      },
+      "video_question": {
+        "x": 194,
+        "n": 519,
+        "pct": 37.4,
+        "text": "194/519 (37.4%)"
+      }
+    },
+    "by_cached": {
+      "False": {
+        "x": 189,
+        "n": 523,
+        "pct": 36.1,
+        "text": "189/523 (36.1%)"
+      },
+      "True": {
+        "x": 5,
+        "n": 15,
+        "pct": 33.3,
+        "text": "5/15 (33.3%)"
+      }
+    },
+    "people_x": 51,
+    "people_n": 83,
+    "people": "51/83 (61.4%)",
+    "mean_per_affected": 3.8,
+    "per_month_per_affected": 8.77,
+    "window_days": 13
+  },
   "M2_bam_link_sau_tra_loi": {
     "x": 18,
     "n": 345,
@@ -84,6 +131,28 @@
     "minutes": 10,
     "link_seeks_total": 40,
     "link_seeks_after_cited_reply": "21/40 (52.5%)"
+  },
+  "M2b_dung_moc_link_hoac_tua_toi_moc": {
+    "minutes": 10,
+    "tolerance_s": 15,
+    "link": {
+      "x": 18,
+      "n": 345,
+      "pct": 5.2,
+      "text": "18/345 (5.2%)"
+    },
+    "player_to_cited_second": {
+      "x": 31,
+      "n": 345,
+      "pct": 9.0,
+      "text": "31/345 (9.0%)"
+    },
+    "either": {
+      "x": 46,
+      "n": 345,
+      "pct": 13.3,
+      "text": "46/345 (13.3%)"
+    }
   },
   "M2_do_nhay_30_phut": {
     "x": 19,
@@ -215,6 +284,40 @@
       "n": 1138,
       "pct": 0.1,
       "text": "1/1138 (0.1%)"
+    }
+  },
+  "M8_verdict_reply_kind": {
+    "verdict": {
+      "n": 46,
+      "values": {
+        "correct": 25,
+        "incorrect": 2,
+        "partial": 19
+      },
+      "agents": {
+        "teaching_assistant": 46
+      },
+      "tren_khung_thao_luan": "46/46 (100.0%)",
+      "tra_loi_lai_mot_loi_AI": "44/46 (95.7%)"
+    },
+    "reply_kind": {
+      "n": 169,
+      "values": {
+        "answer": 46,
+        "asks_assistant": 6,
+        "asks_classmate": 88,
+        "chats_with_classmate": 19,
+        "needs_explanation": 2,
+        "not_an_answer": 8
+      },
+      "agents": {
+        "classmate_clown": 9,
+        "classmate_deep_thinker": 47,
+        "classmate_inquisitive": 51,
+        "teaching_assistant": 62
+      },
+      "tren_khung_thao_luan": "151/169 (89.3%)",
+      "tra_loi_lai_mot_loi_AI": "144/169 (85.2%)"
     }
   },
   "V_khoi_luong": {
