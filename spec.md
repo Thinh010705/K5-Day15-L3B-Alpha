@@ -163,6 +163,7 @@ flowchart LR
 | CP3 · TV4 | Thêm B21–B30 dựa trực tiếp trên slide | Truy vết về trang đã đối chiếu trong data card |
 | 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
 | 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
+| 27/11 ~21:50 · TV3 (cải tiến lượt 2, nhóm chốt hướng B18) | `codebase/agent.py`: bước chặn trước tra cứu thêm luật câu nhắc lượt trước ("vừa rồi", "ở trên", "giải thích tiếp", "đoạn đó"…) mà ngoài từ nhắc lại không nêu nội dung gì → hỏi lại tên khái niệm hoặc mã đoạn, không gọi model. Không đổi câu thử, metric, chuẩn "đạt" | Nhóm lỗi "tự thu hẹp câu thiếu ngữ cảnh" (B18 trượt ở cả `run-1` và `run-2`): mỗi câu chạy độc lập nên trợ giảng không biết "đoạn vừa rồi" là gì, model tự đoán FDE / Who–What–How. Kiểm không gọi model trên 30 câu: chỉ B18 đổi hướng xử lý; 10 câu ngoài bộ thử: câu có nêu khái niệm vẫn đi tra cứu |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
