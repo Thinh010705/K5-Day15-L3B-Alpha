@@ -98,18 +98,6 @@ Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/20
 - Nhưng khi **có** mốc, học viên hiếm khi bấm (7.2%), và họ tua lùi **nhiều hơn** chứ không ít hơn (12.0% so với 4.3%). Có hai cách đọc cần phỏng vấn để phân biệt: (a) mốc trích dẫn khiến học viên quay lại video để kiểm chứng — tức nhu cầu kiểm chứng có thật; (b) học viên chưa biết / chưa tin cách dùng mốc (giả thuyết thay thế 3).
 - Thời gian chờ không phải vấn đề (trung vị 2,4 s).
 
-## 6. Số đưa sang `spec.md` §2 và `canvas.md` (cho TV1)
-
-| Hướng | N — người gặp (cửa sổ quan sát) | F — lần / người gặp / tháng | T — phút / lần | Nguồn |
-|---|---|---|---|---|
-| A1.1 Source traceability | 58 (trong 86 người nhận trả lời, 13/11–25/11) | ≈ 9.2 *(ngoại suy từ 3.98 lần / 13 ngày)* | **chưa có** — lấy từ phỏng vấn P1–P4 | M1 |
-| A1.2 Ambiguity | 50 (trong 142 người, 05/11–25/11) | ≈ 2.9 *(ngoại suy từ 2.0 lần / 21 ngày)* | **chưa có** | M4 |
-| A1.3 Safe abstention | 104 (trong 143 người, 05/11–25/11) | ≈ 3.3 *(ngoại suy từ 2.34 lần / 21 ngày; nhãn máy chấm)* | **chưa có** | M6 |
-
-- N là số người **trong cửa sổ quan sát**, không phải mỗi tháng; chỉ là học viên khoá này trên trang pre-class (không phải mọi học viên AI20K).
-- Persona (§8): xem V1–V2 — trung vị 4 lượt / người / 21 ngày, trung vị 2 lượt / phiên.
-- Dòng canvas "Bằng chứng đầu" có thể ghi: *"40.1% (231/576) câu trả lời trợ giảng 13–25/11 không có mốc trích dẫn; 58/86 người nhận trả lời gặp ≥1 lần (data pre-class BTC, `evidence/data-mining.md`)"*.
-
 ## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
 
 *(bổ sung ở CP3 — nhánh `feat/data_mining_examples_cp3`)*
@@ -125,3 +113,15 @@ Data cho biết người ta **làm gì**, không cho biết **vì sao**. Thiếu
 - `occurred_at` theo đồng hồ máy học viên, giờ UTC; chỉ là một khoá, một nhóm lớp.
 
 → Kiểm lại bằng phỏng vấn P1–P4 (`PROJECT_EXECUTION_PLAN` §4.3): câu 2 (làm gì để kiểm tra câu trả lời — có bấm mốc không, vì sao), câu 3–4 (lần gần nhất phải tua lại / hỏi lại, mất bao nhiêu phút → **T** cho Impact), câu 5 (mong trợ giảng xử lý thế nào khi không có trong bài).
+
+## 6. Số đưa sang `spec.md` §2 và `canvas.md` (cho TV1)
+
+| Hướng | N — người gặp (cửa sổ quan sát) | F — lần / người gặp / tháng | T — phút / lần | Nguồn |
+|---|---|---|---|---|
+| A1.1 Source traceability | 58 (trong 86 người nhận trả lời, 13/11–25/11) | ≈ 9.2 *(ngoại suy từ 3.98 lần / 13 ngày)* | **chưa có** — lấy từ phỏng vấn P1–P4 | M1 |
+| A1.2 Ambiguity | 50 (trong 142 người, 05/11–25/11) | ≈ 2.9 *(ngoại suy từ 2.0 lần / 21 ngày)* | **chưa có** | M4 |
+| A1.3 Safe abstention | 104 (trong 143 người, 05/11–25/11) | ≈ 3.3 *(ngoại suy từ 2.34 lần / 21 ngày; nhãn máy chấm)* | **chưa có** | M6 |
+
+- N là số người **trong cửa sổ quan sát**, không phải mỗi tháng; chỉ là học viên khoá này trên trang pre-class (không phải mọi học viên AI20K).
+- Persona (§8): xem V1–V2 — trung vị 4 lượt / người / 21 ngày, trung vị 2 lượt / phiên.
+- Dòng canvas "Bằng chứng đầu" có thể ghi: *"40.1% (231/576) câu trả lời trợ giảng 13–25/11 không có mốc trích dẫn; 58/86 người nhận trả lời gặp ≥1 lần (data pre-class BTC, `evidence/data-mining.md`)"*.
