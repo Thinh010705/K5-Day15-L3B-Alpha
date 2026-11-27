@@ -274,6 +274,42 @@ def volume(turns, gap_minutes=SESSION_GAP_MIN):
             "days": days, "per_month_factor": round(30.0 / days, 3) if days else None}
 
 
+# ---------- phân rã cho bộ câu thử (evidence/benchmark-inputs.md) ----------
+LENGTH_BUCKETS = ((20, "1-20"), (60, "21-60"), (150, "61-150"))
+
+
+def length_bucket(n):
+    if n is None:
+        return "?"
+    for top, name in LENGTH_BUCKETS:
+        if n <= top:
+            return name
+    return ">150"
+
+
+def breakdowns(turns):
+    """Lượt trợ giảng theo ngày học, video hỏi nhiều nhất, và theo độ dài câu hỏi (kèm tỉ lệ M4, M1)."""
+    ta = ta_turns(turns)
+    by_day, by_len, videos = defaultdict(list), defaultdict(list), defaultdict(int)
+    for t in ta:
+        day = "Day" + t["video"][1:3] if t["video"][:1] == "d" else "?"
+        by_day[day].append(t)
+        by_len[length_bucket(t["q_len"])].append(t)
+        if t["video"]:
+            videos[t["video"]] += 1
+
+    def stats(rows):
+        mc = [t for t in rows if t["reply"] and "missing_context" in t["reply"]]
+        cit = [t for t in rows if has_citation_key(t)]
+        return {"n": len(rows), "missing_context": rate(sum(t["reply"]["missing_context"] is True for t in mc), len(mc)),
+                "no_citation": rate(sum(no_citation(t) for t in cit), len(cit))}
+
+    order = [name for _, name in LENGTH_BUCKETS] + [">150", "?"]
+    return {"by_day": {d: stats(r) for d, r in sorted(by_day.items())},
+            "by_length": {b: stats(by_len[b]) for b in order if by_len.get(b)},
+            "top_videos": sorted(videos.items(), key=lambda kv: (-kv[1], kv[0]))[:5]}
+
+
 # ---------- ví dụ cụ thể (mục 4 của data-mining.md) ----------
 def _example(kind, t, **extra):
     """Chỉ mã lượt chat (đã ẩn danh), ngày, video, độ dài — KHÔNG đưa mã học viên."""
@@ -353,6 +389,7 @@ def compute(folder):
         "M6_khong_bam_bai": m6_off_lesson(answers, turns),
         "M7_do_tre": m7_latency(turns),
         "V_khoi_luong": volume(turns),
+        "phan_ra": breakdowns(turns),
         "vi_du": examples(turns, seeks, answers),
     }
 
