@@ -31,11 +31,11 @@
 | | |
 |---|---|
 | Dùng để làm gì | nguồn cho công cụ `search_lesson` / `get_passage` của bản chạy thử; mã đoạn dùng để chấm metric trích dẫn đúng |
-| Từ đâu | **chưa có** — TV3 dựng ở CP3 từ một bài pre-class (trích ngắn / viết lại, không chép nguyên tài liệu khoá) |
-| Xử lý những bước gì | __ (TV3 điền: bài nào, chia đoạn thế nào, mã đoạn dạng gì) |
-| Số dòng / số đoạn | __ (kế hoạch: 8–12 đoạn) |
-| Phiên bản / ngày lấy | __ |
-| Nhãn | __ (nhóm tự viết lại / trích) |
-| Giới hạn | __ |
+| Từ đâu | Slide AI20K · VinUni *Tư duy Product cho người làm công nghệ thời đại AI*, PDF `VinUni_TuDuyProduct_DS_FDE_v3.pdf` do thành viên nhóm cung cấp, giữ cục bộ tại `data-btc/lesson-source/` (Git bỏ qua) |
+| Xử lý những bước gì | TV3 đọc các trang 6, 10–11, 16–19, 22–23, 27, 30; viết lại từng ý ngắn bằng tiếng Việt; lưu `data/lesson_product_ai20k.json` với mã `SL-<số trang PDF>`, tiêu đề, từ khóa và trang để đối chiếu. Cần người trong nhóm kiểm lại từng đoạn với PDF trước khi nộp |
+| Số dòng / số đoạn | 11 đoạn từ 11 trang trong PDF 32 trang |
+| Phiên bản / ngày lấy | file nhóm cung cấp ngày 27/11/2026; bản đoạn CP3 ngày 27/11/2026 |
+| Nhãn | nội dung viết lại từ slide thật của khóa; không phải dữ liệu synthetic hay transcript video |
+| Giới hạn | slide là một buổi học, không phải lời giảng của video pre-class; chỉ hỗ trợ câu hỏi về 11 đoạn đã chọn; không chứng minh khả năng trả lời trên mọi bài AI20K |
 
-**Data `synthetic` (nhóm tự sinh):** chưa có. Nếu sinh thêm (vd câu hỏi mẫu cho benchmark): ghi cách sinh (prompt / script), seed, người kiểm, số dòng đã kiểm tay. Data tự dựng **không phải bằng chứng pain**.
+**Data `synthetic` (nhóm tự sinh):** `data/lesson_sample.json` gồm 8 đoạn CP2 do nhóm dựng để thử luồng, không dùng trong bản chạy CP3. Không dùng kho này làm bằng chứng pain. Các đoạn từ slide cần TV2/TV4 hoặc một thành viên khác kiểm tay trước khi dùng làm chuẩn đánh giá.

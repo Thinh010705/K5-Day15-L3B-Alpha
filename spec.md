@@ -46,7 +46,7 @@ CP1: Chưa kết luận pain đã được chứng minh. Nhóm đang kiểm ch�
 
 ## §4. Thiết kế *(guide 2.2, 3.2)*
 - **Lát cắt MỘT CÂU:** Học viên hỏi về một bài pre-class → LessonLens tìm đoạn có mã → model quyết định đủ căn cứ, cần hỏi rõ hay từ chối → học viên nhận câu trả lời có mã đoạn hoặc lời từ chối.
-- **Đầu vào CP2:** `answer(text)` nhận một câu hỏi độc lập; bản thử cố định `lesson_id=ai-co-ban-mau`. Chưa có phiên hội thoại để theo dõi số lần hỏi lại.
+- **Đầu vào:** `answer(text)` nhận một câu hỏi độc lập; bản hiện tại cố định `lesson_id=ai20k-product-thinking`. Chưa có phiên hội thoại để theo dõi số lần hỏi lại.
 - **Không làm:** tích hợp LMS; hỗ trợ nhiều bài cùng lúc; chấm điểm hoặc làm bài kiểm tra hộ; cá nhân hóa lộ trình học.
 - **Sơ đồ:**
 
@@ -72,7 +72,7 @@ flowchart LR
 
 - **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi có đoạn phù hợp, từ chối/hỏi rõ khi không chắc · [ ] AI tự làm mọi việc. Trả lời sai có thể khiến học viên hiểu sai nên model chỉ được dùng đoạn được cấp.
 - **Chỗ chặn rủi ro:** Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
-- **Chỗ người duyệt:** Nhóm duyệt kho đoạn bài học trước khi dùng thật; giáo viên/trợ giảng quyết định nội dung học và chấm điểm. Bản chạy thử không gửi tin, sửa dữ liệu hoặc chấm điểm.
+- **Chỗ người duyệt:** Nhóm duyệt kho đoạn viết lại từ slide trước khi dùng thật; giáo viên/trợ giảng quyết định nội dung học và chấm điểm. Bản chạy thử không gửi tin, sửa dữ liệu hoặc chấm điểm.
 - **Nguyên tắc thiết kế** (≥3, bắt buộc G10):
 
   | Nguyên tắc | Chỗ cụ thể trên sơ đồ / trong bản chạy thử |
@@ -81,7 +81,8 @@ flowchart LR
   | Nguồn có thể kiểm chứng | Chỉ hiển thị mã đoạn đã trả về từ `get_passage` |
   | Quyền của người học | Câu hỏi mơ hồ được hỏi rõ; câu trả lời thiếu căn cứ hướng người học hỏi trợ giảng |
 
-- **Phần còn giả:** `data/lesson_sample.json` là 8 đoạn `synthetic` để thử luồng, không phải transcript bài học thật hay bằng chứng pain. `codebase/ai.py` còn ở chế độ model giả; đầu ra gắn nhãn `[BẢN THỬ — MODEL GIẢ]`. TV2 cần thay/duyệt dữ liệu nguồn, TV3 nối model thật ở CP3, TV4 chốt benchmark và metric.
+- **Nguồn nội dung bản chạy CP3:** `data/lesson_product_ai20k.json` gồm 11 đoạn ngắn viết lại từ slide AI20K *Tư duy Product cho người làm công nghệ thời đại AI* (`VinUni_TuDuyProduct_DS_FDE_v3.pdf`), mã `SL-<trang PDF>`. Bản PDF gốc chỉ giữ cục bộ trong `data-btc/lesson-source/`, không commit. Đây là slide của một buổi học trong khoá, **không phải transcript của video pre-class**. Bản demo kiểm chứng theo trang slide; TV1 cần xác nhận cách trình bày giới hạn này để lời giới thiệu khớp lát cắt đã chọn.
+- **Phần còn giả/chưa kiểm:** `data/lesson_sample.json` là kho synthetic CP2 để lưu dấu giai đoạn đầu; bản chạy hiện không dùng kho này. Mặc định chưa có `.env` thì `codebase/ai.py` vẫn chạy model giả và gắn nhãn rõ. Mới có nhánh kết nối API OpenAI/Gemini, chưa xác nhận gọi thật hoặc token thật khi chưa có cấu hình tài khoản. Chưa có kết quả benchmark trên nguồn slide.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 

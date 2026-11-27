@@ -1,12 +1,12 @@
-"""Công cụ chỉ đọc cho bản thử LessonLens CP2."""
+"""Công cụ chỉ đọc kho đoạn bài giảng AI20K của LessonLens."""
 import json
 import os
 import re
 import unicodedata
 from tracing import tool
 
-LESSON_ID = "ai-co-ban-mau"
-DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "lesson_sample.json")
+LESSON_ID = "ai20k-product-thinking"
+DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "lesson_product_ai20k.json")
 STOP = {"la", "gi", "the", "nao", "cho", "toi", "ve", "trong", "bai", "nay", "mot", "co", "khong", "duoc", "hay", "va", "cua", "nhung", "noi", "dung", "khai", "niem", "giai", "thich", "vi", "sao"}
 
 
@@ -34,14 +34,16 @@ def search_lesson(query: str, lesson_id: str = LESSON_ID) -> list:
         return []
     ranked = []
     for passage in _passages():
-        score = len(terms & _terms(passage["title"] + " " + passage["text"] + " " + " ".join(passage["keywords"])))
-        if score >= 2 or (len(terms) == 1 and score == 1 and len(next(iter(terms))) >= 5):
-            ranked.append({"code": passage["code"], "text": passage["text"], "score": score})
+        key_terms = _terms(passage["title"] + " " + " ".join(passage["keywords"]))
+        body_terms = _terms(passage["text"])
+        score = 2 * len(terms & key_terms) + len(terms & body_terms)
+        if score >= 2:
+            ranked.append({"code": passage["code"], "page": passage["page"], "text": passage["text"], "score": score})
     return sorted(ranked, key=lambda p: (-p["score"], p["code"]))[:3]
 
 
 @tool
 def get_passage(passage_id: str) -> dict:
-    """get_passage · Input: mã đoạn · Output: đoạn {code,title,text} hoặc dict rỗng; không tác động ra ngoài."""
-    return next(({"code": p["code"], "title": p["title"], "text": p["text"]}
+    """get_passage · Input: mã đoạn · Output: đoạn {code,page,title,text} hoặc dict rỗng; không tác động ra ngoài."""
+    return next(({"code": p["code"], "page": p["page"], "title": p["title"], "text": p["text"]}
                  for p in _passages() if p["code"] == passage_id), {})
