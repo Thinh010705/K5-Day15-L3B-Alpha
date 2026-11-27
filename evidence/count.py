@@ -90,6 +90,8 @@ def build_turns(chats, events):
             "asked_at": parse_ts(c.get("asked_at")), "created_at": created,
             "reply_at": parse_ts(e["occurred_at"]) if e else created, "reply": reply,
             "cached": (reply or {}).get("cached", c.get("cached") == "True"),
+            "q_len": int(c["do_dai_cau_hoi"]) if c.get("do_dai_cau_hoi") else None,
+            "a_len": int(c["do_dai_tra_loi"]) if c.get("do_dai_tra_loi") else None,
         })
     turns.sort(key=lambda t: t["asked_at"])
     return turns
@@ -272,6 +274,50 @@ def volume(turns, gap_minutes=SESSION_GAP_MIN):
             "days": days, "per_month_factor": round(30.0 / days, 3) if days else None}
 
 
+# ---------- ví dụ cụ thể (mục 4 của data-mining.md) ----------
+def _example(kind, t, **extra):
+    """Chỉ mã lượt chat (đã ẩn danh), ngày, video, độ dài — KHÔNG đưa mã học viên."""
+    e = {"kind": kind, "chat_id": t["id"], "ngay_utc": t["asked_at"].date().isoformat(), "channel": t["channel"],
+         "video": t["video"], "do_dai_cau_hoi": t["q_len"], "do_dai_tra_loi": t["a_len"]}
+    e.update(extra)
+    return e
+
+
+def examples(turns, seeks, answers, per_kind=2):
+    """Lấy per_kind lượt sớm nhất cho mỗi kiểu — tất định, ai chạy lại cũng ra cùng mã."""
+    start = citation_start(turns)
+    ta = ta_turns(turns)
+    win = [t for t in ta if start and t["reply_at"] >= start and has_citation_key(t)]
+    cited = [t for t in win if not no_citation(t)]
+    video_q = {t["id"] for t in ta if t["channel"] == VIDEO_Q and t["video"]}
+    by_key = defaultdict(list)
+    for t in ta:
+        by_key[(t["hv"], t["video"])].append(t["asked_at"])
+    off = {a["ref"] for a in answers if a.get("nguon") == "chat" and a.get("trang_thai_cham") == "da_cham"
+           and a.get("rubric_bam_bai") == "0"}
+    kinds = [
+        ("khong_trich_dan", [t for t in win if no_citation(t)], lambda t: {"moc": []}),
+        ("co_trich_dan_bam_link",
+         [t for t in cited if seek_after(seeks, t["hv"], t["reply_at"], LINK_MIN, lambda s: s["by"] == "link")],
+         lambda t: {"moc": t["reply"]["moc_trich_dan"]}),
+        ("co_trich_dan_tua_lui",
+         [t for t in cited if t["id"] in video_q and seek_after(seeks, t["hv"], t["reply_at"], REWIND_MIN, is_rewind(t))],
+         lambda t: {"moc": t["reply"]["moc_trich_dan"]}),
+        ("thieu_ngu_canh", [t for t in ta if t["reply"] and t["reply"].get("missing_context") is True],
+         lambda t: {"missing_context": True}),
+        ("hoi_tiep_5_phut",
+         [t for t in ta if t["id"] in video_q and any(
+             t["created_at"] < a <= t["created_at"] + timedelta(minutes=FOLLOW_UP_MIN) for a in by_key[(t["hv"], t["video"])])],
+         lambda t: {}),
+        ("khong_bam_bai", [t for t in ta if t["id"] in off], lambda t: {"rubric_bam_bai": 0}),
+    ]
+    out = []
+    for kind, rows, extra in kinds:
+        for t in sorted(rows, key=lambda r: r["asked_at"])[:per_kind]:
+            out.append(_example(kind, t, **extra(t)))
+    return out
+
+
 # ---------- chạy trên data thật ----------
 def compute(folder):
     learners = read_csv(os.path.join(folder, "learners.csv"))
@@ -300,11 +346,14 @@ def compute(folder):
         "M2_bam_link_sau_tra_loi": m2_link_use(turns, seeks),
         "M2_do_nhay_30_phut": m2_link_use(turns, seeks, minutes=30),
         "M3_tua_lui_sau_tra_loi": m3_rewind(turns, seeks),
+        "M3_do_nhay": {"2_phut": m3_rewind(turns, seeks, minutes=2), "10_phut": m3_rewind(turns, seeks, minutes=10)},
         "M4_thieu_ngu_canh": m4_missing_context(turns),
         "M5_hoi_tiep_5_phut": m5_follow_up(turns),
+        "M5_do_nhay": {"2_phut": m5_follow_up(turns, minutes=2), "10_phut": m5_follow_up(turns, minutes=10)},
         "M6_khong_bam_bai": m6_off_lesson(answers, turns),
         "M7_do_tre": m7_latency(turns),
         "V_khoi_luong": volume(turns),
+        "vi_du": examples(turns, seeks, answers),
     }
 
 
