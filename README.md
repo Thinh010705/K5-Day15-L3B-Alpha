@@ -101,7 +101,9 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
-____
+- **Bản chạy thử (TV3):** Codex và Claude Code viết code `codebase/`, prompt và kho 11 đoạn viết lại từ slide; TV3 chọn thiết kế, chạy thử tay với model thật và đọc từng output. Kho đoạn còn chờ đối chiếu với PDF.
+- **Đào data (TV2):** Claude Code viết script đếm và test; TV2 đọc lại cách đếm trước khi dùng số.
+- Không dùng AI để tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát hay sửa kết quả các lượt đã chạy. *(TV1, TV4 bổ sung phần của mình.)*
 
 ## File mẫu — điền ở bước nào
 

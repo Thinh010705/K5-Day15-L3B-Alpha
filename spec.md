@@ -3,8 +3,8 @@
 > Mốc nộp: §7 chốt chuẩn "đạt" tại **CP2 19:30 Thứ Sáu 27/11** · §0–§7 nộp **CP3 10:00 Thứ Bảy 28/11** · đủ §0–§10 **CP4 14:30 Thứ Bảy 28/11** · §10 changelog ghi tiếp đến **23:59 Thứ Bảy 28/11**.
 > Đầu mỗi mục ghi bước guide (`02-guide.md` trong repo đề) chỉ cách điền. Mỗi mục ngắn, có số và nguồn; chi tiết để ở file được trỏ tới. Xoá dòng hướng dẫn trong ngoặc vuông khi điền xong.
 
-Track: [x] A · [ ] B · [ ] C · [ ] D · [ ] E — bài toán: [đề gợi ý trong file track, hoặc bài toán nhóm tự mở rộng] A
-Data BTC cấp đã dùng (nếu có — không commit nguyên file): BTC cấp
+Track: [x] A · [ ] B · [ ] C · [ ] D · [ ] E — bài toán: A1 — Tutor cho LMS và trang pre-class (đề gợi ý trong file track A)
+Data BTC cấp đã dùng (nếu có — không commit nguyên file): `preclass/` (nhật ký pre-class AI20K K5, 05/11 → 25/11/2026) để đào bằng chứng và dựng persona; không dùng `training-ops/`. Nguyên file để ở `data-btc/` (Git bỏ qua) — xem `data/DATA_CARD.md`
 
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
 - Luồng hiện tại của việc này, trong khoá hoặc trên app thật (3–5 bước; ảnh chụp từ tài khoản của mình, đã che thông tin):
@@ -26,7 +26,7 @@ Các cách có thể gồm tua lại video, tìm nội dung trong tài liệu, h
 Học viên AI20K K5 đang cố hiểu một khái niệm trong video pre-class nhưng có thể gặp khó khăn khi xác định đoạn bài giảng giải thích nội dung đó, khiến họ phải tua lại, hỏi tiếp hoặc tìm nguồn khác và mất thêm thời gian học.
 
 - Bằng chứng — số chính + kết luận:
-CP1: Chưa kết luận pain đã được chứng minh. Nhóm đang kiểm chứng giả thuyết bằng phỏng vấn ít nhất 3 học viên ngoài nhóm và phân tích nhật ký tương tác pre-class đã ẩn danh. Kết quả và số liệu sẽ được cập nhật tại CP2–CP3.
+Đào data pre-class BTC (`evidence/data-mining.md`, chạy lại bằng `python evidence/count.py`): **231/576 lượt (40.1%)** trợ giảng trả lời không có mốc trích dẫn (13/11 → 25/11), vượt ngưỡng 20% đặt trước trong `evidence/hypothesis.md`; bỏ 38 lượt có thể là câu hỏi lại vẫn còn 194/538 (36.1%). **58/86 người (67.4%)** nhận ít nhất 1 lần, TB ≈ 9.2 lần / tháng *(ngoại suy × 30/13)*. Sau câu hỏi dưới video, 520/1.091 lượt (47.7%) hỏi tiếp cùng video trong 5 phút — chỉ là dấu vết hành vi, chưa kết luận nguyên nhân. Kết luận: vế data của giả thuyết đạt; vế phỏng vấn (≥ 2/3 người kể được tình huống cụ thể) chưa có số. Data không có câu chữ nên không kết luận trợ giảng trả lời sai.
 
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
@@ -52,7 +52,10 @@ CP1: Chưa kết luận pain đã được chứng minh. Nhóm đang kiểm ch�
 
 ```mermaid
 flowchart LR
-  A[Câu hỏi] --> B[search_lesson]
+  A[Câu hỏi] --> P{Chặn trước khi tra cứu}
+  P -->|chỉ có đại từ / từ đệm| Q[Hỏi rõ khái niệm]
+  P -->|đòi làm hộ bài / bảo bỏ qua quy tắc| R[Từ chối, gợi ý hỏi khái niệm]
+  P -->|còn lại| B[search_lesson]
   B -->|không có đoạn| F[Từ chối hoặc hỏi rõ]
   B -->|có đoạn| C[get_passage]
   C --> D[Model xét độ đủ căn cứ và tạo JSON]
@@ -71,7 +74,7 @@ flowchart LR
   | `get_passage` | mã đoạn | nội dung đầy đủ của mã đoạn hoặc rỗng | Không, chỉ đọc |
 
 - **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi có đoạn phù hợp, từ chối/hỏi rõ khi không chắc · [ ] AI tự làm mọi việc. Trả lời sai có thể khiến học viên hiểu sai nên model chỉ được dùng đoạn được cấp.
-- **Chỗ chặn rủi ro:** Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
+- **Chỗ chặn rủi ro:** Trước khi tra cứu, câu chỉ có đại từ / từ đệm được hỏi rõ và câu đòi làm hộ bài hoặc bảo bỏ qua quy tắc bị từ chối bằng luật trong `agent.py`, không gọi model. Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
 - **Chỗ người duyệt:** Nhóm duyệt kho đoạn viết lại từ slide trước khi dùng thật; giáo viên/trợ giảng quyết định nội dung học và chấm điểm. Bản chạy thử không gửi tin, sửa dữ liệu hoặc chấm điểm.
 - **Nguyên tắc thiết kế** (≥3, bắt buộc G10):
 
@@ -82,7 +85,8 @@ flowchart LR
   | Quyền của người học | Câu hỏi mơ hồ được hỏi rõ; câu trả lời thiếu căn cứ hướng người học hỏi trợ giảng |
 
 - **Nguồn nội dung bản chạy CP3:** `data/lesson_product_ai20k.json` gồm 11 đoạn ngắn viết lại từ slide AI20K *Tư duy Product cho người làm công nghệ thời đại AI* (`VinUni_TuDuyProduct_DS_FDE_v3.pdf`), mã `SL-<trang PDF>`. Bản PDF gốc chỉ giữ cục bộ trong `data-btc/lesson-source/`, không commit. Đây là slide của một buổi học trong khoá, **không phải transcript của video pre-class**. Bản demo kiểm chứng theo trang slide; TV1 cần xác nhận cách trình bày giới hạn này để lời giới thiệu khớp lát cắt đã chọn.
-- **Phần còn giả/chưa kiểm:** `data/lesson_sample.json` là kho synthetic CP2 để lưu dấu giai đoạn đầu; bản chạy hiện không dùng kho này. Mặc định chưa có `.env` thì `codebase/ai.py` vẫn chạy model giả và gắn nhãn rõ. Mới có nhánh kết nối API OpenAI/Gemini, chưa xác nhận gọi thật hoặc token thật khi chưa có cấu hình tài khoản. Chưa có kết quả benchmark trên nguồn slide.
+- **Phần còn giả/chưa kiểm:** `data/lesson_sample.json` là kho synthetic CP2 để lưu dấu giai đoạn đầu; bản chạy hiện không dùng kho này. Mặc định chưa có `.env` thì `codebase/ai.py` vẫn chạy model giả và gắn nhãn rõ.
+- **Model thật (CP3):** `nvidia/nemotron-3-ultra-550b-a55b:free` qua OpenRouter (dự phòng `google/gemma-4-31b-it:free`, bị giới hạn lượt 429 khi thử ngày 27/11). Ngày 27/11: `python run.py eval --try` chạy 3/3 câu, token lấy từ `usage` của API (khoảng 315–330 vào, 130–255 ra mỗi câu); `python run.py simulate --try` chạy 10/10 phiên, 0 lỗi. Chưa có lượt `eval` được tính trên bộ câu thử slide — chờ bộ 20–30 câu.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
