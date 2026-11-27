@@ -1,0 +1,397 @@
+{
+  "data": {
+    "folder": "data-btc/preclass",
+    "first_event_utc": "2026-11-05T04:11:55.250907+00:00",
+    "last_event_utc": "2026-11-25T09:58:46.598000+00:00"
+  },
+  "P0_tai_khoan": 721,
+  "P1_co_hoat_dong": {
+    "x": 436,
+    "n": 721,
+    "pct": 60.5,
+    "text": "436/721 (60.5%)"
+  },
+  "P2_hoi_tro_giang": {
+    "x": 144,
+    "n": 436,
+    "pct": 33.0,
+    "text": "144/436 (33.0%)"
+  },
+  "P2_hoi_duoi_video": {
+    "x": 144,
+    "n": 436,
+    "pct": 33.0,
+    "text": "144/436 (33.0%)"
+  },
+  "luot_tro_giang": {
+    "x": 1153,
+    "n": 1260,
+    "pct": 91.5,
+    "text": "1153/1260 (91.5%)"
+  },
+  "M1_khong_moc_trich_dan": {
+    "x": 231,
+    "n": 576,
+    "pct": 40.1,
+    "text": "231/576 (40.1%)",
+    "window_start": "2026-11-13",
+    "window_end": "2026-11-25",
+    "u": 7,
+    "bound_low": "231/583 (39.6%)",
+    "bound_high": "238/583 (40.8%)",
+    "hypothesis_threshold_pct": 20.0,
+    "meets_hypothesis": true,
+    "by_channel": {
+      "video_discussion_reply": {
+        "x": 0,
+        "n": 19,
+        "pct": 0.0,
+        "text": "0/19 (0.0%)"
+      },
+      "video_question": {
+        "x": 231,
+        "n": 557,
+        "pct": 41.5,
+        "text": "231/557 (41.5%)"
+      }
+    },
+    "by_cached": {
+      "False": {
+        "x": 226,
+        "n": 561,
+        "pct": 40.3,
+        "text": "226/561 (40.3%)"
+      },
+      "True": {
+        "x": 5,
+        "n": 15,
+        "pct": 33.3,
+        "text": "5/15 (33.3%)"
+      }
+    },
+    "people_x": 58,
+    "people_n": 86,
+    "people": "58/86 (67.4%)",
+    "mean_per_affected": 3.98,
+    "per_month_per_affected": 9.18,
+    "window_days": 13
+  },
+  "M1_do_nhay_bo_thieu_ngu_canh": {
+    "x": 194,
+    "n": 538,
+    "pct": 36.1,
+    "text": "194/538 (36.1%)",
+    "window_start": "2026-11-13",
+    "window_end": "2026-11-25",
+    "u": 7,
+    "bound_low": "194/545 (35.6%)",
+    "bound_high": "201/545 (36.9%)",
+    "hypothesis_threshold_pct": 20.0,
+    "meets_hypothesis": true,
+    "by_channel": {
+      "video_discussion_reply": {
+        "x": 0,
+        "n": 19,
+        "pct": 0.0,
+        "text": "0/19 (0.0%)"
+      },
+      "video_question": {
+        "x": 194,
+        "n": 519,
+        "pct": 37.4,
+        "text": "194/519 (37.4%)"
+      }
+    },
+    "by_cached": {
+      "False": {
+        "x": 189,
+        "n": 523,
+        "pct": 36.1,
+        "text": "189/523 (36.1%)"
+      },
+      "True": {
+        "x": 5,
+        "n": 15,
+        "pct": 33.3,
+        "text": "5/15 (33.3%)"
+      }
+    },
+    "people_x": 51,
+    "people_n": 83,
+    "people": "51/83 (61.4%)",
+    "mean_per_affected": 3.8,
+    "per_month_per_affected": 8.77,
+    "window_days": 13
+  },
+  "M4_thieu_ngu_canh": {
+    "x": 100,
+    "n": 1138,
+    "pct": 8.8,
+    "text": "100/1138 (8.8%)",
+    "people_x": 50,
+    "people_n": 142,
+    "people": "50/142 (35.2%)",
+    "mean_per_affected": 2.0,
+    "per_month_per_affected": 2.86,
+    "window_days": 21
+  },
+  "M5_hoi_tiep_5_phut": {
+    "x": 520,
+    "n": 1091,
+    "pct": 47.7,
+    "text": "520/1091 (47.7%)",
+    "minutes": 5
+  },
+  "M5_do_nhay": {
+    "2_phut": {
+      "x": 444,
+      "n": 1091,
+      "pct": 40.7,
+      "text": "444/1091 (40.7%)",
+      "minutes": 2
+    },
+    "10_phut": {
+      "x": 556,
+      "n": 1091,
+      "pct": 51.0,
+      "text": "556/1091 (51.0%)",
+      "minutes": 10
+    }
+  },
+  "M7_do_tre": {
+    "n": 1138,
+    "median_ms": 2392,
+    "p90_ms": 4589,
+    "over_10s": {
+      "x": 1,
+      "n": 1138,
+      "pct": 0.1,
+      "text": "1/1138 (0.1%)"
+    }
+  },
+  "M8_verdict_reply_kind": {
+    "verdict": {
+      "n": 46,
+      "values": {
+        "correct": 25,
+        "incorrect": 2,
+        "partial": 19
+      },
+      "agents": {
+        "teaching_assistant": 46
+      },
+      "tren_khung_thao_luan": "46/46 (100.0%)",
+      "tra_loi_lai_mot_loi_AI": "44/46 (95.7%)"
+    },
+    "reply_kind": {
+      "n": 169,
+      "values": {
+        "answer": 46,
+        "asks_assistant": 6,
+        "asks_classmate": 88,
+        "chats_with_classmate": 19,
+        "needs_explanation": 2,
+        "not_an_answer": 8
+      },
+      "agents": {
+        "classmate_clown": 9,
+        "classmate_deep_thinker": 47,
+        "classmate_inquisitive": 51,
+        "teaching_assistant": 62
+      },
+      "tren_khung_thao_luan": "151/169 (89.3%)",
+      "tra_loi_lai_mot_loi_AI": "144/169 (85.2%)"
+    }
+  },
+  "V_khoi_luong": {
+    "people": 144,
+    "turns_total": 1153,
+    "turns_per_person": {
+      "n": 144,
+      "mean": 8.01,
+      "median": 4,
+      "p75": 10,
+      "p90": 18,
+      "max": 72
+    },
+    "sessions_total": 321,
+    "sessions_per_person": {
+      "n": 144,
+      "mean": 2.23,
+      "median": 1,
+      "p75": 3,
+      "p90": 4,
+      "max": 15
+    },
+    "turns_per_session": {
+      "n": 321,
+      "mean": 3.59,
+      "median": 2,
+      "p75": 5,
+      "p90": 8,
+      "max": 27
+    },
+    "session_gap_minutes": 30,
+    "days": 21,
+    "per_month_factor": 1.429
+  },
+  "V3_persona": [
+    {
+      "name": "dung_it",
+      "rule_sessions": "1",
+      "people": 75,
+      "share": 0.521,
+      "sessions_mean": 1.0,
+      "uses_per_month": 1.4,
+      "turns_per_session_mean": 2.88,
+      "turns_per_session": 3,
+      "window_days": 21
+    },
+    {
+      "name": "dung_vua",
+      "rule_sessions": "2-3",
+      "people": 48,
+      "share": 0.333,
+      "sessions_mean": 2.4,
+      "uses_per_month": 3.4,
+      "turns_per_session_mean": 3.74,
+      "turns_per_session": 4,
+      "window_days": 21
+    },
+    {
+      "name": "dung_nhieu",
+      "rule_sessions": "4+",
+      "people": 21,
+      "share": 0.146,
+      "sessions_mean": 6.24,
+      "uses_per_month": 8.9,
+      "turns_per_session_mean": 3.87,
+      "turns_per_session": 4,
+      "window_days": 21
+    }
+  ],
+  "phan_ra": {
+    "by_length": {
+      "1-20": {
+        "n": 187,
+        "missing_context": {
+          "x": 23,
+          "n": 187,
+          "pct": 12.3,
+          "text": "23/187 (12.3%)"
+        },
+        "no_citation": {
+          "x": 36,
+          "n": 73,
+          "pct": 49.3,
+          "text": "36/73 (49.3%)"
+        }
+      },
+      "21-60": {
+        "n": 416,
+        "missing_context": {
+          "x": 46,
+          "n": 411,
+          "pct": 11.2,
+          "text": "46/411 (11.2%)"
+        },
+        "no_citation": {
+          "x": 59,
+          "n": 191,
+          "pct": 30.9,
+          "text": "59/191 (30.9%)"
+        }
+      },
+      "61-150": {
+        "n": 515,
+        "missing_context": {
+          "x": 27,
+          "n": 505,
+          "pct": 5.3,
+          "text": "27/505 (5.3%)"
+        },
+        "no_citation": {
+          "x": 133,
+          "n": 301,
+          "pct": 44.2,
+          "text": "133/301 (44.2%)"
+        }
+      },
+      ">150": {
+        "n": 35,
+        "missing_context": {
+          "x": 4,
+          "n": 35,
+          "pct": 11.4,
+          "text": "4/35 (11.4%)"
+        },
+        "no_citation": {
+          "x": 3,
+          "n": 11,
+          "pct": 27.3,
+          "text": "3/11 (27.3%)"
+        }
+      }
+    }
+  },
+  "vi_du": [
+    {
+      "kind": "khong_trich_dan",
+      "chat_id": "C01187",
+      "ngay_utc": "2026-11-13",
+      "channel": "video_question",
+      "video": "d06-r1-v01",
+      "do_dai_cau_hoi": 92,
+      "do_dai_tra_loi": 600,
+      "moc": []
+    },
+    {
+      "kind": "khong_trich_dan",
+      "chat_id": "C00882",
+      "ngay_utc": "2026-11-13",
+      "channel": "video_question",
+      "video": "d05-r2-v06",
+      "do_dai_cau_hoi": 18,
+      "do_dai_tra_loi": 220,
+      "moc": []
+    },
+    {
+      "kind": "thieu_ngu_canh",
+      "chat_id": "C00983",
+      "ngay_utc": "2026-11-05",
+      "channel": "video_question",
+      "video": "d01-r1-v05",
+      "do_dai_cau_hoi": 29,
+      "do_dai_tra_loi": 182,
+      "missing_context": true
+    },
+    {
+      "kind": "thieu_ngu_canh",
+      "chat_id": "C00992",
+      "ngay_utc": "2026-11-08",
+      "channel": "video_question",
+      "video": "d02-r2-v01",
+      "do_dai_cau_hoi": 34,
+      "do_dai_tra_loi": 298,
+      "missing_context": true
+    },
+    {
+      "kind": "hoi_tiep_5_phut",
+      "chat_id": "C00581",
+      "ngay_utc": "2026-11-05",
+      "channel": "video_question",
+      "video": "d01-r1-v02",
+      "do_dai_cau_hoi": 82,
+      "do_dai_tra_loi": 388
+    },
+    {
+      "kind": "hoi_tiep_5_phut",
+      "chat_id": "C00499",
+      "ngay_utc": "2026-11-05",
+      "channel": "video_question",
+      "video": "d01-r1-v02",
+      "do_dai_cau_hoi": 183,
+      "do_dai_tra_loi": 401
+    }
+  ]
+}

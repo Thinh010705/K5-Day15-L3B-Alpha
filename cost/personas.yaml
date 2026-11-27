@@ -10,27 +10,30 @@ seed: 42            # giữ cố định để chạy lại ra cùng chuỗi phi
 
 users:              # số người dùng thật nếu đưa vào dùng — 3 kịch bản, ở quy mô thật của sản phẩm
                     # track A: khoá học · track B–F: người dùng của sản phẩm / nhóm nhắm tới, nguồn công khai có link
-  low: 300
-  base: 700
-  high: 1000
-  source: "(ví dụ) track A — thay bằng số của nhóm. Cơ sở: lớp L3 hơn 700 học viên (README hackathon); thấp, cao: (tự ước tính)"
+  low: 144
+  base: 436
+  high: 721
+  source: "data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2): thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1); cao = 721 tài khoản (P0). Kế hoạch CP4: TV1 chốt quy mô người dùng"
 
 personas:           # ≥3 kiểu người dùng; share cộng lại = 1
+  # Chia 144 người hỏi trợ giảng theo số phiên hỏi / 21 ngày (một phiên = các lượt cách nhau ≤ 30 phút).
+  # Số từ python evidence/count.py → khoá V3_persona; uses_per_month = số phiên TB × 30/21 (ngoại suy).
+  # Kế hoạch CP4: TV1 xác định ba persona, TV2 xác định tần suất sử dụng — tên persona giữ theo khung, số là tần suất từ data.
   - name: dung_it
-    share: 0.5              # tỉ lệ người dùng kiểu này
-    uses_per_month: 4       # số phiên / người / tháng
-    turns_per_session: 1    # số lượt hỏi trong một phiên
-    source: "(ví dụ) phỏng vấn P1, P3 — thay bằng nguồn của nhóm"
+    share: 0.521             # 75/144 người — 1 phiên trong 21 ngày
+    uses_per_month: 1.4      # 1 phiên / 21 ngày × 30/21
+    turns_per_session: 3     # TB 2.88 lượt / phiên
+    source: "data pre-class BTC: V3_persona trong evidence/data-mining-output.json (75/144 người, 1 phiên)"
   - name: dung_vua
-    share: 0.3
-    uses_per_month: 10
-    turns_per_session: 3
-    source: "(ví dụ) khảo sát n = 24, câu 3"
+    share: 0.333             # 48/144 người — 2–3 phiên
+    uses_per_month: 3.4      # TB 2.4 phiên / 21 ngày
+    turns_per_session: 4     # TB 3.74 lượt / phiên
+    source: "data pre-class BTC: V3_persona trong evidence/data-mining-output.json (48/144 người, 2–3 phiên)"
   - name: dung_nhieu
-    share: 0.2
-    uses_per_month: 20
-    turns_per_session: 5
-    source: "(ví dụ) data/preclass: đếm số lượt / người — cách đếm ở evidence/data-mining.md"
+    share: 0.146             # 21/144 người — ≥4 phiên
+    uses_per_month: 8.9      # TB 6.24 phiên / 21 ngày
+    turns_per_session: 4     # TB 3.87 lượt / phiên
+    source: "data pre-class BTC: V3_persona trong evidence/data-mining-output.json (21/144 người, ≥4 phiên)"
 # Mỗi lượt hỏi lấy ngẫu nhiên một đầu vào trong eval/benchmark.csv (type thuong và kho).
 # Persona hỏi kiểu riêng: thêm vào persona đó
 #     types: [thuong, kho, tu_choi]
