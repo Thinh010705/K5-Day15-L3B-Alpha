@@ -26,7 +26,7 @@
 |---|---|---|---|---|
 | **M1** | A1.1 — kiểm chứng nguồn | lượt trợ giảng có `moc_trich_dan = []` (danh sách rỗng) | lượt trợ giảng **có ghi khoá** `moc_trich_dan` trong `agent_replied.data` | từ 00:00 UTC của ngày đầu tiên có dòng `agent_replied` ghi khoá `moc_trich_dan` (script tự tìm) đến hết data |
 | M1-người | A1.1 | người nhận ≥1 lượt M1 | người có ≥1 lượt trong mẫu số M1 | như M1 |
-| M2 | Giả thuyết thay thế 3 — có dùng nguồn không | lượt có mốc trích dẫn (danh sách không rỗng) mà trong **10 phút** sau câu trả lời, cùng học viên có `video_seeked` với `by = link` | lượt trợ giảng có `moc_trich_dan` không rỗng | như M1; độ nhạy: 30 phút |
+| M2 | Giả thuyết thay thế 3 — có dùng nguồn không | lượt có mốc trích dẫn (danh sách không rỗng) mà trong **10 phút** sau câu trả lời, cùng học viên có `video_seeked` với `by = link` **vào một video có trong mốc trích dẫn** *(sửa ở CP3 sau review — bản đầu đếm mọi lần bấm link, ra 25/345; xem ghi chú ở mục 3)* | lượt trợ giảng có `moc_trich_dan` không rỗng | như M1; độ nhạy: 30 phút |
 | M3 | Pain "phải tua lại" | lượt hỏi dưới video mà trong **5 phút** sau câu trả lời, cùng học viên tua **lùi** (`by = player`, `to < from`) trong **cùng video** | lượt trợ giảng `channel = video_question` có tên video | cả 21 ngày; tách riêng lượt có / không có mốc trích dẫn trong cửa sổ M1 |
 | **M4** | A1.2 — câu hỏi mơ hồ | lượt trợ giảng có `missing_context = true` | lượt trợ giảng có ghi khoá `missing_context` | cả 21 ngày |
 | M5 | A1.2 — hỏi tiếp | lượt hỏi dưới video mà cùng học viên hỏi trợ giảng tiếp về **cùng video** trong **5 phút** sau câu trả lời | lượt trợ giảng `channel = video_question` | cả 21 ngày |
@@ -34,8 +34,7 @@
 | M7 | Giả thuyết thay thế 4 — chờ lâu | trung vị, p90 của `latency_ms`; lượt chờ > 10 giây | lượt trợ giảng có `cached = false` | cả 21 ngày |
 | V1 | Khối lượng (cho Impact, persona) | số lượt trợ giảng / người: trung vị, p75, p90, lớn nhất | P2 | cả 21 ngày; đổi ra / tháng = × 30/21 *(ngoại suy tuyến tính)* |
 | V2 | Khối lượng | số **phiên hỏi** / người và số lượt / phiên; một phiên = chuỗi lượt trợ giảng của cùng học viên cách nhau ≤ 30 phút *(ngưỡng nhóm tự chọn)* | P2 | cả 21 ngày |
-
-| V3 | Persona chi phí (CP4) | chia P2 theo số phiên hỏi / 21 ngày: **1 phiên = `dung_it` · 2–3 = `dung_vua` · ≥4 = `dung_nhieu`**; mỗi nhóm: share, số phiên TB × 30/21 = phiên / tháng, lượt / phiên TB (làm tròn) | P2 | quy tắc chốt ở CP4 trước khi chạy V3 (viết trong test trước) |
+| V3 | Persona chi phí (CP4) | chia P2 theo số phiên hỏi / 21 ngày: **1 phiên = `dung_it` · 2–3 = `dung_vua` · ≥4 = `dung_nhieu`**; mỗi nhóm: share, số phiên TB × 30/21 = phiên / tháng, lượt / phiên TB (làm tròn) | P2 | quy tắc đặt ở CP4 **cùng commit với kết quả** (không đăng ký trước); ngưỡng 1 / 2–3 / ≥4 phiên do nhóm tự chọn |
 
 Với M1, M4, M6 còn đếm **số người** gặp (≥1 lần) và **số lần trung bình / người gặp** → dùng làm N và F cho bảng Impact (`spec.md` §2). T (phút mất mỗi lần) **không có trong data** — lấy từ phỏng vấn.
 
@@ -93,7 +92,7 @@ Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/20
 | **M1** | Lượt trợ giảng **không có mốc trích dẫn** (13/11 → 25/11) | **231/576** | **40.1%** | ≥ ngưỡng 20% của giả thuyết → **ủng hộ** (vế data). Khoảng chặn khi tính cả 7 lượt không ghi khoá: 39.6% … 40.8% |
 | M1 | … chỉ câu hỏi dưới video | 231/557 | 41.5% | khung thảo luận: 0/19 |
 | M1 | Người nhận ≥1 câu trả lời không có mốc / người nhận trả lời trong cửa sổ | 58/86 | 67.4% | TB 3.98 lần / người gặp trong 13 ngày ≈ **9.2 lần / tháng** *(ngoại suy × 30/13)* |
-| M2 | Câu trả lời có mốc → học viên bấm link trong 10 phút | 25/345 | 7.2% | 30 phút: 26/345 (7.5%). 22/40 lần `by = link` xảy ra ngay sau câu trả lời có mốc; 39/40 lần từ 13/11 trở đi |
+| M2 | Câu trả lời có mốc → học viên bấm link **vào video được trích** trong 10 phút | 18/345 | 5.2% | 30 phút: 19/345 (5.5%). 21/40 lần `by = link` là bấm vào video được trích ngay sau câu trả lời có mốc; 39/40 lần bấm link từ 13/11 trở đi *(đếm bằng đoạn kiểm chéo, `count.py` chưa in)*. Bản đầu (đếm mọi link) ra 25/345 — sửa ở CP3 vì 7 lần link không trỏ vào video được trích |
 | M3 | Câu hỏi dưới video → tua lùi cùng video trong 5 phút | 91/1.091 | 8.3% | |
 | M3 | … sau câu trả lời **có** mốc | 39/326 | 12.0% | **ngược** chiều cơ chế giả thuyết: tua lùi nhiều hơn khi *có* mốc |
 | M3 | … sau câu trả lời **không có** mốc | 10/231 | 4.3% | |
@@ -105,7 +104,7 @@ Chạy `python evidence/count.py` ngày 27/11/2026 trên data 05/11 → 25/11/20
 **Đọc kết quả (chưa phải kết luận — còn chờ phỏng vấn)**
 
 - Vế data của giả thuyết đạt: 40.1% câu trả lời trợ giảng không có mốc trích dẫn, và 2/3 người nhận trả lời đã gặp ít nhất một lần.
-- Nhưng khi **có** mốc, học viên hiếm khi bấm (7.2%), và họ tua lùi **nhiều hơn** chứ không ít hơn (12.0% so với 4.3%). Có hai cách đọc cần phỏng vấn để phân biệt: (a) mốc trích dẫn khiến học viên quay lại video để kiểm chứng — tức nhu cầu kiểm chứng có thật; (b) học viên chưa biết / chưa tin cách dùng mốc (giả thuyết thay thế 3).
+- Nhưng khi **có** mốc, học viên hiếm khi bấm (5.2%), và họ tua lùi **nhiều hơn** chứ không ít hơn (12.0% so với 4.3%). Có hai cách đọc cần phỏng vấn để phân biệt: (a) mốc trích dẫn khiến học viên quay lại video để kiểm chứng — tức nhu cầu kiểm chứng có thật; (b) học viên chưa biết / chưa tin cách dùng mốc (giả thuyết thay thế 3).
 - Thời gian chờ không phải vấn đề (trung vị 2,4 s).
 
 ## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
@@ -114,7 +113,7 @@ Chọn tất định bằng `evidence/count.py` (lượt **sớm nhất** của 
 
 1. **`C01187`** — 13/11, hỏi trợ giảng dưới video `d06-r1-v01`: câu hỏi 92 ký tự → câu trả lời 600 ký tự, `moc_trich_dan = []`. Trả lời dài nhưng không có mốc nào để học viên tự kiểm. *(M1)*
 2. **`C00882`** — 13/11, dưới video `d05-r2-v06`: câu hỏi 18 ký tự → trả lời 220 ký tự, `moc_trich_dan = []`. *(M1)*
-3. **`C00872`** — 13/11, hỏi khi đang ở video `d01-r1-v01`; câu trả lời dẫn 6 mốc đều ở **video khác** (`Day01/d01-r1-v04.txt@31` … `@45`); trong 10 phút sau, học viên có `video_seeked` `by = link`. Mốc trích dẫn được dùng thật. *(M2)*
+3. **`C00551`** — 13/11, dưới video `d01-r1-v01`: câu trả lời dẫn 6 mốc trong chính video này (`@122` … `@192`); trong 10 phút sau, học viên bấm link tới giây **122,7** của `d01-r1-v01` — đúng mốc đầu tiên. Mốc trích dẫn được dùng thật. *(M2)*
 4. **`C00394`** — 13/11, dưới video `d06-r1-v04`: trả lời có 4 mốc (`d06-r1-v02@18`, `@29`, `d06-r1-v04@4`, `@12`); trong 5 phút sau, học viên tự tua **lùi** trong cùng video bằng thanh video. *(M3 — tua lùi sau câu trả lời có mốc)*
 5. **`C00983`** — 05/11, dưới video `d01-r1-v05`: câu hỏi 29 ký tự, trợ giảng ghi `missing_context = true`, giám khảo AI chấm câu hỏi `rubric_bam_bai = 0`. Câu hỏi ngắn, thiếu ngữ cảnh. *(M4, M6)*
 6. **`C00581`** → **`C00499`** — 05/11, cùng video `d01-r1-v02`: hỏi (82 ký tự), nhận trả lời, rồi hỏi tiếp về cùng video trong vòng 5 phút (183 ký tự). *(M5)*
@@ -130,10 +129,10 @@ Chọn tất định bằng `evidence/count.py` (lượt **sớm nhất** của 
 | M1, M4 đếm lại bằng đoạn code độc lập (không dùng `count.py`) | 231/576, u = 7 · 100/1.138 — khớp ✓ |
 | M1 có lệch vì 7 lượt không ghi khoá không? | khoảng chặn 39.6% … 40.8% — kết luận không đổi |
 | M1 có do lượt dùng lại (cache) kéo lên không? | không cache 226/561 (40.3%) · cache 5/15 (33.3%) |
-| Độ nhạy M2 (cửa sổ 10 → 30 phút) | 7.2% → 7.5% |
+| Độ nhạy M2 (cửa sổ 10 → 30 phút) | 5.2% → 5.5% |
 | Độ nhạy M3 (2 · 5 · 10 phút), có mốc vs không mốc | 7.4% vs 2.6% · 12.0% vs 4.3% · 15.3% vs 5.2% — chiều chênh lệch giữ nguyên |
 | Độ nhạy M5 (2 · 5 · 10 phút) | 40.7% · 47.7% · 51.0% |
-| Test tự động cho cách đếm | `python -m unittest discover -s evidence/tests` → 30/30 OK |
+| Test tự động cho cách đếm | `python -m unittest discover -s evidence/tests` → 35/35 OK |
 
 ## 5. Giới hạn của data
 

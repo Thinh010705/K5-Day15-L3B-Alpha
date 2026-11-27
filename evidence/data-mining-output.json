@@ -77,22 +77,22 @@
     "window_days": 13
   },
   "M2_bam_link_sau_tra_loi": {
-    "x": 25,
+    "x": 18,
     "n": 345,
-    "pct": 7.2,
-    "text": "25/345 (7.2%)",
+    "pct": 5.2,
+    "text": "18/345 (5.2%)",
     "minutes": 10,
     "link_seeks_total": 40,
-    "link_seeks_after_cited_reply": "22/40 (55.0%)"
+    "link_seeks_after_cited_reply": "21/40 (52.5%)"
   },
   "M2_do_nhay_30_phut": {
-    "x": 26,
+    "x": 19,
     "n": 345,
-    "pct": 7.5,
-    "text": "26/345 (7.5%)",
+    "pct": 5.5,
+    "text": "19/345 (5.5%)",
     "minutes": 30,
     "link_seeks_total": 40,
-    "link_seeks_after_cited_reply": "23/40 (57.5%)"
+    "link_seeks_after_cited_reply": "21/40 (52.5%)"
   },
   "M3_tua_lui_sau_tra_loi": {
     "minutes": 5,
@@ -590,23 +590,6 @@
     },
     {
       "kind": "co_trich_dan_bam_link",
-      "chat_id": "C00872",
-      "ngay_utc": "2026-11-13",
-      "channel": "video_question",
-      "video": "d01-r1-v01",
-      "do_dai_cau_hoi": 25,
-      "do_dai_tra_loi": 358,
-      "moc": [
-        "Day01/d01-r1-v04.txt@31",
-        "Day01/d01-r1-v04.txt@35",
-        "Day01/d01-r1-v04.txt@37",
-        "Day01/d01-r1-v04.txt@40",
-        "Day01/d01-r1-v04.txt@43",
-        "Day01/d01-r1-v04.txt@45"
-      ]
-    },
-    {
-      "kind": "co_trich_dan_bam_link",
       "chat_id": "C00551",
       "ngay_utc": "2026-11-13",
       "channel": "video_question",
@@ -620,7 +603,29 @@
         "Day01/d01-r1-v01.txt@165",
         "Day01/d01-r1-v01.txt@185",
         "Day01/d01-r1-v01.txt@192"
-      ]
+      ],
+      "link_den": {
+        "video": "d01-r1-v01",
+        "giay": 122.7
+      }
+    },
+    {
+      "kind": "co_trich_dan_bam_link",
+      "chat_id": "C00575",
+      "ngay_utc": "2026-11-13",
+      "channel": "video_question",
+      "video": "d07-r2-v01",
+      "do_dai_cau_hoi": 104,
+      "do_dai_tra_loi": 440,
+      "moc": [
+        "Day07/d07-r2-v01.txt@158",
+        "Day07/d07-r2-v01.txt@170",
+        "Day07/d07-r2-v01.txt@182"
+      ],
+      "link_den": {
+        "video": "d07-r2-v01",
+        "giay": 158
+      }
     },
     {
       "kind": "co_trich_dan_tua_lui",
