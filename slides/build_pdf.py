@@ -1,4 +1,6 @@
-"""Dựng demo-slides.pdf từ slides/outline.md (mỗi mục "## N. Tiêu đề" là một trang).
+"""LƯU Ý 28/11: demo-slides.pdf hiện dựng từ slides/deck.html (thiết kế lại). Chạy script này sẽ ghi đè bằng giao diện cũ.
+
+Dựng demo-slides.pdf từ slides/outline.md (mỗi mục "## N. Tiêu đề" là một trang).
 
 Chạy: python slides/build_pdf.py
 Cần Google Chrome hoặc Microsoft Edge (in PDF bằng chế độ headless). Ghi slides/demo-slides.html và demo-slides.pdf.

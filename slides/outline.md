@@ -1,6 +1,6 @@
 # LessonLens · Dàn slide CP4
 
-Bản nộp [demo-slides.pdf](../demo-slides.pdf). Kịch bản demo dùng B01 và B18.
+Bản nộp [demo-slides.pdf](../demo-slides.pdf) dựng từ [deck.html](deck.html) (thiết kế lại 28/11, cùng nội dung và số với dàn bài này). Sửa slide thì sửa `deck.html` rồi in PDF bằng Chrome/Edge (in, khổ theo trang, không lề); `build_pdf.py` dựng bản giao diện cũ từ file này. Kịch bản demo dùng B01 và B18.
 
 ## 1. Trợ giảng có nguồn cho pre-class
 
