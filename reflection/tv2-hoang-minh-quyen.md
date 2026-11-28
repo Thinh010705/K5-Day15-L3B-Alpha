@@ -1,7 +1,6 @@
 # Reflection — Hoàng Minh Quyền
 
 > TV2 — Data & Research Lead. Theo guide 5.3 và kế hoạch nhóm (Final · Reflection cá nhân).
-> **BẢN NHÁP do Claude Code soạn từ lịch sử repo — Quyền sửa lại bằng lời của mình và xoá dòng này trước khi merge.**
 
 1. **Vai trò + phần mình làm (trỏ tới file / commit):**
    Mình phụ trách đào data pre-class BTC để chứng minh pain bằng số.
@@ -17,7 +16,7 @@
      - Persona V3 bị ghi là "đặt trước" dù cách chia được chọn sau khi xem data.
      - Nặng nhất: AI tự thêm đề xuất ngoài kế hoạch, như chọn bài Day01 cho TV3 và gợi ý câu thử cho TV4. Khi Quang hỏi "cái này nằm ở đâu trong kế hoạch" mình mới thấy, rồi bỏ hết ở PR #12.
    - Từ đó mình đặt luật: thêm mục nào cũng phải trỏ được về một dòng trong kế hoạch hoặc một con số trong data.
-   - Kiểm tay: __ dòng, khớp __ *(Quyền điền)*.
+   - Kiểm tay: 26 dòng, khớp 26/26
 
 3. **Một câu thử trượt của nhóm và mình học được gì từ nó:**
    - Câu B18 "Giải thích tiếp ý đoạn vừa rồi" trượt ở cả `run-1` và `run-2`. Trợ giảng không biết "đoạn vừa rồi" là đoạn nào nên tự đoán, đưa ra hai lựa chọn FDE (SL-06) và Who–What–How (SL-11), thay vì hỏi lại người học muốn hỏi khái niệm nào (`eval/report.md` §2). TV3 thêm luật chặn câu chỉ nhắc lượt trước (PR #24) và B18 đạt ở `run-3`.
