@@ -56,6 +56,7 @@ Kiểm tra CP3 trên bộ 30 câu: `python run.py check` không cảnh báo; tra
 |---|---|---|---|---|---|---|
 | 1 | `run-1@20261127-212409` | `gemini-3.5-flash-lite` | Luồng CP3, nghỉ 2 giây giữa các câu | 25/30 | 83,3% | Chưa đạt |
 | Chạy lại qua OpenRouter | `run-2@20261127-213001` | `nvidia/nemotron-3-ultra-550b-a55b:free` | Cùng code và bộ câu, nghỉ 4 giây giữa các câu | 26/30 | 86,7% | Chưa đạt |
+| Cải tiến B18 | `run-3@20261127-222235` | `nvidia/nemotron-3-ultra-550b-a55b:free` | Hỏi rõ trước tra cứu, nghỉ 4 giây | 28/30 | 93,3% | Đạt (chấm sơ bộ) |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
