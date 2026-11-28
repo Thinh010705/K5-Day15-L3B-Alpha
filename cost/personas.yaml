@@ -3,7 +3,7 @@
 # Mọi số phải có nguồn (data / phỏng vấn / khảo sát / quy mô khoá có nguồn) hoặc ghi rõ "(tự ước tính)".
 # Chạy: python run.py simulate --try   (10 phiên, kiểm khung — làm trước CP3)
 #       python run.py simulate         (đủ số phiên dưới đây — bản nộp CP4)
-# Thay mọi dòng "(ví dụ)" bằng số và nguồn của nhóm; simulate nhắc nếu còn sót.
+# Thay mọi dòng mẫu bằng số và nguồn của nhóm; simulate nhắc nếu còn sót.
 
 sessions: 50        # số phiên mô phỏng — bản nộp ≥50
 seed: 42            # giữ cố định để chạy lại ra cùng chuỗi phiên
@@ -12,8 +12,8 @@ users:              # số người dùng thật nếu đưa vào dùng — 3 k�
                     # track A: khoá học · track B–F: người dùng của sản phẩm / nhóm nhắm tới, nguồn công khai có link
   low: 144
   base: 436
-  high: 721
-  source: "data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2): thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1); cao = 721 tài khoản (P0). Kế hoạch CP4: TV1 chốt quy mô người dùng"
+  high: 1000
+  source: "thấp, cơ sở: data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2) — thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1). Cao: quy mô thật track A theo guide 4.2 của đề — 'lớp L3 hơn 700 học viên, cả khoá hơn 1.000' → 1.000 (data có 721 tài khoản, P0). Kế hoạch CP4: TV1 chốt quy mô người dùng"
 
 personas:           # ≥3 kiểu người dùng; share cộng lại = 1
   # Chia 144 người hỏi trợ giảng theo số phiên hỏi / 21 ngày (một phiên = các lượt cách nhau ≤ 30 phút).
