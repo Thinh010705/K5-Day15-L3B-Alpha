@@ -9,7 +9,7 @@
 | Nguồn | Đạt ngưỡng? | File |
 |---|---|---|
 | Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | ☑ — M1 231/576 (40,1%), cách đếm ghi trước, script + 29 test, 6 ví dụ | `evidence/data-mining.md` · `evidence/count.py` · `evidence/citation_check.py` |
-| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ◐ — 3 người (P1–P3), mỗi người 1 file, cả 3 đã dùng trợ giảng dưới video trong tháng qua. Đạt khi đầu mỗi file ghi vai, ngày giờ, người hỏi và xác nhận người ngoài nhóm: [CẦN ĐIỀN] | `evidence/interviews/P1.md` · `P2.md` · `P3.md` |
+| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☑ — 3 người (P1–P3), mỗi người 1 file, cả 3 đã dùng trợ giảng dưới video trong tháng qua | `evidence/interviews/P1.md` · `P2.md` · `P3.md` |
 | Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ☑ — 22 phiếu, **20/22** dùng trợ giảng dưới video trong 30 ngày qua (vừa đủ 20), tất cả là người ngoài nhóm. Gửi qua Discord AI20K, chốt 22:34 ngày 27/11 | `evidence/survey/questions.md` · `results.csv` · `tally.py` |
 
 Nguồn chính: **đào data**. Nguồn kiểm lại: **khảo sát** (gặp bao nhiêu, mất bao lâu, xoay xở bằng gì) và **phỏng vấn P1–P3** (vì sao, kể một lần cụ thể).
