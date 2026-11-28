@@ -27,7 +27,7 @@ Lượt trước [`simulate-1.csv`](simulate-1.csv) (`simulate-1@20261128-092259
 | gemini-3.1-flash-lite (vào 0.25 · ra 1.5 $/1M) | $0.0017 | $0.0019 | $0.00054 | $0.8313 | $2.52 | $4.16 | $0.0058 |
 | gemini-2.5-pro (vào 1.25 · ra 10.0 $/1M) | $0.0111 | $0.0119 | $0.0035 | $5.28 | $15.98 | $26.42 | $0.0366 |
 
-**Cả khoá (đề track A: "hơn 1.000 học viên"):** chi phí tỉ lệ thuận với số người vì tỉ lệ persona giữ nguyên. Lấy chi phí / tháng cơ sở ÷ 436 × 1.000: Flash-Lite ≈ **$5.78 / tháng**, Pro ≈ **$36.65 / tháng**. Số này suy ra từ bảng trên, không phải một lượt mô phỏng riêng.
+**Cả khoá (đề track A: "hơn 1.000 học viên"):** chi phí tỉ lệ thuận với số người vì tỉ lệ persona giữ nguyên. Lấy chi phí / người / tháng (như nhau ở cả ba kịch bản: $0.00577 Flash-Lite, $0.03664 Pro, tính từ `simulate-2.csv` chưa làm tròn) × 1.000: Flash-Lite ≈ **$5.77 / tháng**, Pro ≈ **$36.64 / tháng** — khớp số ở §1. Số này suy ra từ bảng trên, không phải một lượt mô phỏng riêng.
 
 Theo quy ước của khung, chi phí / task thành công lấy chi phí trung bình mỗi phiên chia cho tỉ lệ đạt của bộ thử. Cột chi phí / câu hỏi đạt chia thêm cho số lượt hỏi trung bình mỗi phiên.
 
