@@ -63,8 +63,8 @@ Người trình bày (đề xuất) · Nguyễn Quang Dũng
 
 **144 · 436 · 721** · người dùng ở ba kịch bản thấp, cơ sở và cao
 
-- gemini-3.1-flash-lite · $0.0021 / task · $0.9626 / $2.91 / $4.82 mỗi tháng.
-- gemini-2.5-pro · $0.0132 / task · $6.15 / $18.61 / $30.77 mỗi tháng.
+- gemini-3.1-flash-lite · $0.0019 / task · $0.8313 / $2.52 / $4.16 mỗi tháng.
+- gemini-2.5-pro · $0.0119 / task · $5.28 / $15.98 / $26.42 mỗi tháng.
 - 16/50 phiên hợp lệ. 34 phiên lỗi HTTP 429 do hết hạn mức ngày. Impact cận trên 91,8 phút/người gặp/tháng.
 
 Nguồn · cost/cost-estimate.md · cost/personas.yaml

@@ -142,10 +142,10 @@ flowchart LR
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 
-- Ba persona, ba kịch bản 144 / 436 / 721 người và hai mức giá trả phí. Xem [cấu hình](cost/personas.yaml). Lượt đo API trực tiếp [`simulate-1.csv`](cost/simulate-1.csv), mã `simulate-1@20261128-092259`, 50 phiên, seed 42. OpenRouter hết hạn mức ngày (HTTP 429) ở 34/50 phiên. Bảng giá dựa trên 16 phiên hợp lệ. Xem [bảng gốc](cost/simulate-1-summary.md).
-- Chi phí / task thành công: $0.0021 (Gemini 3.1 Flash-Lite) và $0.0132 (Gemini 2.5 Pro), dùng tỉ lệ đạt 28/30 từ Run 3.
-- Chi phí/tháng theo thứ tự thấp / cơ sở / cao: Flash-Lite $0.9626 / $2.91 / $4.82; Pro $6.15 / $18.61 / $30.77. Giá Gemini áp lên token API Nemotron. Phép lấy mẫu lại token Run 3 được ghi riêng để kiểm độ nhạy. Xem [báo cáo chi phí](cost/cost-estimate.md).
-- Cận trên của pain là 91,8 phút/người gặp/tháng. Ở kịch bản cơ sở, chi phí model ước tính $0.0067–$0.0427/người/tháng. Tiếp tục thử trên một bài để đo thời gian tiết kiệm thực tế.
+- Ba persona, ba kịch bản 144 / 436 / 721 người và hai mức giá trả phí. Xem [cấu hình](cost/personas.yaml). Lượt đo API trực tiếp [`simulate-2.csv`](cost/simulate-2.csv), 50 phiên, seed 42, 0/50 phiên lỗi (lượt `simulate-1` lỗi 429 ở 34/50 phiên, giữ nguyên, xem `cost/cost-estimate.md`). Xem [bảng gốc](cost/simulate-1-summary.md).
+- Chi phí / task thành công: $0.0019 (Gemini 3.1 Flash-Lite) và $0.0119 (Gemini 2.5 Pro), dùng tỉ lệ đạt 28/30 từ Run 3.
+- Chi phí/tháng theo thứ tự thấp / cơ sở / cao: Flash-Lite $0.8313 / $2.52 / $4.16; Pro $5.28 / $15.98 / $26.42. Giá Gemini áp lên token API Nemotron. Phép lấy mẫu lại token Run 3 được ghi riêng để kiểm độ nhạy. Xem [báo cáo chi phí](cost/cost-estimate.md).
+- Cận trên của pain là 91,8 phút/người gặp/tháng. Ở kịch bản cơ sở, chi phí model ước tính $0.0058–$0.0366/người/tháng. Tiếp tục thử trên một bài để đo thời gian tiết kiệm thực tế.
 
 ## §9. Rủi ro & an toàn
 - **Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:**
@@ -193,6 +193,7 @@ flowchart LR
 | 28/11 · CP4 | Chấm Run 3, tổng hợp so sánh với Run 2 và chuẩn bị slide | B18 đạt, B07 và B14 còn trượt theo tiêu chí CP2. |
 
 | 28/11 · CP4 | Chốt kịch bản chi phí, áp giá trả phí lên token API và xuất PDF 8 trang | So sánh 2 mức giá ở 3 quy mô sử dụng, trình bày kết quả và giới hạn của demo. |
+| 28/11 ~10:05 · TV3 | Chạy lượt mô phỏng mới `simulate-2@20261128-093944` (50 phiên, seed 42, `--rate-from eval/run-3.csv`), 0/50 phiên lỗi; `cost/cost-estimate.md`, §8 và `slides/outline.md` lấy số từ `simulate-2`. `simulate-1` giữ nguyên | `simulate-1` lỗi HTTP 429 ở 34/50 phiên (hết hạn mức ngày của key), chỉ 16 phiên hợp lệ, persona dùng nhiều chỉ 1 phiên |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

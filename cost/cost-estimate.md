@@ -9,12 +9,14 @@
 
 ## 2. Kết quả
 
-Lượt đo API trực tiếp [`simulate-1.csv`](simulate-1.csv), mã `simulate-1@20261128-092259`, 50 phiên, seed 42. OpenRouter hết hạn mức ngày và trả HTTP 429 ở 34/50 phiên. Bảng lấy trung bình trên 16 phiên hợp lệ, trong đó chỉ có một phiên của persona dùng nhiều. Xem [bảng gốc](simulate-1-summary.md).
+Lượt đo API trực tiếp [`simulate-2.csv`](simulate-2.csv), mã `simulate-2@20261128-093944` (TV3 chạy, key OpenRouter có nạp tiền), 50 phiên, seed 42, **0/50 phiên lỗi**: 28 phiên dùng ít · 18 dùng vừa · 4 dùng nhiều. Xem [bảng gốc](simulate-2-summary.md).
+
+Lượt trước [`simulate-1.csv`](simulate-1.csv) (`simulate-1@20261128-092259`, cùng cấu hình) bị OpenRouter trả HTTP 429 (hết hạn mức ngày của key) ở 34/50 phiên, chỉ 16 phiên hợp lệ và 1 phiên dùng nhiều, nên chạy lại thành lượt mới; `simulate-1` giữ nguyên. Số của `simulate-1` (Flash-Lite $0.0021 / task, $2.91 / tháng cơ sở) gần với `simulate-2`.
 
 | Model (giá) | Chi phí / phiên | Chi phí / task thành công | Chi phí / câu hỏi đạt | Chi phí / tháng — thấp (144 người) | Chi phí / tháng — cơ sở (436 người) | Chi phí / tháng — cao (721 người) | Chi phí / người / tháng (cơ sở) |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| gemini-3.1-flash-lite (vào 0.25 · ra 1.5 $/1M) | $0.0019 | $0.0021 | $0.00060 | $0.9626 | $2.91 | $4.82 | $0.0067 |
-| gemini-2.5-pro (vào 1.25 · ra 10.0 $/1M) | $0.0124 | $0.0132 | $0.0039 | $6.15 | $18.61 | $30.77 | $0.0427 |
+| gemini-3.1-flash-lite (vào 0.25 · ra 1.5 $/1M) | $0.0017 | $0.0019 | $0.00054 | $0.8313 | $2.52 | $4.16 | $0.0058 |
+| gemini-2.5-pro (vào 1.25 · ra 10.0 $/1M) | $0.0111 | $0.0119 | $0.0035 | $5.28 | $15.98 | $26.42 | $0.0366 |
 
 Theo quy ước của khung, chi phí / task thành công lấy chi phí trung bình mỗi phiên chia cho tỉ lệ đạt của bộ thử. Cột chi phí / câu hỏi đạt chia thêm cho số lượt hỏi trung bình mỗi phiên.
 
@@ -22,4 +24,4 @@ Theo quy ước của khung, chi phí / task thành công lấy chi phí trung b
 
 ## 3. So với impact
 
-Cận trên của pain là 91,8 phút/tháng với mỗi học viên gặp vấn đề và 88,7 giờ/tháng trên 58 học viên trong tập log. Ở kịch bản cơ sở 436 người, chi phí model là $0.0067/người/tháng với Flash-Lite hoặc $0.0427/người/tháng với Pro. Đáng thử trên một bài có mốc nguồn để đo thời gian thực sự tiết kiệm được. Bảng hiện tính phần model. Chi phí tích hợp, vận hành và duyệt nội dung cần đo thêm.
+Cận trên của pain là 91,8 phút/tháng với mỗi học viên gặp vấn đề và 88,7 giờ/tháng trên 58 học viên trong tập log. Ở kịch bản cơ sở 436 người, chi phí model là $0.0058/người/tháng với Flash-Lite hoặc $0.0366/người/tháng với Pro. Đáng thử trên một bài có mốc nguồn để đo thời gian thực sự tiết kiệm được. Bảng hiện tính phần model. Chi phí tích hợp, vận hành và duyệt nội dung cần đo thêm.
