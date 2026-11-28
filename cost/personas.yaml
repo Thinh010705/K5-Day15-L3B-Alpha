@@ -3,7 +3,7 @@
 # Mọi số phải có nguồn (data / phỏng vấn / khảo sát / quy mô khoá có nguồn) hoặc ghi rõ "(tự ước tính)".
 # Chạy: python run.py simulate --try   (10 phiên, kiểm khung — làm trước CP3)
 #       python run.py simulate         (đủ số phiên dưới đây — bản nộp CP4)
-# Thay mọi dòng "(ví dụ)" bằng số và nguồn của nhóm; simulate nhắc nếu còn sót.
+# Thay mọi dòng mẫu bằng số và nguồn của nhóm; simulate nhắc nếu còn sót.
 
 sessions: 50        # số phiên mô phỏng — bản nộp ≥50
 seed: 42            # giữ cố định để chạy lại ra cùng chuỗi phiên
@@ -13,22 +13,26 @@ users:              # số người dùng thật nếu đưa vào dùng — 3 k�
   low: 144
   base: 436
   high: 721
-  source: "data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2): thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1); cao = 721 tài khoản (P0). Kế hoạch CP4: TV1 chốt quy mô người dùng"
+  source: "data pre-class BTC 05–25/11/2026 (evidence/data-mining.md, P0–P2): thấp = 144 người đã hỏi trợ giảng (P2); cơ sở = 436 người có hoạt động (P1); cao = 721 tài khoản (P0). TV1 chốt (CP4): giữ 3 mức này vì simulate-2 đã chạy với chúng; 721 tài khoản khớp quy mô thật lớp L3 ở đề track A ('Lớp L3 hơn 700 học viên'). Cả khoá (đề: 'hơn 1.000 học viên') ghi riêng ở cost/cost-estimate.md §2, tính tỉ lệ thuận từ chi phí / người / tháng."
 
 personas:           # ≥3 kiểu người dùng; share cộng lại = 1
   # Chia 144 người hỏi trợ giảng theo số phiên hỏi / 21 ngày (một phiên = các lượt cách nhau ≤ 30 phút).
   # Số từ python evidence/count.py → khoá V3_persona; uses_per_month = số phiên TB × 30/21 (ngoại suy).
   # Kế hoạch CP4: TV1 xác định ba persona, TV2 xác định tần suất sử dụng — tên persona giữ theo khung, số là tần suất từ data.
+  # Kiểm chéo khảo sát câu 2 (n = 20): 1–2 lần 3/20 · 3–5 lần 9/20 · 6–10 lần 5/20 · ≥11 lần 3/20 → người trả lời khảo sát dùng nhiều hơn mức chung của data (mẫu tự chọn lệch về người dùng nhiều), nên tỉ lệ persona giữ theo data.
+  # Ai: hỏi khi gặp một chỗ không hiểu rồi xem tiếp. Gần phỏng vấn P1 (1–2 lần / tháng, chưa chắc thì hỏi AI khác).
   - name: dung_it
     share: 0.521             # 75/144 người — 1 phiên trong 21 ngày
     uses_per_month: 1.4      # 1 phiên / 21 ngày × 30/21
     turns_per_session: 3     # TB 2.88 lượt / phiên
     source: "data pre-class BTC: V3_persona trong evidence/data-mining-output.json (75/144 người, 1 phiên)"
+  # Ai: hỏi vài lần mỗi tuần học, câu trả lời lệch ý thì quay lại video. Gần phỏng vấn P2 (3–5 lần / tháng, tua lại khoảng 10 phút).
   - name: dung_vua
     share: 0.333             # 48/144 người — 2–3 phiên
     uses_per_month: 3.4      # TB 2.4 phiên / 21 ngày
     turns_per_session: 4     # TB 3.74 lượt / phiên
     source: "data pre-class BTC: V3_persona trong evidence/data-mining-output.json (48/144 người, 2–3 phiên)"
+  # Ai: hỏi gần như mỗi buổi pre-class, hay để lại chỗ chưa chắc rồi phải quay lại. Gần phỏng vấn P3 (6–10 lần / tháng).
   - name: dung_nhieu
     share: 0.146             # 21/144 người — ≥4 phiên
     uses_per_month: 8.9      # TB 6.24 phiên / 21 ngày
@@ -40,16 +44,12 @@ personas:           # ≥3 kiểu người dùng; share cộng lại = 1
 # hoặc
 #     inputs: ["câu hỏi kiểu 1", "câu hỏi kiểu 2"]
 
-prices:             # USD / 1 triệu token — chép từ further-reading/model-prices.md của repo đề. ≥2 mức model
+prices:  # USD / 1 triệu token văn bản, Standard
   - model: gemini-3.1-flash-lite
     input: 0.25
     output: 1.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
-  - model: gemini-4-hydrogen
-    input: 1.50
-    output: 7.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
-
-usd_to_vnd:         # tuỳ chọn: điền thì bản tóm tắt in thêm tiền Việt
-  rate:
-  source:
+    source: "https://aistudio.google.com/docs/pricing#gemini-3.1-flash-lite · xem 28/11/2026"
+  - model: gemini-2.5-pro
+    input: 1.25
+    output: 10.00
+    source: "https://aistudio.google.com/docs/pricing#gemini-2.5-pro · Standard, prompt tối đa 200k token · xem 28/11/2026"

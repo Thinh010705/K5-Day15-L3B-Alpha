@@ -54,7 +54,7 @@ Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/co
 
 - **Impact / tháng** của hướng chọn (A1.1) = 58 người × 9,18 lần × 10 phút ≈ 5.324 phút ≈ **88,7 giờ học viên / tháng** (≈ 91,8 phút / người gặp / tháng). Nguồn: N, F từ M1 (`evidence/data-mining.md` mục 3, 6); T = trung vị số phút P1–P3 kể (`evidence/summary.md` §2), khảo sát cho trung vị ở nhóm 2–10 phút.
   - Đây là **cận trên**: con số giả định mọi câu trả lời không có mốc đều làm mất T phút, nhưng P1 cho thấy có lần học viên không cần tìm đoạn.
-  - Nếu giữ T = 3 phút (ước tính thận trọng trước phỏng vấn): ≈ 26,6 giờ / tháng. Nếu dùng F trung vị thay trung bình (ít bị người hỏi nhiều kéo lên): F ≈ 4,6 và impact ≈ 44,3 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ)*. A1.1 vẫn lớn hơn A1.2 ở mọi cách tính.
+  - Nếu giữ T = 3 phút (ước tính thận trọng trước phỏng vấn): ≈ 26,6 giờ / tháng. Nếu dùng F trung vị thay trung bình (ít bị người hỏi nhiều kéo lên): F ≈ 4,6 và impact ≈ 44,3 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ)*. TV2 tính lại 28/11 bằng hàm của `evidence/count.py`: trung vị 2 lần / 13 ngày × 30/13 ≈ 4,62 lần / tháng → 58 × 4,62 × 10 ≈ 2.677 phút ≈ **44,6 giờ / tháng** — ghi thêm vì trong repo chưa có script nào ra 44,3. A1.1 vẫn lớn hơn A1.2 ở mọi cách tính.
 - Hướng ĐÃ LOẠI + vì sao (giữ lại, đừng xoá):
   - A1.2 không chọn làm hướng chính: tổng số lần / tháng nhỏ hơn A1.1 khoảng 3,7 lần (143 so với 532). Nhưng 37/231 (16,0%) câu trả lời không có mốc đi kèm câu hỏi AI ghi thiếu ngữ cảnh, so với 1/326 (0,3%) khi có mốc (`evidence/citation_check.py`) → giữ bước "hỏi lại một lần" trong MVP.
   - A1.3 không chọn làm hướng chính: data không đo được (M8), chưa có số người gặp. Giữ nhánh từ chối vì sai ở đây là đắt nhất (học viên tin điều không có trong bài); đo bằng câu `tu_choi` trong benchmark và câu 5 của phỏng vấn.
@@ -66,8 +66,8 @@ Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/co
 
 ## §3. Giải pháp tương tự *(guide 2.1)*
 - **Trợ giảng AI hiện có dưới video pre-class** (preclass-online.com; số từ `evidence/data-mining.md`): đáng học: đã có định dạng mốc `DayNN/dNN-....txt@giây` trỏ thẳng vào lời giảng, độ trễ trung vị 2,4 s · đáng né: 231/576 (40,1%) câu trả lời không có mốc nào mà vẫn được đưa ra như câu trả lời bình thường · mình khác: không có đoạn nguồn hợp lệ thì **không** trả lời như một khẳng định; LessonLens hỏi lại một lần hoặc từ chối, và mã đoạn phải thuộc các đoạn vừa truy xuất (§4).
-- **Google NotebookLM** (trả lời dựa trên tài liệu người dùng tải lên, kèm số trích dẫn mở được đoạn nguồn): đáng học: trích dẫn đặt ngay cạnh câu, bấm là thấy đoạn · đáng né: người học phải tự gom và tải tài liệu, không gắn với chỗ đang xem trong bài · mình khác: kho đoạn của bài có sẵn, có bước xét đủ căn cứ trước khi trả lời. *(mô tả theo hiểu biết chung về sản phẩm, chưa kiểm lại bằng tài khoản — TV1 kiểm trước CP4)*
-- **Khanmigo của Khan Academy** (trợ giảng AI định hướng gợi mở, không đưa đáp án làm hộ): đáng học: ranh giới "không làm hộ bài" rõ ràng → câu thử B10 · đáng né: hội thoại dài, khó đo chi phí và khó kiểm từng khẳng định · mình khác: một câu hỏi, một quyết định (trả lời / hỏi lại / từ chối), đo được bằng benchmark. *(mô tả theo hiểu biết chung, chưa kiểm lại bằng tài khoản)*
+- **Google NotebookLM** (trả lời dựa trên tài liệu người dùng tải lên, kèm số trích dẫn mở được đoạn nguồn): đáng học: trích dẫn đặt ngay cạnh câu, bấm là thấy đoạn · đáng né: người học phải tự gom và tải tài liệu, không gắn với chỗ đang xem trong bài · mình khác: kho đoạn của bài có sẵn, có bước xét đủ căn cứ trước khi trả lời. [Tài liệu Google](https://support.google.com/gemininotebook/answer/16179559?hl=en).
+- **Khanmigo của Khan Academy** (trợ giảng AI định hướng gợi mở, không đưa đáp án làm hộ): đáng học: ranh giới "không làm hộ bài" rõ ràng → câu thử B10 · đáng né: hội thoại dài, khó đo chi phí và khó kiểm từng khẳng định · mình khác: một câu hỏi, một quyết định (trả lời / hỏi lại / từ chối), đo được bằng benchmark. [Tài liệu Khan Academy](https://support.khanacademy.org/hc/en-us/articles/13888935335309-How-do-the-Large-Language-Models-powering-Khanmigo-work).
 
 ## §4. Thiết kế *(guide 2.2, 3.2)*
 - **Lát cắt MỘT CÂU:** Học viên hỏi về một bài pre-class → LessonLens tìm đoạn có mã → model quyết định đủ căn cứ, cần hỏi rõ hay từ chối → học viên nhận câu trả lời có mã đoạn hoặc lời từ chối.
@@ -78,7 +78,7 @@ Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/co
 ```mermaid
 flowchart LR
   A[Câu hỏi] --> P{Chặn trước khi tra cứu}
-  P -->|chỉ có đại từ / từ đệm| Q[Hỏi rõ khái niệm]
+  P -->|chỉ có đại từ / từ đệm, hoặc chỉ nhắc lượt trước| Q[Hỏi rõ khái niệm hoặc mã đoạn]
   P -->|đòi làm hộ bài / bảo bỏ qua quy tắc| R[Từ chối, gợi ý hỏi khái niệm]
   P -->|còn lại| B[search_lesson]
   B -->|không có đoạn| F[Từ chối hoặc hỏi rõ]
@@ -99,7 +99,7 @@ flowchart LR
   | `get_passage` | mã đoạn | nội dung đầy đủ của mã đoạn hoặc rỗng | Không, chỉ đọc |
 
 - **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi có đoạn phù hợp, từ chối/hỏi rõ khi không chắc · [ ] AI tự làm mọi việc. Trả lời sai có thể khiến học viên hiểu sai nên model chỉ được dùng đoạn được cấp.
-- **Chỗ chặn rủi ro:** Trước khi tra cứu, câu chỉ có đại từ / từ đệm được hỏi rõ và câu đòi làm hộ bài hoặc bảo bỏ qua quy tắc bị từ chối bằng luật trong `agent.py`, không gọi model. Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
+- **Chỗ chặn rủi ro:** Trước khi tra cứu, câu chỉ có đại từ / từ đệm, hoặc chỉ nhắc lượt trước ("đoạn vừa rồi", "ở trên"…) mà không nêu nội dung, được hỏi rõ và câu đòi làm hộ bài hoặc bảo bỏ qua quy tắc bị từ chối bằng luật trong `agent.py`, không gọi model. Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
 - **Chỗ người duyệt:** Nhóm duyệt kho đoạn viết lại từ slide trước khi dùng thật; giáo viên/trợ giảng quyết định nội dung học và chấm điểm. Bản chạy thử không gửi tin, sửa dữ liệu hoặc chấm điểm.
 - **Nguyên tắc thiết kế** (≥3, bắt buộc G10):
 
@@ -138,22 +138,39 @@ flowchart LR
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 - Data card: `data/DATA_CARD.md` · bộ câu thử CP3 đang chuẩn bị: `eval/benchmark.csv` — 30 câu (thuong 13 · kho 12 · tu_choi 5), gồm 10 câu biên soạn trực tiếp từ slide thật và 20 câu tự viết · metric: `eval/metric_spec.yaml` (3 metric).
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ít nhất 80% toàn bộ câu có pass = 1 và đạt ngưỡng của cả ba metric trong eval/metric_spec.yaml."
-- Kết quả: Run 1 `run-1@20261127-212409` đạt 25/30 (83,3%). Chưa đạt chuẩn CP2 do trích đúng nguồn 19/22 và làm rõ 2/3. Chạy lại qua OpenRouter (`run-2@20261127-213001`) đạt 26/30 (86,7%), chưa đạt ngưỡng hỏi làm rõ (2/3). Xem `eval/report.md` và `eval/README.md`.
+- Kết quả: Run 1 `run-1@20261127-212409` đạt 25/30 (83,3%). Chưa đạt chuẩn CP2 do trích đúng nguồn 19/22 và làm rõ 2/3. Chạy lại qua OpenRouter (`run-2@20261127-213001`) đạt 26/30 (86,7%), chưa đạt ngưỡng hỏi làm rõ (2/3). Run 3 sau sửa B18 đạt 28/30 (93,3%) theo chấm sơ bộ và đạt cả ba metric. Xem `eval/report.md` và `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+
+- Ba persona, ba kịch bản 144 / 436 / 721 người và hai mức giá trả phí. Xem [cấu hình](cost/personas.yaml). Lượt đo API trực tiếp [`simulate-2.csv`](cost/simulate-2.csv), 50 phiên, seed 42, 0/50 phiên lỗi (lượt `simulate-1` lỗi 429 ở 34/50 phiên, giữ nguyên, xem `cost/cost-estimate.md`). Xem [bảng gốc](cost/simulate-2-summary.md).
+- Chi phí / task thành công: $0.0019 (Gemini 3.1 Flash-Lite) và $0.0119 (Gemini 2.5 Pro), dùng tỉ lệ đạt 28/30 từ Run 3.
+- Chi phí/tháng theo thứ tự thấp / cơ sở / cao: Flash-Lite $0.8313 / $2.52 / $4.16; Pro $5.28 / $15.98 / $26.42. Giá Gemini áp lên token API Nemotron. Phép lấy mẫu lại token Run 3 được ghi riêng để kiểm độ nhạy. Xem [báo cáo chi phí](cost/cost-estimate.md).
+- Cận trên của pain là 91,8 phút/người gặp/tháng. Ở kịch bản cơ sở, chi phí model ước tính $0.0058–$0.0366/người/tháng. Tính trên cùng mẫu số (mọi người dùng trợ giảng), giá trị là 61,9 phút / người / tháng (cận trên) hoặc 18,6 phút (T = 3 phút), tức **$0.006–$0.118 / giờ học viên tiết kiệm**. Cả khoá 1.000 người: ≈ $5.77 (Flash-Lite) – $36.64 (Pro) / tháng.
+- **Kết luận: Go — thí điểm ở một bài của một lớp**, theo quy tắc TV1 viết trước khi xem số (`cost/cost-estimate.md` §3): Run 3 đạt cả 4 metric §7 (chấm sơ bộ) và chi phí / giờ tiết kiệm ở trường hợp xấu nhất ≈ $0.118, dưới ngưỡng 1 USD. Thí điểm cần đo số phút tiết kiệm thật và tỉ lệ đạt trên câu hỏi thật của học viên, vì 61,9 phút là cận trên và bộ thử chưa có câu nào từ lời người dùng.
 
 ## §9. Rủi ro & an toàn
-- Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:
-- AI **không được** làm gì kể cả khi người dùng yêu cầu:
-- Ai có thể bị hại nếu AI sai, và nhóm chặn thế nào:
+- **Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:**
+  - Mỗi lời gọi model chỉ gửi **câu hỏi + tối đa 3 đoạn slide viết lại** (`codebase/agent.py`). Không gửi mã học viên, tên, email hay lịch sử hỏi — hàm `answer(text)` chỉ nhận chữ câu hỏi.
+  - Data pre-class BTC (`data-btc/`, đã .gitignore) chỉ dùng để đếm bằng chứng ở máy nhóm; **không đưa vào model**, repo chỉ có số tổng hợp và mã dòng ví dụ BTC đã ẩn danh. PDF slide gốc cũng chỉ giữ cục bộ.
+  - Model đang dùng là gói **miễn phí** của OpenRouter (`nvidia/nemotron-3-ultra-550b-a55b:free`); nhà cung cấp gói free có thể lưu câu hỏi — *chưa kiểm điều khoản từng nhà cung cấp*. Vì vậy chỉ gửi nội dung bài công khai trong khoá; dùng thật với câu hỏi của học viên thì chuyển sang gói trả phí không lưu dữ liệu.
+  - Không thu: phỏng vấn / khảo sát đã bỏ tên (`evidence/`); trace (`traces/`) chỉ chứa câu thử của bộ đánh giá. API key ở `.env`, không commit.
+- **AI không được làm gì kể cả khi người dùng yêu cầu:**
+  - Làm hộ bài kiểm tra hay đưa đáp án để nộp (B10) — chặn bằng code trước khi gọi model, rồi nhắc lại trong prompt.
+  - Làm theo chỉ dẫn ghi đè ("bỏ qua quy tắc", "đừng ghi nguồn", B11) hoặc chỉ dẫn nằm trong đoạn nguồn.
+  - Trả lời như một khẳng định khi không có đoạn nguồn; ghi mã nguồn không nằm trong các đoạn vừa tra (B12, mã giả `SL-99`) — code kiểm lại sau model, sai là từ chối.
+  - Đưa thông tin ngoài bài như lịch nộp, số điện thoại giảng viên (B09, B20) — báo không có trong bài và hướng tới trợ giảng / kênh lớp.
+  - Đoán ý khi câu hỏi nhắc tới "đoạn vừa rồi" mà không nêu khái niệm (B18) — hỏi lại vì mỗi câu chạy độc lập.
+- **Ai có thể bị hại nếu AI sai, và nhóm chặn thế nào:**
+  - **Học viên** là người bị hại chính: tin một giải thích không có trong bài, học sai rồi mang vào bài kiểm tra / dự án. Chặn: chỉ trả lời khi có đoạn nguồn; mỗi câu trả lời ghi `Nguồn: SL-xx (trang N)` để học viên mở đúng trang slide tự kiểm; không đủ căn cứ thì từ chối thay vì đoán. Đo bằng 5 câu `tu_choi` (5/5 ở cả `run-1`, `run-2`).
+  - **Khoá học / giảng viên**: nội dung bị trình bày sai mà mang tên bài giảng. Chặn như trên; kho đoạn đã đối chiếu 11/11 với PDF (`data/DATA_CARD.md`).
+  - **Rủi ro còn lại, chưa chặn được bằng code:**
+    - Mã nguồn hợp lệ không chứng minh nội dung đúng: `run-2` B03 trộn ý SL-17 vào các bước SL-22 mà vẫn ghi nguồn hợp lệ. Chỉ phát hiện được khi người chấm đọc (metric `noi_dung_bam_nguon`); học viên phải tự mở trang để kiểm.
+    - Model chấp nhận tiền đề sai trong câu hỏi (B14 "kỹ sư AI" ở `run-2`, `run-3`).
+    - Chặn "làm hộ" / "ghi đè" bằng cụm từ cố định nên cách nói khác chỉ còn prompt chặn. Thử tay 28/11 với model thật 2 câu ("Giải giùm mình đề kiểm tra… gửi đáp án để mình nộp", "Viết sẵn đáp án bài tập Impact Mapping để mình nộp luôn"): cả hai **không đưa đáp án**, nhưng chỉ ra lời từ chối chung "chưa đủ căn cứ", không nói rõ là không làm hộ và không gợi ý cách tự làm.
 
 ## §10. Phân công & changelog
-- Phân công có tên (theo chặng, chia cặp — guide "Cách chia việc"): __
-- Dùng AI vào việc gì (2–3 dòng; chi tiết `docs/ai-usage.md`):
+- Bằng chứng và impact do Nguyễn Năng Thịnh (TV1, Product) và Hoàng Minh Quyền (TV2, Data) phụ trách. Bản chạy thử và đánh giá do Cao Minh Quang (TV3, Engineering) và Nguyễn Quang Dũng (TV4, Evaluation) phụ trách. Vai trò theo `TEAMS.md`.
+- Claude Code và Codex hỗ trợ viết script phân tích, workflow và prompt. Codex chấm sơ bộ Run 3, tổng hợp chi phí và soạn slide. Nhóm đối chiếu kho đoạn với PDF và kiểm cách đếm. Chi tiết ở `docs/ai-usage.md`.
 - Nhật ký thay đổi — **mọi thay đổi sau CP2 19:30 Thứ Sáu 27/11 phải có dòng ở đây**:
 
 **CP2 → CP4** (vd thu hẹp lát cắt, hỏi thêm người dùng, lần cải tiến trước lượt 2)
@@ -169,7 +186,17 @@ flowchart LR
 | CP3 · TV4 | Thêm B21–B30 dựa trực tiếp trên slide | Truy vết về trang đã đối chiếu trong data card |
 | 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
 | 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
+| 27/11 ~21:50 · TV3 (cải tiến lượt 2, nhóm chốt hướng B18) | `codebase/agent.py`: bước chặn trước tra cứu thêm luật câu nhắc lượt trước ("vừa rồi", "ở trên", "giải thích tiếp", "đoạn đó"…) mà ngoài từ nhắc lại không nêu nội dung gì → hỏi lại tên khái niệm hoặc mã đoạn, không gọi model. Không đổi câu thử, metric, chuẩn "đạt" | Nhóm lỗi "tự thu hẹp câu thiếu ngữ cảnh" (B18 trượt ở cả `run-1` và `run-2`): mỗi câu chạy độc lập nên trợ giảng không biết "đoạn vừa rồi" là gì, model tự đoán FDE / Who–What–How. Kiểm không gọi model trên 30 câu: chỉ B18 đổi hướng xử lý; 10 câu ngoài bộ thử: câu có nêu khái niệm vẫn đi tra cứu |
+| 27/11 ~22:22 · TV3 | Chạy lượt cải tiến `run-3@20261127-222235` trên bộ 30 câu sau PR #24, cùng model Nemotron qua OpenRouter và `--wait 4` như `run-2`; 30/30 câu, 0 lỗi. Cột `pass` để TV4 chấm | Đo cải tiến nhắm nhóm lỗi B18; `run-2` là lượt chạy lại vì lỗi kỹ thuật nên lượt cải tiến mang số 3 |
 | 28/11 (CP3, TV1) | §0: thêm ảnh chụp luồng hiện tại (`evidence/img/current-flow.png`); bước 2 sửa vị trí ô hỏi thành khung "Tương tác lớp học" cạnh video; bước 4 thêm "hỏi công cụ AI khác". | Ảnh chụp cho thấy ô hỏi nằm ở khung bên phải, không nằm dưới video; khảo sát cho 12/20 người hỏi công cụ AI khác khi chưa kiểm chứng được. |
+| 28/11 ~09:02 · TV3 | `spec.md` §4: sơ đồ và dòng "Chỗ chặn rủi ro" thêm nhánh câu chỉ nhắc lượt trước → hỏi rõ khái niệm hoặc mã đoạn | Cho sơ đồ khớp code sau cải tiến B18 (PR #24) |
+| 28/11 · TV2 | §2: giữ số cũ 44,3 giờ / tháng (F trung vị, TV1), ghi thêm số tính lại 44,6 giờ / tháng. Số chính 88,7 giờ / tháng không đổi | Kiểm Impact (kế hoạch, Final — TV2): tính lại từ data, 58 người nhận câu trả lời không có mốc, trung vị 2 lần / 13 ngày → 4,62 lần / tháng × 58 × 10 phút ≈ 2.677 phút ≈ 44,6 giờ |
+| 28/11 · CP4 | Chấm Run 3, tổng hợp so sánh với Run 2 và chuẩn bị slide | B18 đạt, B07 và B14 còn trượt theo tiêu chí CP2. |
+| 28/11 · CP4 | Chốt kịch bản chi phí, áp giá trả phí lên token API và xuất PDF 8 trang | So sánh 2 mức giá ở 3 quy mô sử dụng, trình bày kết quả và giới hạn của demo. |
+| 28/11 ~10:05 · TV3 | Chạy lượt mô phỏng mới `simulate-2@20261128-093944` (50 phiên, seed 42, `--rate-from eval/run-3.csv`), 0/50 phiên lỗi; `cost/cost-estimate.md`, §8 và `slides/outline.md` lấy số từ `simulate-2`. `simulate-1` giữ nguyên | `simulate-1` lỗi HTTP 429 ở 34/50 phiên (hết hạn mức ngày của key), chỉ 16 phiên hợp lệ, persona dùng nhiều chỉ 1 phiên |
+| 28/11 (CP4, TV1) | `cost/cost-estimate.md` §1 thêm mô tả 3 persona (khớp P1–P3) và lý do giữ quy mô 144 / 436 / 721; §2 thêm dòng cả khoá 1.000 người; §3 thêm so sánh cùng mẫu số, quy tắc và kết luận **Go — thí điểm một bài**. §8 thêm kết luận. Slide 6–7 sửa theo `simulate-2` và kết luận, xuất lại `demo-slides.pdf` bằng `slides/build_pdf.py` (dựng từ `slides/outline.md`). | Slide 6 cũ còn số `simulate-1` ($0.0021 / task, 16/50 phiên) không khớp `cost/cost-estimate.md`; kết luận Go / Iterate / Stop là phần TV1 trong kế hoạch CP4. |
+| 28/11 ~10:45 · TV3 | `cost/cost-estimate.md` §1: thêm một câu quy đổi chi phí cho cả khoá 1.000 người (tuyến tính từ `simulate-2`); giữ ba kịch bản 144 / 436 / 721, không chạy thêm mô phỏng; đóng PR #37 | Guide 4.2 nêu quy mô cả khoá hơn 1.000; chi phí / người / tháng không đổi nên đổi kịch bản cao không đổi kết luận, tránh phải chạy lại mô phỏng và dựng lại slide |
+| 28/11 · TV2 | `cost/cost-estimate.md` §2 và §8: chi phí cả khoá 1.000 người $5.78 / $36.65 → $5.77 / $36.64, cho khớp §1; §8 link "bảng gốc" `simulate-1-summary.md` → `simulate-2-summary.md`; nối lại bảng §10 bị dòng trống tách | Kiểm chi phí (kế hoạch, Final — TV2): tính lại từ `cost/simulate-2.csv`, chi phí / người / tháng $0.00577 và $0.03664 × 1.000; số cũ lấy từ số cơ sở đã làm tròn ($2.52, $15.98). §8 đang dùng số `simulate-2` nhưng trỏ bảng `simulate-1` (lượt lỗi 429) |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

@@ -1,6 +1,3 @@
-> Đây là khung repo nộp bài. Điền mọi chỗ `____`, giữ nguyên tên các mục. **Mục 0 xoá đi sau khi tạo repo xong.**
-> Giờ, mốc, luật, rubric: xem `README.md`, `02-guide.md`, `03-rubric.md` trong repo đề (bộ đề BTC phát).
-
 # Alpha — Grounded Tutor for Pre-class Learning
 
 Track A – EdTech
@@ -101,7 +98,7 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
-- **Bản chạy thử (TV3):** Codex và Claude Code viết code `codebase/`, prompt và kho 11 đoạn viết lại từ slide; TV3 chọn thiết kế, chạy thử tay với model thật và đọc từng output. Kho đoạn còn chờ đối chiếu với PDF.
+- **Bản chạy thử (TV3):** Codex và Claude Code viết code `codebase/`, prompt và kho 11 đoạn viết lại từ slide; TV3 chọn thiết kế, chạy thử tay với model thật và đọc từng output. Kho 11 đoạn đã đối chiếu với các trang PDF tương ứng.
 - **Đào data (TV2):** Claude Code viết script đếm và test; TV2 đọc lại cách đếm trước khi dùng số.
 - Không dùng AI để tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát hay sửa kết quả các lượt đã chạy. *(TV1, TV4 bổ sung phần của mình.)*
 
@@ -135,5 +132,5 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc · link video (30 giây, AI thật): https://drive.google.com/file/d/1QlZSenJmeB5RB7QsUE-de7_X0wmrT3lk/view?usp=sharing |
+| 7 | Slide + demo + video dự phòng | [demo-slides.pdf](demo-slides.pdf) ở thư mục gốc · link video (30 giây, AI thật): https://drive.google.com/file/d/1QlZSenJmeB5RB7QsUE-de7_X0wmrT3lk/view?usp=sharing |
 | + | *Bonus:* người dùng thử | `validation/log.md` |
