@@ -142,10 +142,10 @@ flowchart LR
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 
-- Ba persona, ba kịch bản 144 / 436 / 721 người và hai mức giá trả phí. Xem [cấu hình](cost/personas.yaml). Lượt đo API trực tiếp [`simulate-2.csv`](cost/simulate-2.csv), 50 phiên, seed 42, 0/50 phiên lỗi (lượt `simulate-1` lỗi 429 ở 34/50 phiên, giữ nguyên, xem `cost/cost-estimate.md`). Xem [bảng gốc](cost/simulate-1-summary.md).
+- Ba persona, ba kịch bản 144 / 436 / 721 người và hai mức giá trả phí. Xem [cấu hình](cost/personas.yaml). Lượt đo API trực tiếp [`simulate-2.csv`](cost/simulate-2.csv), 50 phiên, seed 42, 0/50 phiên lỗi (lượt `simulate-1` lỗi 429 ở 34/50 phiên, giữ nguyên, xem `cost/cost-estimate.md`). Xem [bảng gốc](cost/simulate-2-summary.md).
 - Chi phí / task thành công: $0.0019 (Gemini 3.1 Flash-Lite) và $0.0119 (Gemini 2.5 Pro), dùng tỉ lệ đạt 28/30 từ Run 3.
 - Chi phí/tháng theo thứ tự thấp / cơ sở / cao: Flash-Lite $0.8313 / $2.52 / $4.16; Pro $5.28 / $15.98 / $26.42. Giá Gemini áp lên token API Nemotron. Phép lấy mẫu lại token Run 3 được ghi riêng để kiểm độ nhạy. Xem [báo cáo chi phí](cost/cost-estimate.md).
-- Cận trên của pain là 91,8 phút/người gặp/tháng. Ở kịch bản cơ sở, chi phí model ước tính $0.0058–$0.0366/người/tháng. Tính trên cùng mẫu số (mọi người dùng trợ giảng), giá trị là 61,9 phút / người / tháng (cận trên) hoặc 18,6 phút (T = 3 phút), tức **$0.006–$0.118 / giờ học viên tiết kiệm**. Cả khoá 1.000 người: ≈ $5.78 (Flash-Lite) – $36.65 (Pro) / tháng.
+- Cận trên của pain là 91,8 phút/người gặp/tháng. Ở kịch bản cơ sở, chi phí model ước tính $0.0058–$0.0366/người/tháng. Tính trên cùng mẫu số (mọi người dùng trợ giảng), giá trị là 61,9 phút / người / tháng (cận trên) hoặc 18,6 phút (T = 3 phút), tức **$0.006–$0.118 / giờ học viên tiết kiệm**. Cả khoá 1.000 người: ≈ $5.77 (Flash-Lite) – $36.64 (Pro) / tháng.
 - **Kết luận: Go — thí điểm ở một bài của một lớp**, theo quy tắc TV1 viết trước khi xem số (`cost/cost-estimate.md` §3): Run 3 đạt cả 4 metric §7 (chấm sơ bộ) và chi phí / giờ tiết kiệm ở trường hợp xấu nhất ≈ $0.118, dưới ngưỡng 1 USD. Thí điểm cần đo số phút tiết kiệm thật và tỉ lệ đạt trên câu hỏi thật của học viên, vì 61,9 phút là cận trên và bộ thử chưa có câu nào từ lời người dùng.
 
 ## §9. Rủi ro & an toàn
@@ -191,13 +191,12 @@ flowchart LR
 | 28/11 (CP3, TV1) | §0: thêm ảnh chụp luồng hiện tại (`evidence/img/current-flow.png`); bước 2 sửa vị trí ô hỏi thành khung "Tương tác lớp học" cạnh video; bước 4 thêm "hỏi công cụ AI khác". | Ảnh chụp cho thấy ô hỏi nằm ở khung bên phải, không nằm dưới video; khảo sát cho 12/20 người hỏi công cụ AI khác khi chưa kiểm chứng được. |
 | 28/11 ~09:02 · TV3 | `spec.md` §4: sơ đồ và dòng "Chỗ chặn rủi ro" thêm nhánh câu chỉ nhắc lượt trước → hỏi rõ khái niệm hoặc mã đoạn | Cho sơ đồ khớp code sau cải tiến B18 (PR #24) |
 | 28/11 · TV2 | §2: giữ số cũ 44,3 giờ / tháng (F trung vị, TV1), ghi thêm số tính lại 44,6 giờ / tháng. Số chính 88,7 giờ / tháng không đổi | Kiểm Impact (kế hoạch, Final — TV2): tính lại từ data, 58 người nhận câu trả lời không có mốc, trung vị 2 lần / 13 ngày → 4,62 lần / tháng × 58 × 10 phút ≈ 2.677 phút ≈ 44,6 giờ |
-
 | 28/11 · CP4 | Chấm Run 3, tổng hợp so sánh với Run 2 và chuẩn bị slide | B18 đạt, B07 và B14 còn trượt theo tiêu chí CP2. |
-
 | 28/11 · CP4 | Chốt kịch bản chi phí, áp giá trả phí lên token API và xuất PDF 8 trang | So sánh 2 mức giá ở 3 quy mô sử dụng, trình bày kết quả và giới hạn của demo. |
 | 28/11 ~10:05 · TV3 | Chạy lượt mô phỏng mới `simulate-2@20261128-093944` (50 phiên, seed 42, `--rate-from eval/run-3.csv`), 0/50 phiên lỗi; `cost/cost-estimate.md`, §8 và `slides/outline.md` lấy số từ `simulate-2`. `simulate-1` giữ nguyên | `simulate-1` lỗi HTTP 429 ở 34/50 phiên (hết hạn mức ngày của key), chỉ 16 phiên hợp lệ, persona dùng nhiều chỉ 1 phiên |
 | 28/11 (CP4, TV1) | `cost/cost-estimate.md` §1 thêm mô tả 3 persona (khớp P1–P3) và lý do giữ quy mô 144 / 436 / 721; §2 thêm dòng cả khoá 1.000 người; §3 thêm so sánh cùng mẫu số, quy tắc và kết luận **Go — thí điểm một bài**. §8 thêm kết luận. Slide 6–7 sửa theo `simulate-2` và kết luận, xuất lại `demo-slides.pdf` bằng `slides/build_pdf.py` (dựng từ `slides/outline.md`). | Slide 6 cũ còn số `simulate-1` ($0.0021 / task, 16/50 phiên) không khớp `cost/cost-estimate.md`; kết luận Go / Iterate / Stop là phần TV1 trong kế hoạch CP4. |
 | 28/11 ~10:45 · TV3 | `cost/cost-estimate.md` §1: thêm một câu quy đổi chi phí cho cả khoá 1.000 người (tuyến tính từ `simulate-2`); giữ ba kịch bản 144 / 436 / 721, không chạy thêm mô phỏng; đóng PR #37 | Guide 4.2 nêu quy mô cả khoá hơn 1.000; chi phí / người / tháng không đổi nên đổi kịch bản cao không đổi kết luận, tránh phải chạy lại mô phỏng và dựng lại slide |
+| 28/11 · TV2 | `cost/cost-estimate.md` §2 và §8: chi phí cả khoá 1.000 người $5.78 / $36.65 → $5.77 / $36.64, cho khớp §1; §8 link "bảng gốc" `simulate-1-summary.md` → `simulate-2-summary.md`; nối lại bảng §10 bị dòng trống tách | Kiểm chi phí (kế hoạch, Final — TV2): tính lại từ `cost/simulate-2.csv`, chi phí / người / tháng $0.00577 và $0.03664 × 1.000; số cũ lấy từ số cơ sở đã làm tròn ($2.52, $15.98). §8 đang dùng số `simulate-2` nhưng trỏ bảng `simulate-1` (lượt lỗi 429) |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
