@@ -1,4 +1,3 @@
-
 # Alpha — Grounded Tutor for Pre-class Learning
 
 Track A – EdTech
