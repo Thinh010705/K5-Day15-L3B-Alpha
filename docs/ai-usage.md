@@ -14,7 +14,7 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 | Rà câu hỏi phỏng vấn / khảo sát | | Chỉ rà câu dẫn dắt | | |
 | Viết câu thử (benchmark) | Codex (OpenAI) | Soạn B21–B30 từ kho đoạn đã đối chiếu với slide, ghi trang PDF trong `source`, kiểm tra đủ mã nguồn sau tra cứu | Cần TV4 đọc lại câu, đáp án và tiêu chí trước khi chấm Run 1 | TV4 |
 | Sinh data `synthetic` (nếu có) | | | Seed __ · kiểm tay __ dòng | |
-| Chấm cột `pass` bằng LLM | Codex (OpenAI) | Đọc 30 đầu ra Run 1 theo tiêu chí CP2, ghi `pass` và `ghi_chu`, dùng lệnh `score` để tổng hợp | Đang chờ người chấm thứ hai đối chiếu | TV4 |
+| Chấm cột `pass` bằng LLM | Codex (OpenAI) | Đọc 30 đầu ra Run 1 theo tiêu chí CP2, ghi `pass` và `ghi_chu`, dùng lệnh `score` để tổng hợp | TV3 chấm tay 5 đầu ra `run-3`, khớp 4/5 sau khi đọc lại tiêu chí B07 (lần đầu 3/5) — `eval/grading-run3.md` | TV4 |
 | Hồ sơ CP4 | Codex (OpenAI) | Đọc 30 đầu ra Run 3 theo tiêu chí CP2, ghi điểm và lý do, tổng hợp mô phỏng và dựng PDF 8 trang từ các số trong repo | TV4 cần chấm đối chiếu. Nhóm cần xác nhận phân vai trình bày | TV4 |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).
