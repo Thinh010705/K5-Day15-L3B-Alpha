@@ -78,7 +78,7 @@ Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/co
 ```mermaid
 flowchart LR
   A[Câu hỏi] --> P{Chặn trước khi tra cứu}
-  P -->|chỉ có đại từ / từ đệm| Q[Hỏi rõ khái niệm]
+  P -->|chỉ có đại từ / từ đệm, hoặc chỉ nhắc lượt trước| Q[Hỏi rõ khái niệm hoặc mã đoạn]
   P -->|đòi làm hộ bài / bảo bỏ qua quy tắc| R[Từ chối, gợi ý hỏi khái niệm]
   P -->|còn lại| B[search_lesson]
   B -->|không có đoạn| F[Từ chối hoặc hỏi rõ]
@@ -99,7 +99,7 @@ flowchart LR
   | `get_passage` | mã đoạn | nội dung đầy đủ của mã đoạn hoặc rỗng | Không, chỉ đọc |
 
 - **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi có đoạn phù hợp, từ chối/hỏi rõ khi không chắc · [ ] AI tự làm mọi việc. Trả lời sai có thể khiến học viên hiểu sai nên model chỉ được dùng đoạn được cấp.
-- **Chỗ chặn rủi ro:** Trước khi tra cứu, câu chỉ có đại từ / từ đệm được hỏi rõ và câu đòi làm hộ bài hoặc bảo bỏ qua quy tắc bị từ chối bằng luật trong `agent.py`, không gọi model. Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
+- **Chỗ chặn rủi ro:** Trước khi tra cứu, câu chỉ có đại từ / từ đệm, hoặc chỉ nhắc lượt trước ("đoạn vừa rồi", "ở trên"…) mà không nêu nội dung, được hỏi rõ và câu đòi làm hộ bài hoặc bảo bỏ qua quy tắc bị từ chối bằng luật trong `agent.py`, không gọi model. Không có kết quả tra cứu thì không gọi model; mã nguồn trong JSON phải thuộc các đoạn vừa truy xuất. Model trả JSON sai hoặc mã lạ thì từ chối. Việc mã hợp lệ chưa chứng minh nội dung trả lời được nguồn hỗ trợ; cần TV4 đo bằng benchmark.
 - **Chỗ người duyệt:** Nhóm duyệt kho đoạn viết lại từ slide trước khi dùng thật; giáo viên/trợ giảng quyết định nội dung học và chấm điểm. Bản chạy thử không gửi tin, sửa dữ liệu hoặc chấm điểm.
 - **Nguyên tắc thiết kế** (≥3, bắt buộc G10):
 
@@ -187,6 +187,7 @@ flowchart LR
 | 27/11 ~21:50 · TV3 (cải tiến lượt 2, nhóm chốt hướng B18) | `codebase/agent.py`: bước chặn trước tra cứu thêm luật câu nhắc lượt trước ("vừa rồi", "ở trên", "giải thích tiếp", "đoạn đó"…) mà ngoài từ nhắc lại không nêu nội dung gì → hỏi lại tên khái niệm hoặc mã đoạn, không gọi model. Không đổi câu thử, metric, chuẩn "đạt" | Nhóm lỗi "tự thu hẹp câu thiếu ngữ cảnh" (B18 trượt ở cả `run-1` và `run-2`): mỗi câu chạy độc lập nên trợ giảng không biết "đoạn vừa rồi" là gì, model tự đoán FDE / Who–What–How. Kiểm không gọi model trên 30 câu: chỉ B18 đổi hướng xử lý; 10 câu ngoài bộ thử: câu có nêu khái niệm vẫn đi tra cứu |
 | 27/11 ~22:22 · TV3 | Chạy lượt cải tiến `run-3@20261127-222235` trên bộ 30 câu sau PR #24, cùng model Nemotron qua OpenRouter và `--wait 4` như `run-2`; 30/30 câu, 0 lỗi. Cột `pass` để TV4 chấm | Đo cải tiến nhắm nhóm lỗi B18; `run-2` là lượt chạy lại vì lỗi kỹ thuật nên lượt cải tiến mang số 3 |
 | 28/11 (CP3, TV1) | §0: thêm ảnh chụp luồng hiện tại (`evidence/img/current-flow.png`); bước 2 sửa vị trí ô hỏi thành khung "Tương tác lớp học" cạnh video; bước 4 thêm "hỏi công cụ AI khác". | Ảnh chụp cho thấy ô hỏi nằm ở khung bên phải, không nằm dưới video; khảo sát cho 12/20 người hỏi công cụ AI khác khi chưa kiểm chứng được. |
+| 28/11 ~09:02 · TV3 | `spec.md` §4: sơ đồ và dòng "Chỗ chặn rủi ro" thêm nhánh câu chỉ nhắc lượt trước → hỏi rõ khái niệm hoặc mã đoạn | Cho sơ đồ khớp code sau cải tiến B18 (PR #24) |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
