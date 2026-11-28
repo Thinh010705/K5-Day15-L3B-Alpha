@@ -3,7 +3,7 @@
 # Mọi số phải có nguồn (data / phỏng vấn / khảo sát / quy mô khoá có nguồn) hoặc ghi rõ "(tự ước tính)".
 # Chạy: python run.py simulate --try   (10 phiên, kiểm khung — làm trước CP3)
 #       python run.py simulate         (đủ số phiên dưới đây — bản nộp CP4)
-# Thay mọi dòng "(ví dụ)" bằng số và nguồn của nhóm; simulate nhắc nếu còn sót.
+# Mọi dòng giá dưới đây chép từ bảng giá BTC; simulate nhắc nếu còn dòng mẫu.
 
 sessions: 50        # số phiên mô phỏng — bản nộp ≥50
 seed: 42            # giữ cố định để chạy lại ra cùng chuỗi phiên
@@ -41,14 +41,16 @@ personas:           # ≥3 kiểu người dùng; share cộng lại = 1
 #     inputs: ["câu hỏi kiểu 1", "câu hỏi kiểu 2"]
 
 prices:             # USD / 1 triệu token — chép từ further-reading/model-prices.md của repo đề. ≥2 mức model
-  - model: gemini-3.1-flash-lite
-    input: 0.25
-    output: 1.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
-  - model: gemini-4-hydrogen
+  # Token đo trên model nhóm đang chạy (nvidia/nemotron-3-ultra-550b-a55b:free qua OpenRouter, gói miễn phí — không có trong bảng giá BTC).
+  # Tính giá theo 2 model Gemini nhóm đã nối trong codebase/ai.py (nhánh gemini), cùng bảng giá BTC.
+  - model: gemini-3.5-flash-lite
+    input: 0.30
+    output: 2.50
+    source: "further-reading/model-prices.md (BTC), tầng Nhỏ · https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026 · model chạy lượt 1 (eval/run-1.csv)"
+  - model: gemini-3.8-flash
     input: 1.50
     output: 7.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
+    source: "further-reading/model-prices.md (BTC), tầng Vừa, giá từ 01/01/2027 (BTC: dùng giá sau khi tăng) · https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026 · model nhóm thử trước lượt 1, trả HTTP 503 (eval/report.md §1)"
 
 usd_to_vnd:         # tuỳ chọn: điền thì bản tóm tắt in thêm tiền Việt
   rate:
