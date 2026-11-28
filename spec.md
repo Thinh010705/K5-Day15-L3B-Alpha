@@ -54,7 +54,7 @@ Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/co
 
 - **Impact / tháng** của hướng chọn (A1.1) = 58 người × 9,18 lần × 10 phút ≈ 5.324 phút ≈ **88,7 giờ học viên / tháng** (≈ 91,8 phút / người gặp / tháng). Nguồn: N, F từ M1 (`evidence/data-mining.md` mục 3, 6); T = trung vị số phút P1–P3 kể (`evidence/summary.md` §2), khảo sát cho trung vị ở nhóm 2–10 phút.
   - Đây là **cận trên**: con số giả định mọi câu trả lời không có mốc đều làm mất T phút, nhưng P1 cho thấy có lần học viên không cần tìm đoạn.
-  - Nếu giữ T = 3 phút (ước tính thận trọng trước phỏng vấn): ≈ 26,6 giờ / tháng. Nếu dùng F trung vị thay trung bình (ít bị người hỏi nhiều kéo lên): F ≈ 4,6 và impact ≈ 44,3 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ)*. A1.1 vẫn lớn hơn A1.2 ở mọi cách tính.
+  - Nếu giữ T = 3 phút (ước tính thận trọng trước phỏng vấn): ≈ 26,6 giờ / tháng. Nếu dùng F trung vị thay trung bình (ít bị người hỏi nhiều kéo lên): F ≈ 4,6 (trung vị 2 lần / 13 ngày × 30/13) và impact ≈ 44,6 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ; TV2 tính lại 28/11: 58 × 4,62 × 10 ≈ 2.677 phút)*. A1.1 vẫn lớn hơn A1.2 ở mọi cách tính.
 - Hướng ĐÃ LOẠI + vì sao (giữ lại, đừng xoá):
   - A1.2 không chọn làm hướng chính: tổng số lần / tháng nhỏ hơn A1.1 khoảng 3,7 lần (143 so với 532). Nhưng 37/231 (16,0%) câu trả lời không có mốc đi kèm câu hỏi AI ghi thiếu ngữ cảnh, so với 1/326 (0,3%) khi có mốc (`evidence/citation_check.py`) → giữ bước "hỏi lại một lần" trong MVP.
   - A1.3 không chọn làm hướng chính: data không đo được (M8), chưa có số người gặp. Giữ nhánh từ chối vì sai ở đây là đắt nhất (học viên tin điều không có trong bài); đo bằng câu `tu_choi` trong benchmark và câu 5 của phỏng vấn.
@@ -188,6 +188,7 @@ flowchart LR
 | 27/11 ~22:22 · TV3 | Chạy lượt cải tiến `run-3@20261127-222235` trên bộ 30 câu sau PR #24, cùng model Nemotron qua OpenRouter và `--wait 4` như `run-2`; 30/30 câu, 0 lỗi. Cột `pass` để TV4 chấm | Đo cải tiến nhắm nhóm lỗi B18; `run-2` là lượt chạy lại vì lỗi kỹ thuật nên lượt cải tiến mang số 3 |
 | 28/11 (CP3, TV1) | §0: thêm ảnh chụp luồng hiện tại (`evidence/img/current-flow.png`); bước 2 sửa vị trí ô hỏi thành khung "Tương tác lớp học" cạnh video; bước 4 thêm "hỏi công cụ AI khác". | Ảnh chụp cho thấy ô hỏi nằm ở khung bên phải, không nằm dưới video; khảo sát cho 12/20 người hỏi công cụ AI khác khi chưa kiểm chứng được. |
 | 28/11 ~09:02 · TV3 | `spec.md` §4: sơ đồ và dòng "Chỗ chặn rủi ro" thêm nhánh câu chỉ nhắc lượt trước → hỏi rõ khái niệm hoặc mã đoạn | Cho sơ đồ khớp code sau cải tiến B18 (PR #24) |
+| 28/11 · TV2 | §2: impact khi dùng F trung vị sửa 44,3 → 44,6 giờ / tháng. Số chính 88,7 giờ / tháng không đổi | Kiểm Impact (kế hoạch, Final — TV2): tính lại từ data, 58 người nhận câu trả lời không có mốc, trung vị 2 lần / 13 ngày → 4,62 lần / tháng × 58 × 10 phút ≈ 2.677 phút ≈ 44,6 giờ |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

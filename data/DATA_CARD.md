@@ -1,7 +1,7 @@
 # Data card — dữ liệu bản chạy thử dùng
 
 > Điền ở guide bước 2.4 (bản đầu ở CP2, đủ ở CP3). Ôn lại: ngày 6 · lab ngày 6. Chấm ở rubric R4.
-> Người phụ trách: Hoàng Minh Quyền (TV2 — Data & Research Lead). **Bản đầu CP2**, 27/11/2026.
+> Người phụ trách: Hoàng Minh Quyền (TV2 — Data & Research Lead). Bản đầu CP2 27/11/2026 · **rà lại 28/11/2026**: chạy lại `python evidence/count.py` ra đúng `evidence/data-mining-output.json` đã commit; số Dataset 1 dưới đây khớp file đó.
 > Không commit nguyên tài liệu khoá, dữ liệu cá nhân thật hay nguyên file data BTC cấp — chỉ đoạn trích ngắn, bản viết lại, hoặc số đã tổng hợp.
 
 ## Dataset 1 · Nhật ký pre-class AI20K K5 (data pack BTC `preclass/`)
