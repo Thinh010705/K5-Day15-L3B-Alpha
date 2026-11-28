@@ -42,6 +42,7 @@ Người trình bày (đề xuất) · Cao Minh Quang
 
 - B01 · Output và Outcome khác nhau thế nào? → giải thích và dẫn SL-16.
 - B18 · Giải thích tiếp ý đoạn vừa rồi → hỏi tên khái niệm hoặc mã đoạn, 0 lần gọi model.
+- Video dự phòng · 30 giây, link Drive ở README.md (mục slide + demo).
 
 Nguồn · eval/benchmark.csv · eval/run-3.csv · traces/run-3.jsonl
 
@@ -65,20 +66,21 @@ Người trình bày (đề xuất) · Nguyễn Quang Dũng
 
 - gemini-3.1-flash-lite · $0.0019 / task · $0.8313 / $2.52 / $4.16 mỗi tháng.
 - gemini-2.5-pro · $0.0119 / task · $5.28 / $15.98 / $26.42 mỗi tháng.
-- 16/50 phiên hợp lệ. 34 phiên lỗi HTTP 429 do hết hạn mức ngày. Impact cận trên 91,8 phút/người gặp/tháng.
+- simulate-2 · 50/50 phiên, seed 42, 0 lỗi. Tính trên mỗi người dùng: ≈ $0.006–$0.118 / giờ học viên tiết kiệm (giá trị 18,6–61,9 phút / người / tháng).
 
-Nguồn · cost/cost-estimate.md · cost/personas.yaml
+Nguồn · cost/cost-estimate.md · cost/simulate-2-summary.md · cost/personas.yaml
 
 Người trình bày (đề xuất) · Hoàng Minh Quyền
 
-## 7. Tiếp tục thử trên một bài
+## 7. Go: thí điểm ở một bài
 
-**93,3%** · điểm sơ bộ trên benchmark 30 câu
+**4 / 4 metric** · Run 3 đạt chuẩn "đạt" ở cả bốn metric (chấm sơ bộ)
 
-- Bản chạy đáp ứng chuẩn CP2 trên bộ thử hiện có. Cần kiểm xem học viên có tìm được đúng đoạn nhanh hơn khi dùng thật.
-- Ước tính 88,7 giờ/tháng là cận trên của vấn đề trong tập dữ liệu. Hiệu quả tiết kiệm thời gian cần được đo.
+- Pain có thật: 231/576 (40,1%) câu trả lời thiếu mốc nguồn; 3/3 người phỏng vấn kể được một lần cụ thể.
+- Chi phí không cản trở: trường hợp xấu nhất ≈ $0.118 / giờ học viên tiết kiệm (Pro, T = 3 phút), dưới ngưỡng 1 USD đặt trước.
+- Thí điểm đo hai điều còn chưa chắc: số phút mở đúng đoạn (61,9 phút / người / tháng mới là cận trên) và tỉ lệ đạt trên câu hỏi thật của học viên.
 
-Nguồn · spec.md §2, §7 · eval/report.md
+Nguồn · cost/cost-estimate.md §3 · eval/report.md · evidence/summary.md
 
 Người trình bày (đề xuất) · Nguyễn Năng Thịnh
 
