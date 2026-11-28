@@ -9,10 +9,11 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `preclass/
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
 - Luồng hiện tại của việc này, trong khoá hoặc trên app thật (3–5 bước; ảnh chụp từ tài khoản của mình, đã che thông tin):
   1. Học viên mở video pre-class trên preclass-online.com, gặp khái niệm chưa hiểu.
-  2. Gõ câu hỏi vào ô hỏi trợ giảng ngay dưới video (hoặc bôi đen chữ trên slide rồi bấm hỏi).
+  2. Gõ câu hỏi cho trợ giảng (gọi `@Snoop`) ở khung "Tương tác lớp học" cạnh video (hoặc bôi đen chữ trên slide rồi bấm hỏi).
   3. Trợ giảng AI trả lời; phản hồi có thể kèm mốc giây trong bài giảng, có thể không.
-  4. Không có mốc → học viên tự tua tìm đoạn liên quan, hỏi tiếp, hoặc bỏ qua.
-  - Ảnh chụp: Đang chờ ảnh đã che tên từ TV1.
+  4. Không có mốc → học viên tự tua tìm đoạn liên quan, hỏi công cụ AI khác, hỏi tiếp, hoặc bỏ qua (khảo sát: 12/20 hỏi công cụ AI khác, 1/20 tua lại video — `evidence/summary.md` §2).
+  - Ảnh chụp (tài khoản TV1, đã cắt phần tên, 27/11 23:48): ![Hỏi trợ giảng trên Preclass Online](evidence/img/current-flow.png)
+    Bài đang mở là "AI SDLC và coding agent" (ngày 12). Hỏi "AI SDLC là gì" thì trợ giảng trả lời chung chung, **không kèm mốc nào** trong bài, và nói nội dung "nằm ngoài phạm vi bài học" dù đó là tên bài. Học viên không có đoạn nào để tự kiểm câu đó. Đây là một lần hỏi để minh hoạ luồng, không phải số tần suất (số ở §1).
 - Công cụ / AI đang được dùng cho việc này (nếu có) + nguồn. Không kiểm được thì ghi "chưa kiểm":
   - Trợ giảng AI dưới video (`agent_id = teaching_assistant`): 1.153 lượt trợ giảng, trong đó 1.091 lượt hỏi dưới video; 144/436 người có hoạt động (33,0%) từng hỏi, 05/11–25/11 — `evidence/data-mining.md` mục 3 (P2, V1).
   - Trợ giảng đã có cơ chế mốc trích dẫn (`moc_trich_dan`, dạng `DayNN/dNN-....txt@giây`) nhưng 231/576 lượt (40,1%) không có mốc nào; riêng câu hỏi dưới video 231/557 (41,5%), 13/11–25/11 — M1.
@@ -28,7 +29,7 @@ Học viên AI20K K5 đang xem video bài giảng pre-class trên trang học tr
 Hiểu một khái niệm trong video pre-class và xác định được phần bài giảng giải thích khái niệm đó để tiếp tục học.
 
 - Hôm nay họ giải bằng gì, hỏng ở đâu, vì sao chưa bỏ:
-Họ hỏi trợ giảng AI dưới video (144 học viên, 1.091 lượt hỏi dưới video trong 21 ngày), tua lại video, hỏi bạn học hoặc TA. Chỗ hỏng thấy trong data: 40,1% câu trả lời của trợ giảng không chỉ ra đoạn nào trong bài làm căn cứ, nên học viên không có chỗ để mở ra kiểm. Họ chưa bỏ trợ giảng vì nó ở ngay dưới video, trả lời nhanh, không phải rời bài. Vì sao họ không tua lại nhiều hơn khi thiếu mốc: [CHỜ phỏng vấn P1–P4].
+Họ hỏi trợ giảng AI dưới video (144 học viên, 1.091 lượt hỏi dưới video trong 21 ngày), tua lại video, hỏi bạn học hoặc TA. Chỗ hỏng thấy trong data: 40,1% câu trả lời của trợ giảng không chỉ ra đoạn nào trong bài làm căn cứ, nên học viên không có chỗ để mở ra kiểm. Họ chưa bỏ trợ giảng vì nó ở ngay dưới video, trả lời nhanh, không phải rời bài. Vì sao data không thấy họ tua lại nhiều hơn khi thiếu mốc: phỏng vấn cho thấy việc kiểm diễn ra ngoài tầm data. P1 hỏi công cụ AI khác, P3 bỏ qua rồi quay lại tìm đoạn muộn hơn nhiều; chỉ P2 tua lại ngay (`evidence/summary.md` §4).
 
 - Pain (KHÔNG chữ AI):
 Học viên AI20K K5 đang cố hiểu một khái niệm trong video pre-class nhưng có thể gặp khó khăn khi xác định đoạn bài giảng giải thích nội dung đó, khiến họ phải tua lại, hỏi tiếp hoặc tìm nguồn khác và mất thêm thời gian học.
@@ -36,8 +37,9 @@ Học viên AI20K K5 đang cố hiểu một khái niệm trong video pre-class 
 - Bằng chứng — số chính + kết luận:
 Đào data pre-class BTC (`evidence/data-mining.md`, chạy lại bằng `python evidence/count.py`): **231/576 lượt (40.1%)** trợ giảng trả lời không có mốc trích dẫn (13/11 → 25/11), vượt ngưỡng 20% đặt trước trong `evidence/hypothesis.md`; bỏ 38 lượt có thể là câu hỏi lại vẫn còn 194/538 (36.1%). **58/86 người (67.4%)** nhận ít nhất 1 lần, TB ≈ 9.2 lần / tháng *(ngoại suy × 30/13)*. Sau câu hỏi dưới video, 520/1.091 lượt (47.7%) hỏi tiếp cùng video trong 5 phút — chỉ là dấu vết hành vi, chưa kết luận nguyên nhân. Data không có câu chữ nên không kết luận trợ giảng trả lời sai.
   - **Lệch** (kiểm chéo TV1, `python evidence/citation_check.py`, cùng định nghĩa hỏi tiếp với M5): trong 5 phút sau câu trả lời dưới video, học viên hỏi tiếp hoặc tua lùi cùng video ở 117/231 (50,6%) lượt **không có mốc**, so với 180/326 (55,2%) lượt **có mốc** → data chưa cho thấy thiếu mốc làm học viên mất thêm công.
-  - **Phỏng vấn:** Đang chờ ghi nhận của P1–P4; chưa có số người kể được tình huống cụ thể.
-  - **Kết luận:** giả thuyết **đúng một phần**: vế data đạt (thiếu mốc là phổ biến), còn hậu quả thì chưa chứng minh được; vế phỏng vấn (≥ 2/3 người kể được tình huống cụ thể) chưa có số. Quy tắc chốt ở `evidence/summary.md` §5.
+  - **Khảo sát** (`evidence/survey/`, 20/22 phiếu dùng trợ giảng trong 30 ngày qua, người ngoài nhóm): 15/20 gặp khó xác định đoạn căn cứ (thường xuyên hoặc thỉnh thoảng), mỗi lần thường mất 2–10 phút (10/20). Nhưng chỉ 2/20 coi đó là khó khăn lớn nhất; khó khăn được chọn nhiều nhất là câu trả lời không giải quyết đúng câu hỏi (7/20). Khi chưa kiểm chứng được, 12/20 dùng công cụ AI khác, chỉ 1/20 tua lại video.
+  - **Phỏng vấn** (`evidence/interviews/P1.md`–`P3.md`): **3/3** người kể được một lần cụ thể trong tháng qua (P1 chỉ tính nhờ vế "đi kiểm ở chỗ khác"). Lần đó mất 5, khoảng 10 và 10–13 phút → trung vị 10 phút. Ở P2 và P3, câu trả lời **chung chung**, không trả lời ý cụ thể được hỏi, và không có đoạn căn cứ nên phải tự tìm lại trong video.
+  - **Kết luận:** giả thuyết **đúng** theo cả hai tiêu chí đặt trước: data 231/576 ≥ 20%, phỏng vấn 3/3 ≥ 2/3. Kèm một điều chỉnh: pain gây tốn thời gian khi câu trả lời chung chung **và** không có đoạn căn cứ cùng lúc. Khảo sát cho thấy pain hay gặp nhưng ít khi là khó khăn lớn nhất (2/20), và hậu quả thường là đi hỏi nguồn khác chứ không phải tua lại. Quy tắc chốt ở `evidence/summary.md` §5.
 
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
@@ -46,15 +48,17 @@ Số N, F lấy từ `evidence/data-mining.md` mục 6 (TV2, `python evidence/co
 
 | Hướng | Bao nhiêu người gặp | Bao nhiêu lần / tháng | Mỗi lần tốn gì | Impact / tháng | Làm kịp không | Chọn? |
 |---|---|---|---|---|---|---|
-| A1.1 Câu trả lời không chỉ ra đoạn nguồn để tự kiểm | 58 người (58/86 người nhận trả lời, 13/11–25/11) — M1 | 9,18 / người gặp *(ngoại suy từ 3,98 lần / 13 ngày)* — M1 | 3 phút tự tìm lại / kiểm *(tự ước tính — thay bằng trung vị P1–P4)* | 58 × 9,18 × 3 ≈ **1.597 phút ≈ 26,6 giờ** | Kịp: 1 bài, 11 đoạn có mã, tra cứu + 1 lời gọi model (đã chạy, §4) | **Chọn** |
+| A1.1 Câu trả lời không chỉ ra đoạn nguồn để tự kiểm | 58 người (58/86 người nhận trả lời, 13/11–25/11) — M1 | 9,18 / người gặp *(ngoại suy từ 3,98 lần / 13 ngày)* — M1 | 10 phút tự tìm lại / kiểm — trung vị P1–P3 (5 · 10 · 10–13 phút) | 58 × 9,18 × 10 ≈ **5.324 phút ≈ 88,7 giờ** *(cận trên)* | Kịp: 1 bài, 11 đoạn có mã, tra cứu + 1 lời gọi model (đã chạy, §4) | **Chọn** |
 | A1.2 Câu hỏi thiếu ngữ cảnh chưa được hỏi lại | 50 người (50/142, 05/11–25/11) — M4 | 2,86 / người gặp *(ngoại suy từ 2,0 lần / 21 ngày)* — M4 | 3 phút *(tự ước tính)* | 50 × 2,86 × 3 ≈ **429 phút ≈ 7,2 giờ** | Kịp, là một nhánh của luồng A1.1 | Gộp vào MVP như một nhánh (hỏi lại một lần) |
 | A1.3 Trả lời khi không có căn cứ (cần từ chối) | **không đo được từ data** — `verdict` / `reply_kind` chấm tin nhắn của học viên trong khung thảo luận, không đo việc trợ giảng từ chối (M8) | không đo được | sai thì học viên tin điều không có trong bài *(chưa đo)* | **chưa tính được** — chờ phỏng vấn câu 5 + benchmark | Kịp, là một nhánh của luồng A1.1 | Gộp vào MVP như một nhánh an toàn |
 
-- **Impact / tháng** của hướng chọn (A1.1) = 58 người × 9,18 lần × 3 phút ≈ 1.597 phút ≈ **26,6 giờ học viên / tháng** (≈ 27,5 phút / người gặp / tháng) — nguồn: N, F từ M1 (`evidence/data-mining.md` mục 3, 6); T = 3 phút *(tự ước tính)*, sẽ thay bằng trung vị số phút P1–P4 kể (`evidence/summary.md` §2). Nếu dùng trung vị thay trung bình (ít bị người hỏi nhiều kéo lên), F ≈ 4,6 và impact ≈ 13,3 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ)*.
+- **Impact / tháng** của hướng chọn (A1.1) = 58 người × 9,18 lần × 10 phút ≈ 5.324 phút ≈ **88,7 giờ học viên / tháng** (≈ 91,8 phút / người gặp / tháng). Nguồn: N, F từ M1 (`evidence/data-mining.md` mục 3, 6); T = trung vị số phút P1–P3 kể (`evidence/summary.md` §2), khảo sát cho trung vị ở nhóm 2–10 phút.
+  - Đây là **cận trên**: con số giả định mọi câu trả lời không có mốc đều làm mất T phút, nhưng P1 cho thấy có lần học viên không cần tìm đoạn.
+  - Nếu giữ T = 3 phút (ước tính thận trọng trước phỏng vấn): ≈ 26,6 giờ / tháng. Nếu dùng F trung vị thay trung bình (ít bị người hỏi nhiều kéo lên): F ≈ 4,6 và impact ≈ 44,3 giờ / tháng *(kiểm chéo TV1, cùng cửa sổ)*. A1.1 vẫn lớn hơn A1.2 ở mọi cách tính.
 - Hướng ĐÃ LOẠI + vì sao (giữ lại, đừng xoá):
   - A1.2 không chọn làm hướng chính: tổng số lần / tháng nhỏ hơn A1.1 khoảng 3,7 lần (143 so với 532). Nhưng 37/231 (16,0%) câu trả lời không có mốc đi kèm câu hỏi AI ghi thiếu ngữ cảnh, so với 1/326 (0,3%) khi có mốc (`evidence/citation_check.py`) → giữ bước "hỏi lại một lần" trong MVP.
   - A1.3 không chọn làm hướng chính: data không đo được (M8), chưa có số người gặp. Giữ nhánh từ chối vì sai ở đây là đắt nhất (học viên tin điều không có trong bài); đo bằng câu `tu_choi` trong benchmark và câu 5 của phỏng vấn.
-  - Nếu phỏng vấn cho ≤1/4 người gặp A1.1: chuyển trọng tâm sang A1.2, ghi ở §10 (quy tắc ở `evidence/summary.md` §5).
+  - Phỏng vấn cho 3/3 người gặp A1.1 nên giữ A1.1 (quy tắc n = 3 ở `evidence/interviews/kich-ban.md`, viết trước phỏng vấn).
 - Số lần / tháng của từng kiểu người dùng (dùng cho persona ở §8) — V3 ở `evidence/data-mining.md` mục 3, 144 người hỏi trợ giảng, chia theo số phiên hỏi trong 21 ngày (một phiên = các lượt cách nhau ≤ 30 phút):
   - `dung_it` (1 phiên): 75/144 (52,1%) · 1,4 phiên / tháng · 3 lượt / phiên.
   - `dung_vua` (2–3 phiên): 48/144 (33,3%) · 3,4 phiên / tháng · 4 lượt / phiên.
@@ -160,11 +164,14 @@ flowchart LR
 | 28/11 (CP3, TV1) | Chốt nguồn kiến thức cho bản chạy thử: kho 11 đoạn viết lại từ slide AI20K (`SL-<trang>`) **thay cho** transcript video pre-class. Người dùng, pain, lát cắt giữ nguyên; demo nói rõ "đoạn nguồn = trang slide của bài", bản dùng thật thay bằng đoạn transcript có mốc giây (cùng định dạng `moc_trich_dan` trợ giảng đang có). | BTC không cấp transcript video; slide là tài liệu chính thức của khoá nên vẫn kiểm chứng được. Không đổi pain cho khớp bản đã code (bằng chứng ở §1 vẫn là data pre-class). Đề xuất TV3 ở §4. |
 | 28/11 (CP3, TV1) | §1–§2 chuyển sang số chính thức của TV2 (`evidence/count.py`); F dùng trung bình thay trung vị; A1.3 ghi "không đo được từ data" thay vì số lấy từ khung thảo luận. | Một nguồn số duy nhất; kế hoạch §5.2 định nghĩa F là số lần **trung bình**; M8 cho thấy `verdict` / `reply_kind` không đo việc từ chối. |
 | 28/11 (CP3, TV1) | Thêm kiểm chéo `evidence/citation_check.py`: hỏi tiếp / tua lùi tách theo có / không có mốc. | Kiểm vế hậu quả của giả thuyết; kết quả lệch (50,6% so với 55,2%) ghi ở §1 và `evidence/summary.md` §4. |
+| 28/11 (CP3, TV1) | Thêm nguồn **khảo sát** (`evidence/survey/`, 22 phiếu, 20 hợp lệ) vào §1 và `evidence/summary.md`. Pain, lát cắt và T = 3 phút giữ nguyên. | `hypothesis.md` ghi khảo sát là nguồn tuỳ chọn. Kết quả có chỗ ngược giả thuyết: chỉ 2/20 coi khó xác định đoạn căn cứ là khó khăn lớn nhất, 7/20 chọn "không giải quyết đúng câu hỏi". Ghi nguyên số, không đổi pain trước khi có phỏng vấn. |
+| 28/11 (CP3, TV1) | Thêm phỏng vấn P1–P3 vào §1; chốt giả thuyết **đúng** (3/3, quy tắc n = 3 viết trước phỏng vấn ở `evidence/interviews/kich-ban.md`). §2: T của A1.1 đổi từ 3 phút *(tự ước tính)* thành 10 phút (trung vị P1–P3), Impact 26,6 → 88,7 giờ / tháng, ghi là cận trên. Pain và lát cắt giữ nguyên, thêm điều chỉnh: pain gây tốn thời gian khi câu trả lời chung chung và không có đoạn căn cứ cùng lúc. | T thay theo quy tắc đã ghi ở §2 trước phỏng vấn. P2, P3 kể câu trả lời chung chung, không trả lời ý cụ thể (khớp khảo sát 7/20 "không giải quyết đúng câu hỏi"). 3 câu hỏi thật của P1–P3 chuyển TV4 làm câu thử `nguoi_dung`. |
 | CP3 · TV4 | Thêm B21–B30 dựa trực tiếp trên slide | Truy vết về trang đã đối chiếu trong data card |
 | 27/11 · CP3 | Chạy và chấm Run 1 bằng Gemini 3.5 Flash-Lite | Gemini 3.8 Flash quá tải; kết quả và lỗi kỹ thuật ghi ở `eval/report.md` |
 | 27/11 · CP3 | Chạy lại bộ 30 câu qua OpenRouter | Kiểm tra sau lỗi HTTP 429 ở lượt Gemini; lượt chạy lại có 0 lỗi API |
 | 27/11 ~21:50 · TV3 (cải tiến lượt 2, nhóm chốt hướng B18) | `codebase/agent.py`: bước chặn trước tra cứu thêm luật câu nhắc lượt trước ("vừa rồi", "ở trên", "giải thích tiếp", "đoạn đó"…) mà ngoài từ nhắc lại không nêu nội dung gì → hỏi lại tên khái niệm hoặc mã đoạn, không gọi model. Không đổi câu thử, metric, chuẩn "đạt" | Nhóm lỗi "tự thu hẹp câu thiếu ngữ cảnh" (B18 trượt ở cả `run-1` và `run-2`): mỗi câu chạy độc lập nên trợ giảng không biết "đoạn vừa rồi" là gì, model tự đoán FDE / Who–What–How. Kiểm không gọi model trên 30 câu: chỉ B18 đổi hướng xử lý; 10 câu ngoài bộ thử: câu có nêu khái niệm vẫn đi tra cứu |
 | 27/11 ~22:22 · TV3 | Chạy lượt cải tiến `run-3@20261127-222235` trên bộ 30 câu sau PR #24, cùng model Nemotron qua OpenRouter và `--wait 4` như `run-2`; 30/30 câu, 0 lỗi. Cột `pass` để TV4 chấm | Đo cải tiến nhắm nhóm lỗi B18; `run-2` là lượt chạy lại vì lỗi kỹ thuật nên lượt cải tiến mang số 3 |
+| 28/11 (CP3, TV1) | §0: thêm ảnh chụp luồng hiện tại (`evidence/img/current-flow.png`); bước 2 sửa vị trí ô hỏi thành khung "Tương tác lớp học" cạnh video; bước 4 thêm "hỏi công cụ AI khác". | Ảnh chụp cho thấy ô hỏi nằm ở khung bên phải, không nằm dưới video; khảo sát cho 12/20 người hỏi công cụ AI khác khi chưa kiểm chứng được. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
